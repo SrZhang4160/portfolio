@@ -1,0 +1,152 @@
+---
+title: "MuscleMetrics: Motion Analysis Platform"
+slug: "muscle-analytics"
+description: "Computer vision system for quantifying movement patterns in physical therapy and sports performance."
+date: "2022-11-20"
+featured: true
+tags:
+  - Computer Vision
+  - Pose Estimation
+  - Sports Science
+  - Physical Therapy
+thumbnail: "/images/work/muscle-thumb.jpg"
+hero: "/images/work/muscle-hero.jpg"
+role: "Technical Lead"
+timeline: "6 months"
+team: "2 engineers, 1 biomechanist, 2 physical therapists"
+tools:
+  - Python
+  - MediaPipe
+  - OpenCV
+  - React Native
+  - Firebase
+impact:
+  - metric: "30%"
+    label: "Improvement in patient adherence"
+  - metric: "500+"
+    label: "Physical therapy patients"
+  - metric: "15"
+    label: "PT clinics using the platform"
+---
+
+## Problem
+
+Physical therapy relies heavily on patient adherence to prescribed exercises, but studies show that only 35% of patients fully comply with their home exercise programs. Key barriers include:
+
+- **Lack of feedback**: Patients unsure if they're performing exercises correctly
+- **Motivation gaps**: No visibility into progress over time
+- **Therapist limitations**: PT sessions too infrequent for adequate monitoring
+- **Subjectivity**: Movement quality assessments vary between therapists
+
+Similarly, in sports performance, athletes and coaches struggle to:
+- Quantify technique improvements
+- Identify subtle movement compensations
+- Track recovery and fatigue patterns
+
+## My Role
+
+As Technical Lead, I was responsible for:
+
+- Designing the computer vision pipeline for pose estimation
+- Developing biomechanical analysis algorithms
+- Building the mobile application architecture
+- Managing a small cross-functional team
+- Coordinating with PT clinics for clinical validation
+
+## Approach
+
+### Research Phase
+
+We started by understanding the core biomechanical principles that physical therapists use to assess movement quality:
+
+1. **Joint angles**: Range of motion at key joints
+2. **Symmetry**: Left/right balance in bilateral movements
+3. **Control**: Smoothness and stability of movement
+4. **Compensation patterns**: Unwanted movements indicating weakness or pain
+
+We also interviewed 20+ physical therapists to understand their assessment workflows and pain points.
+
+### Technical Architecture
+
+**Pose Estimation Pipeline**
+We built on MediaPipe Pose for real-time body tracking, adding custom post-processing for:
+- Temporal smoothing to reduce jitter
+- Confidence-weighted joint position refinement
+- Automatic camera angle calibration
+
+**Biomechanical Analysis Engine**
+Custom algorithms computed:
+- Joint angles in 3D space (accounting for camera perspective)
+- Movement velocity and acceleration profiles
+- Repetition counting and segmentation
+- Deviation from prescribed movement patterns
+
+**Feedback System**
+Real-time audio and visual cues helped patients correct form:
+- Color-coded joint highlighting
+- Verbal instructions for common errors
+- Rep counting with quality scores
+- Progress visualization over time
+
+### Mobile Application
+
+Built with React Native for cross-platform deployment:
+
+**Patient Features**
+- Guided exercise sessions with real-time feedback
+- Progress tracking and goal setting
+- Direct messaging with therapist
+- Exercise video library
+
+**Therapist Features**
+- Patient progress dashboard
+- Exercise prescription builder
+- Async video review with annotation
+- Outcome tracking and reporting
+
+## Impact
+
+After 6 months of development and 4 months of clinical pilots:
+
+- **30% improvement** in patient adherence to home exercise programs
+- **500+ patients** used the platform across pilot clinics
+- **15 PT clinics** adopted MuscleMetrics
+- **4.6/5 star** average user rating
+- **92% of therapists** reported improved patient communication
+
+Qualitative feedback highlighted:
+- Patients felt more confident exercising independently
+- Therapists valued objective data for progress tracking
+- Athletes appreciated the detailed performance insights
+
+## Learnings
+
+### Technical Insights
+
+**Pose estimation has limitations**
+Consumer-grade cameras and 2D pose estimation introduce errors, especially for rotational movements. We learned to design algorithms robust to these limitations rather than fighting them.
+
+**Context matters for feedback**
+Generic form corrections frustrated users. Personalized guidance based on their specific movement patterns and injury history was far more effective.
+
+**Real-time processing is hard**
+Balancing analysis depth with frame rate on mobile devices required careful optimization. We developed a tiered system: real-time for basic feedback, detailed analysis post-session.
+
+### Product Learnings
+
+**Therapist buy-in is crucial**
+Early versions focused too much on patient-facing features. Adding robust therapist tools transformed adoption, as therapists became advocates for the platform.
+
+**Gamification works (carefully)**
+Progress tracking and streaks improved adherence, but we had to be careful not to encourage overexertion in recovering patients.
+
+### What I'd Do Differently
+
+- Start with a narrower exercise set before expanding
+- Invest more in user onboarding and education
+- Build therapist tools first, then patient features
+- Consider wearable sensors for higher-accuracy use cases
+
+---
+
+*This project taught me that the best technical solutions are useless without deep understanding of user needs. The breakthrough came not from better algorithms, but from designing a product that fit naturally into existing clinical workflows.*

@@ -1,0 +1,47 @@
+{
+  "name": "letstalk",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "db:push": "prisma db push",
+    "db:studio": "prisma studio",
+    "db:seed": "npx tsx prisma/seed.ts",
+    "db:generate": "prisma generate"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
+    "@prisma/adapter-better-sqlite3": "^7.3.0",
+    "@prisma/client": "^7.3.0",
+    "better-sqlite3": "^12.6.2",
+    "clsx": "^2.1.1",
+    "dotenv": "^17.2.3",
+    "gray-matter": "^4.0.3",
+    "next": "16.1.6",
+    "next-mdx-remote": "^5.0.0",
+    "prisma": "^7.3.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-hook-form": "^7.71.1",
+    "react-simple-maps": "^3.0.0",
+    "tailwind-merge": "^3.4.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/react-simple-maps": "^3.0.6",
+    "@types/topojson-specification": "^1.0.5",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.6",
+    "tailwindcss": "^4",
+    "tsx": "^4.21.0",
+    "typescript": "^5"
+  }
+}

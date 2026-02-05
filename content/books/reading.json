@@ -1,0 +1,37 @@
+{
+  "currentlyReading": {
+    "title": "Designing Data-Intensive Applications",
+    "author": "Martin Kleppmann",
+    "cover": "/images/books/ddia.jpg",
+    "progress": 65,
+    "notes": "Essential reading for understanding distributed systems"
+  },
+  "recentlyFinished": [
+    {
+      "title": "The Design of Everyday Things",
+      "author": "Don Norman",
+      "cover": "/images/books/doet.jpg",
+      "rating": 5,
+      "notes": "Changed how I think about user experience"
+    },
+    {
+      "title": "Deep Medicine",
+      "author": "Eric Topol",
+      "cover": "/images/books/deep-medicine.jpg",
+      "rating": 4,
+      "notes": "Great overview of AI in healthcare"
+    }
+  ],
+  "upNext": [
+    {
+      "title": "Staff Engineer",
+      "author": "Will Larson",
+      "cover": "/images/books/staff-eng.jpg"
+    },
+    {
+      "title": "The Mom Test",
+      "author": "Rob Fitzpatrick",
+      "cover": "/images/books/mom-test.jpg"
+    }
+  ]
+}

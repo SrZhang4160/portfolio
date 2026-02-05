@@ -1,0 +1,202 @@
+{
+  "prints": [
+    {
+      "slug": "doraemon-lamp",
+      "title": "Doraemon Lamp",
+      "description": "A cute Doraemon character nightlight, printed in segments and assembled with LED internals.",
+      "category": "art",
+      "material": "PLA (White + Blue)",
+      "printer": "Bambu Lab P1S + AMS",
+      "date": "2024-01-15",
+      "images": ["/images/prints/DoraemonLamp.jpg"],
+      "settings": {
+        "layerHeight": "0.2mm",
+        "infill": "15%",
+        "supports": true,
+        "printTime": "8h 30m"
+      },
+      "notes": "Multi-color print using AMS. The LED diffusion through the white PLA works beautifully.",
+      "featured": true
+    },
+    {
+      "slug": "labubu",
+      "title": "Labubu Figure",
+      "description": "A detailed Labubu character figure with intricate surface details.",
+      "category": "art",
+      "material": "PLA (Multi-color)",
+      "printer": "Bambu Lab P1S + AMS",
+      "date": "2024-01-10",
+      "images": ["/images/prints/Labubu.jpg"],
+      "settings": {
+        "layerHeight": "0.16mm",
+        "infill": "20%",
+        "supports": true,
+        "printTime": "6h 15m"
+      },
+      "notes": "Painted after printing for the gradient effect. Fine layer height for surface detail.",
+      "featured": true
+    },
+    {
+      "slug": "harry-potter-platform",
+      "title": "Platform 9 3/4 Sign",
+      "description": "A replica of the famous Harry Potter platform sign, perfect for any wizard's room.",
+      "category": "art",
+      "material": "PLA (Red + Gold)",
+      "printer": "Bambu Lab P1S + AMS",
+      "date": "2024-01-05",
+      "images": ["/images/prints/HarryPotter9&3:4.jpg"],
+      "settings": {
+        "layerHeight": "0.2mm",
+        "infill": "20%",
+        "supports": false,
+        "printTime": "4h 45m"
+      },
+      "notes": "Multi-color swap print. The gold filament really makes it pop!",
+      "featured": true
+    },
+    {
+      "slug": "remote-holder",
+      "title": "Remote Control Holder",
+      "description": "A practical organizer for TV remotes and small electronics.",
+      "category": "functional",
+      "material": "PETG (Black)",
+      "printer": "Bambu Lab P1S + AMS",
+      "date": "2023-12-20",
+      "images": ["/images/prints/RemoteHolder.jpg"],
+      "settings": {
+        "layerHeight": "0.2mm",
+        "infill": "25%",
+        "supports": false,
+        "printTime": "3h 20m"
+      },
+      "notes": "PETG for durability. Designed with rounded edges for comfort.",
+      "featured": false
+    },
+    {
+      "slug": "xbox-holder",
+      "title": "Xbox Controller Stand",
+      "description": "A sleek stand for displaying and charging Xbox controllers.",
+      "category": "functional",
+      "material": "PLA (Black)",
+      "printer": "Bambu Lab P1S + AMS",
+      "date": "2023-12-15",
+      "images": ["/images/prints/xbox_holder.jpg"],
+      "settings": {
+        "layerHeight": "0.2mm",
+        "infill": "20%",
+        "supports": false,
+        "printTime": "2h 45m"
+      },
+      "notes": "Clean design that matches the Xbox aesthetic.",
+      "featured": false
+    },
+    {
+      "slug": "kfc-bag",
+      "title": "KFC Bag Model",
+      "description": "A quirky replica of the iconic KFC bucket bag, scaled down.",
+      "category": "art",
+      "material": "PLA (White + Red)",
+      "printer": "Bambu Lab P1S + AMS",
+      "date": "2023-12-10",
+      "images": ["/images/prints/KFC_Bag.jpg"],
+      "settings": {
+        "layerHeight": "0.16mm",
+        "infill": "15%",
+        "supports": true,
+        "printTime": "5h 30m"
+      },
+      "notes": "Fun conversation piece. Multi-color print with hand-painted details.",
+      "featured": false
+    },
+    {
+      "slug": "chiefs-icon",
+      "title": "Kansas City Chiefs Logo",
+      "description": "A 3D printed Kansas City Chiefs arrowhead logo for displaying team spirit.",
+      "category": "art",
+      "material": "PLA (Red + Yellow)",
+      "printer": "Bambu Lab P1S + AMS",
+      "date": "2023-12-05",
+      "images": ["/images/prints/ChiefsIcon.jpg"],
+      "settings": {
+        "layerHeight": "0.2mm",
+        "infill": "20%",
+        "supports": false,
+        "printTime": "2h 15m"
+      },
+      "notes": "Go Chiefs! Perfect for game day display.",
+      "featured": false
+    },
+    {
+      "slug": "m-case",
+      "title": "Custom M Case",
+      "description": "A custom protective case with the letter M design.",
+      "category": "functional",
+      "material": "TPU (Black)",
+      "printer": "Bambu Lab P1S + AMS",
+      "date": "2023-11-25",
+      "images": ["/images/prints/M_case.jpg"],
+      "settings": {
+        "layerHeight": "0.2mm",
+        "infill": "25%",
+        "supports": false,
+        "printTime": "1h 45m"
+      },
+      "notes": "TPU for flexibility and shock absorption. Custom fit.",
+      "featured": false
+    },
+    {
+      "slug": "victory-sign",
+      "title": "Victory Hand Sign",
+      "description": "A peace sign / victory hand gesture sculpture.",
+      "category": "art",
+      "material": "PLA (Skin tone)",
+      "printer": "Bambu Lab P1S + AMS",
+      "date": "2023-11-20",
+      "images": ["/images/prints/Victory.jpg", "/images/prints/victory_glow.jpg"],
+      "settings": {
+        "layerHeight": "0.16mm",
+        "infill": "15%",
+        "supports": true,
+        "printTime": "4h 00m"
+      },
+      "notes": "Detailed finger articulation required careful support placement.",
+      "featured": false
+    },
+    {
+      "slug": "articulated-hand",
+      "title": "Articulated Hand Model",
+      "description": "A fully articulated anatomical hand model with movable joints.",
+      "category": "functional",
+      "material": "PLA (White)",
+      "printer": "Bambu Lab P1S + AMS",
+      "date": "2023-11-15",
+      "images": ["/images/prints/hand.jpg"],
+      "settings": {
+        "layerHeight": "0.16mm",
+        "infill": "20%",
+        "supports": true,
+        "printTime": "7h 30m"
+      },
+      "notes": "Print-in-place articulation. Great for anatomy study or display.",
+      "featured": false
+    },
+    {
+      "slug": "storage-box",
+      "title": "Modular Storage Box",
+      "description": "A stackable storage box for small items and components.",
+      "category": "functional",
+      "material": "PETG (Clear)",
+      "printer": "Bambu Lab P1S + AMS",
+      "date": "2023-11-10",
+      "images": ["/images/prints/box.jpg"],
+      "settings": {
+        "layerHeight": "0.2mm",
+        "infill": "15%",
+        "supports": false,
+        "printTime": "2h 30m"
+      },
+      "notes": "PETG for the clear finish. Perfect for organizing small parts.",
+      "featured": false
+    }
+  ]
+}

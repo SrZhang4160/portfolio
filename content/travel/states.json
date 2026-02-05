@@ -1,0 +1,175 @@
+{
+  "states": [
+    {
+      "id": "CA",
+      "name": "California",
+      "status": "visited",
+      "visitDate": "2020-2022",
+      "highlights": ["San Francisco", "Yosemite", "Big Sur", "Los Angeles"],
+      "notes": "Lived here for 2 years. Miss the weather and hiking!"
+    },
+    {
+      "id": "WA",
+      "name": "Washington",
+      "status": "visited",
+      "visitDate": "2023",
+      "highlights": ["Seattle", "Mount Rainier"],
+      "notes": "Great tech scene and coffee culture"
+    },
+    {
+      "id": "OR",
+      "name": "Oregon",
+      "status": "visited",
+      "visitDate": "2023",
+      "highlights": ["Portland", "Crater Lake"],
+      "notes": "Amazing food scene in Portland"
+    },
+    {
+      "id": "NV",
+      "name": "Nevada",
+      "status": "visited",
+      "visitDate": "2021",
+      "highlights": ["Las Vegas", "Valley of Fire"],
+      "notes": "Quick weekend trip from CA"
+    },
+    {
+      "id": "AZ",
+      "name": "Arizona",
+      "status": "visited",
+      "visitDate": "2022",
+      "highlights": ["Grand Canyon", "Sedona", "Phoenix"],
+      "notes": "Grand Canyon was breathtaking"
+    },
+    {
+      "id": "CO",
+      "name": "Colorado",
+      "status": "visited",
+      "visitDate": "2022",
+      "highlights": ["Denver", "Rocky Mountain NP", "Boulder"],
+      "notes": "Great for skiing and hiking"
+    },
+    {
+      "id": "TX",
+      "name": "Texas",
+      "status": "visited",
+      "visitDate": "2023",
+      "highlights": ["Austin", "Houston"],
+      "notes": "Austin has a great startup scene"
+    },
+    {
+      "id": "NY",
+      "name": "New York",
+      "status": "visited",
+      "visitDate": "2019",
+      "highlights": ["NYC", "Finger Lakes"],
+      "notes": "Lived in NYC for a summer internship"
+    },
+    {
+      "id": "MA",
+      "name": "Massachusetts",
+      "status": "visited",
+      "visitDate": "2018-2022",
+      "highlights": ["Boston", "Cambridge", "Cape Cod"],
+      "notes": "Went to school in the Boston area"
+    },
+    {
+      "id": "IL",
+      "name": "Illinois",
+      "status": "visited",
+      "visitDate": "2021",
+      "highlights": ["Chicago"],
+      "notes": "Deep dish pizza is legit"
+    },
+    {
+      "id": "FL",
+      "name": "Florida",
+      "status": "visited",
+      "visitDate": "2020",
+      "highlights": ["Miami", "Key West"],
+      "notes": "Spring break trip with friends"
+    },
+    {
+      "id": "GA",
+      "name": "Georgia",
+      "status": "visited",
+      "visitDate": "2022",
+      "highlights": ["Atlanta"],
+      "notes": "Visited for a robotics conference"
+    },
+    {
+      "id": "MT",
+      "name": "Montana",
+      "status": "wishlist",
+      "notes": "Glacier National Park is a must-see",
+      "recommendationRequest": "Best time to visit Glacier? Good hiking trails?"
+    },
+    {
+      "id": "UT",
+      "name": "Utah",
+      "status": "wishlist",
+      "notes": "The Mighty 5 national parks",
+      "recommendationRequest": "Which parks should I prioritize?"
+    },
+    {
+      "id": "ME",
+      "name": "Maine",
+      "status": "wishlist",
+      "notes": "Want to see Acadia National Park",
+      "recommendationRequest": "Best season to visit? Lobster recommendations?"
+    },
+    {
+      "id": "HI",
+      "name": "Hawaii",
+      "status": "wishlist",
+      "notes": "Dreaming of beaches and volcanoes",
+      "recommendationRequest": "Which island for first-timers?"
+    },
+    {
+      "id": "AK",
+      "name": "Alaska",
+      "status": "wishlist",
+      "notes": "Northern lights and glaciers",
+      "recommendationRequest": "Best time for northern lights?"
+    },
+    {
+      "id": "NM",
+      "name": "New Mexico",
+      "status": "wishlist",
+      "notes": "Santa Fe and White Sands",
+      "recommendationRequest": "Art scene recommendations?"
+    },
+    { "id": "AL", "name": "Alabama", "status": "none" },
+    { "id": "AR", "name": "Arkansas", "status": "none" },
+    { "id": "CT", "name": "Connecticut", "status": "none" },
+    { "id": "DE", "name": "Delaware", "status": "none" },
+    { "id": "IA", "name": "Iowa", "status": "none" },
+    { "id": "ID", "name": "Idaho", "status": "none" },
+    { "id": "IN", "name": "Indiana", "status": "none" },
+    { "id": "KS", "name": "Kansas", "status": "none" },
+    { "id": "KY", "name": "Kentucky", "status": "none" },
+    { "id": "LA", "name": "Louisiana", "status": "none" },
+    { "id": "MD", "name": "Maryland", "status": "none" },
+    { "id": "MI", "name": "Michigan", "status": "none" },
+    { "id": "MN", "name": "Minnesota", "status": "none" },
+    { "id": "MO", "name": "Missouri", "status": "none" },
+    { "id": "MS", "name": "Mississippi", "status": "none" },
+    { "id": "NC", "name": "North Carolina", "status": "none" },
+    { "id": "ND", "name": "North Dakota", "status": "none" },
+    { "id": "NE", "name": "Nebraska", "status": "none" },
+    { "id": "NH", "name": "New Hampshire", "status": "none" },
+    { "id": "NJ", "name": "New Jersey", "status": "none" },
+    { "id": "OH", "name": "Ohio", "status": "none" },
+    { "id": "OK", "name": "Oklahoma", "status": "none" },
+    { "id": "PA", "name": "Pennsylvania", "status": "none" },
+    { "id": "RI", "name": "Rhode Island", "status": "none" },
+    { "id": "SC", "name": "South Carolina", "status": "none" },
+    { "id": "SD", "name": "South Dakota", "status": "none" },
+    { "id": "TN", "name": "Tennessee", "status": "none" },
+    { "id": "VA", "name": "Virginia", "status": "none" },
+    { "id": "VT", "name": "Vermont", "status": "none" },
+    { "id": "WI", "name": "Wisconsin", "status": "none" },
+    { "id": "WV", "name": "West Virginia", "status": "none" },
+    { "id": "WY", "name": "Wyoming", "status": "none" },
+    { "id": "DC", "name": "Washington D.C.", "status": "none" }
+  ]
+}

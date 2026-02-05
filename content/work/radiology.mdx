@@ -1,0 +1,136 @@
+---
+title: "RadAssist: AI-Powered Radiology Workflow"
+slug: "radiology"
+description: "Intelligent prioritization system for radiology departments that reduced critical finding turnaround time by 60%."
+date: "2023-03-10"
+featured: true
+tags:
+  - Healthcare AI
+  - Computer Vision
+  - Workflow Optimization
+  - Radiology
+thumbnail: "/images/work/radiology-thumb.jpg"
+hero: "/images/work/radiology-hero.jpg"
+role: "Senior ML Engineer"
+timeline: "10 months"
+team: "4 engineers, 3 radiologists, 2 product managers"
+tools:
+  - Python
+  - TensorFlow
+  - FastAPI
+  - PostgreSQL
+  - Kubernetes
+impact:
+  - metric: "60%"
+    label: "Faster critical finding turnaround"
+  - metric: "85%"
+    label: "Sensitivity on critical findings"
+  - metric: "8"
+    label: "Hospital systems deployed"
+---
+
+## Problem
+
+Radiology departments face an overwhelming volume of imaging studies, with radiologists often processing 50-100+ cases daily. Critical findings can get buried in the queue, leading to delayed diagnoses for urgent conditions like pulmonary embolism, intracranial hemorrhage, or pneumothorax.
+
+The consequences of these delays can be severe:
+
+- **Patient safety risks**: Critical conditions undiagnosed for hours
+- **Radiologist burnout**: Constant pressure to work faster
+- **Operational inefficiency**: Suboptimal resource allocation
+- **Legal liability**: Delayed diagnoses leading to malpractice claims
+
+## My Role
+
+As Senior ML Engineer, I led the technical development of the AI models and backend systems:
+
+- Designed and trained multi-task neural networks for critical finding detection
+- Built the real-time inference infrastructure
+- Developed the worklist prioritization algorithms
+- Coordinated with hospital IT teams for system integration
+- Contributed to the clinical validation study design
+
+## Approach
+
+### Understanding the Clinical Workflow
+
+We mapped the complete radiology workflow from image acquisition to final report. Key observations:
+
+1. Studies were processed in FIFO order regardless of urgency
+2. Radiologists manually triaged by scanning through image previews
+3. Critical findings often identified during interpretation, causing workflow disruptions
+4. Communication of urgent findings was inconsistent
+
+### Model Development
+
+We developed a suite of models targeting the most time-sensitive conditions:
+
+**Chest X-Ray Analysis**
+- Pneumothorax detection (AUC: 0.94)
+- Large pleural effusion (AUC: 0.91)
+- Endotracheal tube misplacement (AUC: 0.89)
+
+**CT Head Analysis**
+- Intracranial hemorrhage (AUC: 0.96)
+- Large vessel occlusion (AUC: 0.88)
+- Midline shift (AUC: 0.93)
+
+**CT Chest/Abdomen**
+- Pulmonary embolism (AUC: 0.92)
+- Aortic dissection (AUC: 0.95)
+- Free air (pneumoperitoneum) (AUC: 0.91)
+
+### System Architecture
+
+The production system consisted of:
+
+**Inference Pipeline**
+- DICOM listener monitoring for new studies
+- GPU-accelerated model inference (~2 seconds per study)
+- Confidence calibration for clinical decision support
+
+**Prioritization Engine**
+- Multi-factor scoring combining AI confidence, study type, and patient context
+- Dynamic queue reordering with radiologist override capability
+- Integration with existing RIS/PACS systems
+
+**Alerting System**
+- Real-time notifications for high-confidence critical findings
+- Escalation pathways for unacknowledged alerts
+- Audit trail for all AI-assisted decisions
+
+## Impact
+
+The system was deployed across 8 hospital systems over 6 months:
+
+- **60% reduction** in time-to-report for critical findings
+- **85% sensitivity** on critical findings with 92% specificity
+- **15% increase** in daily case throughput per radiologist
+- **Zero missed critical findings** in retrospective review of flagged cases
+- **$2.1M estimated annual savings** from improved efficiency
+
+## Learnings
+
+### Clinical AI Deployment Challenges
+
+**Trust building is essential**: Radiologists initially skeptical of AI recommendations became advocates after seeing consistent, explainable results. We invested heavily in visualization tools showing model attention maps.
+
+**Fail-safe design**: We designed the system to fail conservatively - when in doubt, prioritize the study higher. False positives are acceptable; false negatives are not.
+
+**Integration complexity**: Every hospital had unique PACS/RIS configurations. We built a flexible adapter layer that became one of our key differentiators.
+
+### Technical Learnings
+
+- Multi-task learning significantly improved data efficiency compared to separate models
+- Careful attention to dataset shift between sites required site-specific calibration
+- Model monitoring in production is as important as initial development
+
+### What I'd Do Differently
+
+- Involve radiologists in model evaluation earlier, not just validation
+- Build more robust handling of edge cases (poor image quality, incomplete studies)
+- Design for interpretability from the start rather than retrofitting
+
+---
+
+*This project highlighted the importance of designing AI systems that enhance rather than replace clinical judgment. The most successful deployments were those where radiologists felt the AI was a trusted partner, not a replacement.*

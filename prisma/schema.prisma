@@ -1,0 +1,91 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Comment {
+  id          String   @id @default(cuid())
+  content     String
+  authorName  String
+  authorEmail String?
+  targetType  String   // "work" | "print"
+  targetSlug  String   // slug of the work/print
+  status      String   @default("pending") // "pending" | "approved" | "rejected"
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([targetType, targetSlug])
+  @@index([status])
+}
+
+model ForumThread {
+  id         String       @id @default(cuid())
+  topic      String       // "ai-healthcare" | "3d-printing" | "life-balance"
+  title      String
+  content    String
+  authorName String
+  authorEmail String?
+  status     String       @default("pending") // "pending" | "approved" | "rejected"
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  replies    ForumReply[]
+
+  @@index([topic])
+  @@index([status])
+}
+
+model ForumReply {
+  id          String      @id @default(cuid())
+  content     String
+  authorName  String
+  authorEmail String?
+  status      String      @default("pending")
+  threadId    String
+  thread      ForumThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  parentId    String?     // For nested replies (max 2 levels)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([threadId])
+  @@index([status])
+}
+
+model ContactSubmission {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String?
+  message   String
+  status    String   @default("unread") // "unread" | "read" | "archived"
+  createdAt DateTime @default(now())
+
+  @@index([status])
+}
+
+model CoffeeChatRequest {
+  id              String   @id @default(cuid())
+  name            String
+  email           String
+  company         String?
+  role            String?
+  topic           String   // What they want to discuss
+  preferredTime   String?  // If not using Calendly
+  additionalNotes String?
+  status          String   @default("pending") // "pending" | "confirmed" | "declined" | "completed"
+  createdAt       DateTime @default(now())
+
+  @@index([status])
+}
+
+model AdminSession {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}

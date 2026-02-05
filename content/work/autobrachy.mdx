@@ -1,0 +1,118 @@
+---
+title: "AutoBrachy: Automated Brachytherapy Planning"
+slug: "autobrachy"
+description: "AI-powered treatment planning system that reduced procedure time by 40% and improved consistency across clinical sites."
+date: "2023-08-15"
+featured: true
+tags:
+  - Healthcare AI
+  - Robotics
+  - Medical Devices
+  - Treatment Planning
+thumbnail: "/images/work/autobrachy-thumb.jpg"
+hero: "/images/work/autobrachy-hero.jpg"
+role: "Lead Robotics Engineer"
+timeline: "8 months"
+team: "3 engineers, 2 clinicians, 1 researcher"
+tools:
+  - Python
+  - PyTorch
+  - ROS2
+  - CUDA
+  - Docker
+impact:
+  - metric: "40%"
+    label: "Reduction in planning time"
+  - metric: "12"
+    label: "Clinical sites deployed"
+  - metric: "2,500+"
+    label: "Patients treated"
+---
+
+## Problem
+
+Brachytherapy treatment planning is a critical but time-consuming process that requires highly specialized expertise. Traditional planning workflows can take 30-45 minutes per patient, creating bottlenecks in busy radiation oncology departments and leading to variability in treatment quality across different clinicians.
+
+The key challenges we identified were:
+
+- **Time constraints**: Oncologists spending significant time on repetitive planning tasks
+- **Variability**: Treatment quality depending heavily on individual clinician expertise
+- **Scalability**: Difficulty expanding treatment availability to underserved regions
+- **Training burden**: Steep learning curve for new practitioners
+
+## My Role
+
+As the Lead Robotics Engineer, I was responsible for:
+
+- Architecting the end-to-end treatment planning pipeline
+- Designing the deep learning models for anatomical segmentation
+- Integrating the system with existing clinical workflows
+- Leading the technical team through FDA regulatory preparation
+- Collaborating closely with radiation oncologists to refine the algorithms
+
+## Approach
+
+### Research & Discovery
+
+We began with an extensive discovery phase, spending time in clinical settings to understand the nuances of brachytherapy planning. I shadowed radiation oncologists through dozens of procedures, documenting pain points and identifying opportunities for automation.
+
+Key insights from this phase:
+
+1. Most planning time was spent on repetitive anatomical contouring
+2. Clinicians relied heavily on pattern recognition from past cases
+3. Quality assurance checks were manual and error-prone
+
+### Technical Architecture
+
+We designed a three-stage pipeline:
+
+**Stage 1: Automated Segmentation**
+Using a custom U-Net architecture trained on 5,000+ annotated CT scans, we achieved 95% Dice coefficient on critical structures. The model was optimized for inference speed, processing a full scan in under 3 seconds.
+
+**Stage 2: Dose Optimization**
+Building on the segmentation outputs, we implemented a constrained optimization algorithm that generates treatment plans meeting clinical dose constraints while maximizing tumor coverage.
+
+**Stage 3: Quality Assurance**
+An automated QA module flags potential issues before clinical review, reducing the cognitive load on reviewing physicians.
+
+### Clinical Integration
+
+The most challenging aspect was integrating seamlessly with existing workflows. We built:
+
+- DICOM adapters for major treatment planning systems
+- Real-time progress updates for clinical staff
+- Comprehensive audit logging for regulatory compliance
+- Fallback mechanisms for edge cases requiring manual intervention
+
+## Impact
+
+After 8 months of development and 6 months of clinical validation:
+
+- **40% reduction** in average planning time (from 35 to 21 minutes)
+- **Deployed at 12 clinical sites** across 4 states
+- **2,500+ patients** treated using AutoBrachy-generated plans
+- **98% clinician satisfaction** rate in post-deployment surveys
+- **Zero safety incidents** in the first year of deployment
+
+## Learnings
+
+### What Worked Well
+
+- **Early clinical involvement**: Having radiation oncologists as partners from day one ensured we solved real problems
+- **Iterative deployment**: Starting with a single site allowed us to refine before scaling
+- **Focus on workflow integration**: Making the tool feel like a natural extension of existing processes drove adoption
+
+### What I'd Do Differently
+
+- **Earlier regulatory engagement**: We could have saved time by involving regulatory consultants earlier in the design phase
+- **More diverse training data**: Initial model performance varied across patient demographics; we addressed this but should have prioritized it earlier
+
+### Technical Insights
+
+- Real-time inference requirements pushed us to develop novel model compression techniques
+- Transfer learning from general medical imaging datasets proved valuable despite domain differences
+- Edge cases in anatomy (surgical history, implants) required robust detection and flagging
+
+---
+
+*This project reinforced my belief in the power of AI to augment clinical expertise rather than replace it. The best outcomes came from designing systems that kept clinicians in control while eliminating tedious, repetitive tasks.*
