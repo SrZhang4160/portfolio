@@ -12,8 +12,8 @@ function HomeSection() {
   return (
     <>
       {/* Intro - Maelle style */}
-      <div className="mb-12 py-20 px-4">
-        <p className="text-2xl leading-relaxed">
+      <div className="mb-8 md:mb-12 py-8 md:py-20 px-2 md:px-4">
+        <p className="text-lg md:text-2xl leading-relaxed">
           <span className="font-semibold text-primary-900">
             Software engineer, problem-solver, healthcare advocate with 4 years experience building medical software
           </span>{" "}
@@ -27,41 +27,41 @@ function HomeSection() {
       </div>
 
       {/* Selected Work */}
-      <div className="mb-12 px-4">
-        <h2 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-6">
+      <div className="mb-8 md:mb-12 px-2 md:px-4">
+        <h2 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-4 md:mb-6">
           Selected Work
         </h2>
-        <div className="space-y-6">
+        <div className="space-y-4 md:space-y-6">
           <Link href="/work/autobrachy" className="block group">
-            <div className="flex items-baseline justify-between">
-              <h3 className="text-lg font-medium text-primary-900 group-hover:text-gray-600 transition-colors">
+            <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+              <h3 className="text-base md:text-lg font-medium text-primary-900 group-hover:text-gray-600 transition-colors">
                 AutoBrachy
               </h3>
               <span className="text-sm text-gray-400">Carina AI</span>
             </div>
-            <p className="text-gray-600 mt-1">
+            <p className="text-gray-600 mt-1 text-sm md:text-base">
               Automated brachytherapy planning system for cancer treatment
             </p>
           </Link>
           <Link href="/work/radiology" className="block group">
-            <div className="flex items-baseline justify-between">
-              <h3 className="text-lg font-medium text-primary-900 group-hover:text-gray-600 transition-colors">
+            <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+              <h3 className="text-base md:text-lg font-medium text-primary-900 group-hover:text-gray-600 transition-colors">
                 Radiology AI
               </h3>
               <span className="text-sm text-gray-400">Medical Imaging</span>
             </div>
-            <p className="text-gray-600 mt-1">
+            <p className="text-gray-600 mt-1 text-sm md:text-base">
               Deep learning models for medical image analysis
             </p>
           </Link>
           <Link href="/work/muscle-analytics" className="block group">
-            <div className="flex items-baseline justify-between">
-              <h3 className="text-lg font-medium text-primary-900 group-hover:text-gray-600 transition-colors">
+            <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+              <h3 className="text-base md:text-lg font-medium text-primary-900 group-hover:text-gray-600 transition-colors">
                 Muscle Analytics
               </h3>
               <span className="text-sm text-gray-400">Research</span>
             </div>
-            <p className="text-gray-600 mt-1">
+            <p className="text-gray-600 mt-1 text-sm md:text-base">
               Quantitative muscle assessment using computer vision
             </p>
           </Link>
@@ -96,7 +96,7 @@ function InfoSection() {
 
       <div className="mb-12">
         <h2 className="text-2xl font-semibold text-primary-900 mb-6">What Drives Me</h2>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="p-4 bg-gray-50 rounded-lg">
             <h3 className="font-medium text-primary-900 mb-1">Impact-Driven</h3>
             <p className="text-sm text-gray-600">Measuring success by real-world outcomes</p>

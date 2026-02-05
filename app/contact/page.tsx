@@ -13,22 +13,22 @@ export default function ContactPage() {
     <div className="min-h-screen flex flex-col">
       <PageHeader />
 
-      {/* Content - Three Columns */}
-      <div className="flex flex-1 w-full">
-        {/* Left side - Title & Info (25%) - Sticky */}
-        <div className="w-1/4 border-r border-gray-200">
-          <div className="sticky top-0 h-screen max-h-screen px-6 py-8 overflow-hidden flex flex-col">
-            <div className="mb-8">
-              <h1 className="text-4xl md:text-5xl font-semibold text-primary-900 tracking-tight leading-tight">
+      {/* Content - Responsive: Stack on mobile, 3-columns on desktop */}
+      <div className="flex flex-col md:flex-row flex-1 w-full">
+        {/* Left side - Title & Info (Mobile: full width, Desktop: 25% sticky) */}
+        <div className="w-full md:w-1/4 border-b md:border-b-0 md:border-r border-gray-200">
+          <div className="md:sticky md:top-0 md:h-screen md:max-h-screen px-4 md:px-6 py-6 md:py-8 md:overflow-hidden flex flex-col">
+            <div className="mb-4 md:mb-8">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-primary-900 tracking-tight leading-tight">
                 Let&apos;s talk
               </h1>
             </div>
 
-            <p className="text-gray-600 leading-relaxed mb-8">
+            <p className="text-gray-600 leading-relaxed mb-4 md:mb-8">
               Have a question or want to collaborate? Drop me a message.
             </p>
 
-            <div className="mt-auto">
+            <div className="md:mt-auto">
               <Link
                 href="/coffee"
                 className="text-gray-500 hover:text-gray-900 transition-colors text-sm"
@@ -39,14 +39,14 @@ export default function ContactPage() {
           </div>
         </div>
 
-        {/* Middle - Form (50%) */}
-        <div className="w-1/2 px-8 pt-8 border-r border-gray-200">
+        {/* Middle - Form (Mobile: full width, Desktop: 50%) */}
+        <div className="w-full md:w-1/2 px-4 md:px-8 py-6 md:pt-8 border-b md:border-b-0 md:border-r border-gray-200">
           <ContactForm />
         </div>
 
-        {/* Right side - Contact links at bottom left (25%) */}
-        <div className="w-1/4 px-6 py-8 flex flex-col">
-          <div className="mt-auto flex flex-col gap-2">
+        {/* Right side - Contact links (Mobile: full width, Desktop: 25%) */}
+        <div className="w-full md:w-1/4 px-4 md:px-6 py-6 md:py-8 flex flex-col">
+          <div className="md:mt-auto flex flex-row md:flex-col gap-4 md:gap-2 flex-wrap">
             <a
               href="mailto:zsr_coco@outlook.com"
               className="text-gray-600 hover:text-gray-900 transition-colors text-sm"

@@ -12,11 +12,11 @@ export default function CoffeeChatPage() {
     <div className="min-h-screen flex flex-col">
       <PageHeader />
 
-      {/* Content - Three Columns */}
-      <div className="flex flex-1 w-full">
-        {/* Left side - Title & Info (25%) - Sticky */}
-        <div className="w-1/4 border-r border-gray-200">
-          <div className="sticky top-0 h-screen max-h-screen px-6 py-6 overflow-hidden flex flex-col">
+      {/* Content - Responsive: Stack on mobile, 3-columns on desktop */}
+      <div className="flex flex-col md:flex-row flex-1 w-full">
+        {/* Left side - Title & Info (Mobile: full width, Desktop: 25% sticky) */}
+        <div className="w-full md:w-1/4 border-b md:border-b-0 md:border-r border-gray-200">
+          <div className="md:sticky md:top-0 md:h-screen md:max-h-screen px-4 md:px-6 py-6 md:overflow-hidden flex flex-col">
             <Link
               href="/?section=contact"
               className="inline-flex items-center gap-1 text-gray-500 hover:text-gray-900 transition-colors text-sm mb-6"
@@ -25,7 +25,7 @@ export default function CoffeeChatPage() {
             </Link>
 
             <div className="mb-4">
-              <h1 className="text-3xl font-semibold text-primary-900 tracking-tight leading-tight">
+              <h1 className="text-2xl md:text-3xl font-semibold text-primary-900 tracking-tight leading-tight">
                 Coffee Chat
               </h1>
             </div>
@@ -36,14 +36,14 @@ export default function CoffeeChatPage() {
 
             <div className="mb-6">
               <h3 className="text-base font-medium text-gray-500 mb-3">What to expect</h3>
-              <ul className="space-y-2 text-gray-600">
+              <ul className="space-y-2 text-gray-600 text-sm md:text-base">
                 <li>30-minute virtual chat</li>
                 <li>Casual conversation</li>
                 <li>Google Meet or Zoom</li>
               </ul>
             </div>
 
-            <div className="mb-4">
+            <div className="mb-4 hidden md:block">
               <h3 className="text-base font-medium text-gray-500 mb-3">Topics I love</h3>
               <ul className="space-y-2 text-gray-600">
                 <li>Healthcare AI</li>
@@ -55,12 +55,12 @@ export default function CoffeeChatPage() {
           </div>
         </div>
 
-        {/* Middle - Calendly Embed (50%) */}
-        <div className="w-1/2 px-8 py-8 border-r border-gray-200 flex flex-col">
-          <h2 className="text-lg font-medium text-primary-900 mb-6">Pick a time</h2>
+        {/* Middle - Calendar Embed (Mobile: full width, Desktop: 50%) */}
+        <div className="w-full md:w-1/2 px-4 md:px-8 py-6 md:py-8 border-b md:border-b-0 md:border-r border-gray-200 flex flex-col">
+          <h2 className="text-lg font-medium text-primary-900 mb-4 md:mb-6">Pick a time</h2>
 
           {/* Calendar Embed - Configure via NEXT_PUBLIC_CALENDAR_URL env variable */}
-          <div className="flex-1 min-h-[600px]">
+          <div className="flex-1 min-h-[500px] md:min-h-[600px]">
             {process.env.NEXT_PUBLIC_CALENDAR_URL ? (
               <iframe
                 src={process.env.NEXT_PUBLIC_CALENDAR_URL}
@@ -71,7 +71,7 @@ export default function CoffeeChatPage() {
               />
             ) : (
               <div className="flex items-center justify-center h-full bg-gray-50 rounded-lg">
-                <div className="text-center p-8">
+                <div className="text-center p-6 md:p-8">
                   <p className="text-gray-500 mb-4">
                     Calendar booking is not yet configured.
                   </p>
@@ -97,8 +97,8 @@ export default function CoffeeChatPage() {
           </p>
         </div>
 
-        {/* Right side - Empty or decorative (25%) */}
-        <div className="w-1/4 px-6 py-8">
+        {/* Right side - Empty or decorative (Hidden on mobile, Desktop: 25%) */}
+        <div className="hidden md:flex w-1/4 px-6 py-8">
           <div className="h-full flex items-center justify-center">
             <p className="text-gray-300 text-sm">
               Looking forward to chatting

@@ -22,23 +22,23 @@ function HomeContent() {
   };
 
   return (
-    <div className="h-screen flex flex-col overflow-hidden">
+    <div className="min-h-screen md:h-screen flex flex-col md:overflow-hidden">
       <PageHeader activeSection={currentSection} onSectionChange={handleSectionChange} />
 
-      {/* Content Grid - Three Columns */}
-      <div className="flex flex-1 w-full overflow-hidden">
-        {/* Column 1 - Profile (25%) */}
-        <div className="w-1/4 border-r border-gray-200 px-6 py-6 overflow-hidden">
+      {/* Content Grid - Responsive: Stack on mobile, 3-columns on desktop */}
+      <div className="flex flex-col md:flex-row flex-1 w-full md:overflow-hidden">
+        {/* Column 1 - Profile (Mobile: full width, Desktop: 25%) */}
+        <div className="w-full md:w-1/4 border-b md:border-b-0 md:border-r border-gray-200 px-4 md:px-6 py-6 md:overflow-hidden">
           <ProfileColumn activeSection={currentSection} />
         </div>
 
-        {/* Column 2 - Main Content (50%) */}
-        <div className="w-1/2 px-6 py-6 border-r border-gray-200 overflow-y-auto">
+        {/* Column 2 - Main Content (Mobile: full width, Desktop: 50%) */}
+        <div className="w-full md:w-1/2 px-4 md:px-6 py-6 border-b md:border-b-0 md:border-r border-gray-200 md:overflow-y-auto">
           <MiddleColumn activeSection={currentSection} />
         </div>
 
-        {/* Column 3 - Content (25%) */}
-        <div className="w-1/4 px-6 py-6 overflow-y-auto">
+        {/* Column 3 - Content (Mobile: full width, Desktop: 25%) */}
+        <div className="w-full md:w-1/4 px-4 md:px-6 py-6 md:overflow-y-auto">
           <ContentColumn activeSection={currentSection} />
         </div>
       </div>

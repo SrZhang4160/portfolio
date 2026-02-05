@@ -55,26 +55,26 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="py-12 md:py-20">
-      <div className="container-wide">
+    <div className="py-8 md:py-12 lg:py-20 px-4 md:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 md:mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-primary-900">
+            <h1 className="text-2xl md:text-3xl font-bold text-primary-900">
               Admin Dashboard
             </h1>
-            <p className="text-gray-600">Manage your site content and submissions</p>
+            <p className="text-sm md:text-base text-gray-600">Manage your site content and submissions</p>
           </div>
           <button
             onClick={handleLogout}
-            className="px-4 py-2 text-gray-600 hover:text-gray-800"
+            className="self-start sm:self-auto px-4 py-2 text-gray-600 hover:text-gray-800"
           >
             Logout
           </button>
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6 mb-12">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-6 mb-8 md:mb-12">
           <StatCard
             title="Pending Comments"
             count={stats?.pendingComments || 0}
@@ -114,11 +114,11 @@ export default function AdminDashboard() {
         </div>
 
         {/* Quick Links */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-semibold text-primary-900 mb-4">
+        <div className="bg-white rounded-lg shadow-md p-4 md:p-6">
+          <h2 className="text-lg md:text-xl font-semibold text-primary-900 mb-4">
             Quick Actions
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 md:gap-4">
             <QuickLink
               href="/admin/comments"
               title="Moderate Comments"
@@ -186,8 +186,8 @@ function LoginForm({ onSuccess }: { onSuccess: () => void }) {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-md p-8">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+      <div className="max-w-md w-full bg-white rounded-lg shadow-md p-6 md:p-8">
         <h1 className="text-2xl font-bold text-primary-900 text-center mb-6">
           Admin Login
         </h1>
@@ -262,10 +262,10 @@ function StatCard({
   return (
     <Link
       href={href}
-      className={`block p-6 rounded-lg border-2 ${colorClasses[color]} hover:shadow-md transition-shadow`}
+      className={`block p-4 md:p-6 rounded-lg border-2 ${colorClasses[color]} hover:shadow-md transition-shadow`}
     >
-      <div className={`text-3xl font-bold ${countColors[color]}`}>{count}</div>
-      <div className="text-sm text-gray-600 mt-1">{title}</div>
+      <div className={`text-2xl md:text-3xl font-bold ${countColors[color]}`}>{count}</div>
+      <div className="text-xs md:text-sm text-gray-600 mt-1">{title}</div>
     </Link>
   );
 }
