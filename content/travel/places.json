@@ -1,0 +1,67 @@
+{
+  "places": [
+    {
+      "name": "South River Falls Trailhead",
+      "location": "Stanardsville, VA",
+      "coordinates": [-78.5168074, 38.3809851],
+      "category": "hiking",
+      "date": "2024-10",
+      "notes": ""
+    },
+    {
+      "name": "Tundra Communities Trailhead",
+      "location": "Estes Park, CO",
+      "coordinates": [-105.7329176, 40.412238],
+      "category": "hiking",
+      "date": "2023-07",
+      "notes": "Rocky Mountain National Park"
+    },
+    {
+      "name": "Rainbow Curve Overlook",
+      "location": "Estes Park, CO",
+      "coordinates": [-105.6636383, 40.400404],
+      "category": "scenic",
+      "date": "2023-07",
+      "notes": "Trail Ridge Road"
+    },
+    {
+      "name": "Many Parks Curve Overlook",
+      "location": "Estes Park, CO",
+      "coordinates": [-105.6326971, 40.3877673],
+      "category": "scenic",
+      "date": "2023-07",
+      "notes": "Trail Ridge Road"
+    },
+    {
+      "name": "Glacier Gorge Junction Trailhead",
+      "location": "Estes Park, CO",
+      "coordinates": [-105.6404437, 40.3103053],
+      "category": "hiking",
+      "date": "2023-07",
+      "notes": ""
+    },
+    {
+      "name": "Bear Lake Trailhead",
+      "location": "Estes Park, CO",
+      "coordinates": [-105.6460112, 40.3119922],
+      "category": "hiking",
+      "date": "2023-07",
+      "notes": ""
+    },
+    {
+      "name": "Lake Needwood",
+      "location": "Maryland",
+      "coordinates": [-77.1305395, 39.1252168],
+      "category": "outdoors",
+      "date": "",
+      "notes": ""
+    }
+  ],
+  "categories": {
+    "hiking": "#22c55e",
+    "scenic": "#3b82f6",
+    "food": "#f97316",
+    "outdoors": "#06b6d4",
+    "city": "#8b5cf6"
+  }
+}

@@ -209,7 +209,7 @@ export default function AdminCoffeePage() {
                     {selectedRequest.status === "confirmed" && (
                       <button
                         onClick={() => updateStatus(selectedRequest.id, "completed")}
-                        className="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200"
+                        className="px-4 py-2 bg-stone-100 text-stone-700 rounded-lg hover:bg-stone-200"
                       >
                         Mark Completed
                       </button>
@@ -236,7 +236,7 @@ function StatusBadge({ status }: { status: "pending" | "confirmed" | "declined" 
     pending: "bg-yellow-100 text-yellow-800",
     confirmed: "bg-green-100 text-green-800",
     declined: "bg-red-100 text-red-800",
-    completed: "bg-blue-100 text-blue-800",
+    completed: "bg-stone-100 text-stone-800",
   };
 
   return (

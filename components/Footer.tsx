@@ -10,7 +10,6 @@ const footerLinks = {
   connect: [
     { name: "Contact", href: "/contact" },
     { name: "Coffee Chat", href: "/coffee" },
-    { name: "Discuss", href: "/discuss" },
   ],
   social: [
     { name: "GitHub", href: "https://github.com", external: true },

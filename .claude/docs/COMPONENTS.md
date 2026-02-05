@@ -2,8 +2,109 @@
 
 ## Layout Components
 
-### Header
-Navigation header with logo and menu.
+### ThreeColumnLayout
+Main layout wrapper providing consistent 25%-50%-25% grid structure.
+
+```tsx
+// components/ThreeColumnLayout.tsx
+interface ThreeColumnLayoutProps {
+  leftColumn: React.ReactNode;
+  middleColumn: React.ReactNode;
+  rightColumn: React.ReactNode;
+}
+```
+
+**Features:**
+- Includes PageHeader automatically
+- Full-height flex layout
+- Consistent border styling between columns
+- Used by all public-facing pages except homepage
+
+---
+
+### PageHeader
+Navigation header aligned with 3-column structure.
+
+```tsx
+// components/PageHeader.tsx
+interface PageHeaderProps {
+  activeSection?: string;
+  onSectionChange?: (section: string) => void;
+}
+```
+
+**Features:**
+- Left (25%): "Sharon Zhang" logo/link
+- Middle (50%): Navigation links (Home, Info, Work, Beyond, Contact)
+- Right (25%): Current time, "Let's talk" link
+- Sticky positioning with backdrop blur
+- Button mode (with callbacks) or Link mode
+
+---
+
+### PageLeftColumn
+Generic left sidebar component for page titles and metadata.
+
+```tsx
+// components/PageLeftColumn.tsx
+interface PageLeftColumnProps {
+  title: string;
+  description?: string;
+  backLink?: { href: string; label: string };
+  tags?: string[];
+  bottomContent?: React.ReactNode;
+  children?: React.ReactNode;
+}
+```
+
+**Features:**
+- Page title (h1)
+- Optional back navigation link
+- Optional description text
+- Optional tag list at bottom
+- Children slot for custom content
+
+---
+
+### PageRightColumn
+Generic right sidebar wrapper component.
+
+```tsx
+// components/PageRightColumn.tsx
+interface PageRightColumnProps {
+  children: React.ReactNode;
+}
+```
+
+**Features:**
+- Vertical spacing between children (space-y-6)
+- Full-height flex container
+
+---
+
+### InfoCard
+Reusable card component for displaying metadata in sidebars.
+
+```tsx
+// components/InfoCard.tsx
+interface InfoCardProps {
+  title: string;
+  items?: Array<{ label: string; value: string | React.ReactNode }>;
+  children?: React.ReactNode;
+  variant?: "default" | "highlight";
+}
+```
+
+**Features:**
+- Title header
+- Optional key-value item list
+- Children slot for custom content
+- "highlight" variant for accent backgrounds
+
+---
+
+### Header (Legacy)
+Navigation header with logo and menu. Used by admin pages.
 
 ```tsx
 // components/Header.tsx
@@ -11,12 +112,6 @@ interface HeaderProps {
   transparent?: boolean;  // For hero sections
 }
 ```
-
-**Features:**
-- Logo linking to home
-- Navigation links
-- Mobile hamburger menu
-- Optional transparent mode for hero overlays
 
 **Navigation Items:**
 - About
@@ -29,8 +124,8 @@ interface HeaderProps {
 
 ---
 
-### Footer
-Site footer with links and social.
+### Footer (Legacy)
+Site footer with links and social. Used by admin pages.
 
 ```tsx
 // components/Footer.tsx
@@ -436,8 +531,16 @@ interface TooltipProps {
 
 ```
 components/
-├── Header.tsx
-├── Footer.tsx
+├── ThreeColumnLayout.tsx    # Main 3-column page layout
+├── PageHeader.tsx           # Navigation header
+├── PageLeftColumn.tsx       # Generic left sidebar
+├── PageRightColumn.tsx      # Generic right sidebar wrapper
+├── InfoCard.tsx             # Reusable metadata cards
+├── ProfileColumn.tsx        # Homepage profile column
+├── MiddleColumn.tsx         # Homepage middle column
+├── ContentColumn.tsx        # Homepage content column
+├── Header.tsx               # Legacy header (admin)
+├── Footer.tsx               # Legacy footer (admin)
 ├── PortfolioCard.tsx
 ├── PrintCard.tsx
 ├── BookWidget.tsx

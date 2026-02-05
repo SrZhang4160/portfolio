@@ -17,7 +17,14 @@
       "Bash(git commit:*)",
       "Bash(git push:*)",
       "Bash(pnpm lint:*)",
-      "WebFetch(domain:maelle.framer.website)"
+      "WebFetch(domain:maelle.framer.website)",
+      "Bash(pnpm build:*)",
+      "Bash(curl:*)",
+      "WebFetch(domain:maps.app.goo.gl)",
+      "WebFetch(domain:www.google.com)",
+      "Bash(sips:*)",
+      "Bash(python3:*)",
+      "WebFetch(domain:www.shegotbuckets.org)"
     ]
   }
 }

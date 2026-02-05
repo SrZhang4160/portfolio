@@ -5,7 +5,7 @@ import { useState } from "react";
 
 const navigation = [
   { name: "About", href: "/about" },
-  { name: "Discuss", href: "/discuss" },
+  { name: "Work", href: "/work" },
 ];
 
 const secondaryNav = [

@@ -8,9 +8,9 @@ interface PrintCardProps {
 }
 
 const categoryColors = {
-  functional: "bg-green-100 text-green-800",
-  art: "bg-purple-100 text-purple-800",
-  material: "bg-blue-100 text-blue-800",
+  functional: "bg-stone-100 text-stone-700",
+  art: "bg-amber-50 text-amber-800",
+  material: "bg-neutral-100 text-neutral-700",
 };
 
 const categoryLabels = {

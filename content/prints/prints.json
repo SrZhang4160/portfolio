@@ -37,24 +37,6 @@
       "featured": true
     },
     {
-      "slug": "harry-potter-platform",
-      "title": "Platform 9 3/4 Sign",
-      "description": "A replica of the famous Harry Potter platform sign, perfect for any wizard's room.",
-      "category": "art",
-      "material": "PLA (Red + Gold)",
-      "printer": "Bambu Lab P1S + AMS",
-      "date": "2024-01-05",
-      "images": ["/images/prints/HarryPotter9&3:4.jpg"],
-      "settings": {
-        "layerHeight": "0.2mm",
-        "infill": "20%",
-        "supports": false,
-        "printTime": "4h 45m"
-      },
-      "notes": "Multi-color swap print. The gold filament really makes it pop!",
-      "featured": true
-    },
-    {
       "slug": "remote-holder",
       "title": "Remote Control Holder",
       "description": "A practical organizer for TV remotes and small electronics.",

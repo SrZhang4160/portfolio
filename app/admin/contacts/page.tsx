@@ -195,7 +195,7 @@ export default function AdminContactsPage() {
 
 function StatusBadge({ status }: { status: "unread" | "read" | "archived" }) {
   const classes = {
-    unread: "bg-blue-100 text-blue-800",
+    unread: "bg-amber-100 text-amber-800",
     read: "bg-gray-100 text-gray-800",
     archived: "bg-gray-100 text-gray-500",
   };

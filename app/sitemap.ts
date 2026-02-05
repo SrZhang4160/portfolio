@@ -43,12 +43,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.6,
     },
     {
-      url: `${baseUrl}/discuss`,
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 0.7,
-    },
-    {
       url: `${baseUrl}/contact`,
       lastModified: new Date(),
       changeFrequency: "yearly",
@@ -80,27 +74,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
-  // Forum topic pages
-  const forumPages: MetadataRoute.Sitemap = [
-    {
-      url: `${baseUrl}/discuss/ai-healthcare`,
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/discuss/3d-printing`,
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/discuss/sports`,
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 0.6,
-    },
-  ];
-
-  return [...staticPages, ...caseStudyPages, ...printPages, ...forumPages];
+  return [...staticPages, ...caseStudyPages, ...printPages];
 }

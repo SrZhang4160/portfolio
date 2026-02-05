@@ -15,7 +15,6 @@ const filters: { value: FilterCategory; label: string }[] = [
   { value: "all", label: "All" },
   { value: "functional", label: "Functional" },
   { value: "art", label: "Art" },
-  { value: "material", label: "Material Tests" },
 ];
 
 export default function PrintGallery({ prints }: PrintGalleryProps) {

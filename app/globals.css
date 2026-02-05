@@ -8,16 +8,16 @@
   --color-text-secondary: #666666;
   --color-text-muted: #999999;
 
-  /* Primary - Refined Blue */
-  --color-primary-50: #E6F2FF;
-  --color-primary-100: #CCE5FF;
-  --color-primary-200: #99CCFF;
-  --color-primary-300: #66B2FF;
-  --color-primary-400: #3399FF;
-  --color-primary-500: #0066CC;
-  --color-primary-600: #0052A3;
-  --color-primary-700: #003D7A;
-  --color-primary-800: #002952;
+  /* Primary - Warm Neutrals */
+  --color-primary-50: #FAFAF8;
+  --color-primary-100: #F5F5F0;
+  --color-primary-200: #E8E8E3;
+  --color-primary-300: #D4D4CD;
+  --color-primary-400: #A3A39C;
+  --color-primary-500: #6B6B60;
+  --color-primary-600: #52524A;
+  --color-primary-700: #3D3D38;
+  --color-primary-800: #292926;
   --color-primary-900: #1A1A1A;
 
   /* Accent - Warm touches */
@@ -36,7 +36,7 @@
   --color-success: #10B981;
   --color-warning: #F59E0B;
   --color-error: #EF4444;
-  --color-info: #0066CC;
+  --color-info: #6B6B60;
 
   /* Background/Foreground */
   --background: #FAFAFA;
@@ -221,4 +221,56 @@ body {
 .hover-lift:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Marquee animation for scrolling text */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.marquee-container {
+  display: flex;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee-content {
+  display: flex;
+  animation: marquee 40s linear infinite;
+}
+
+.marquee-container:hover .marquee-content {
+  animation-play-state: paused;
+}
+
+.marquee-text {
+  font-size: 4rem;
+  font-weight: 500;
+  color: transparent;
+  -webkit-text-stroke: 1.5px #d1d5db;
+  text-stroke: 1.5px #d1d5db;
+  padding-right: 2rem;
+  transition: all 0.3s ease;
+}
+
+.marquee-container:hover .marquee-text {
+  -webkit-text-stroke-color: #1a1a1a;
+  text-stroke-color: #1a1a1a;
+}
+
+@media (min-width: 768px) {
+  .marquee-text {
+    font-size: 5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .marquee-text {
+    font-size: 6rem;
+  }
 }

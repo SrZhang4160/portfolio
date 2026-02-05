@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { contactSchema, ContactInput } from "@/lib/validations";
-import { cn } from "@/lib/utils";
 
 export default function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -46,13 +45,11 @@ export default function ContactForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
       {/* Honeypot field - hidden from users */}
       <div className="hidden" aria-hidden="true">
-        <label htmlFor="honeypot">Leave this field empty</label>
         <input
           type="text"
-          id="honeypot"
           {...register("honeypot")}
           tabIndex={-1}
           autoComplete="off"
@@ -61,87 +58,52 @@ export default function ContactForm() {
 
       {/* Name */}
       <div>
-        <label
-          htmlFor="name"
-          className="block text-sm font-medium text-gray-700 mb-1"
-        >
-          Name <span className="text-red-500">*</span>
+        <label htmlFor="name" className="block text-sm font-medium text-gray-500 mb-2">
+          Name
         </label>
         <input
           type="text"
           id="name"
           {...register("name")}
-          className={cn(
-            "w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors",
-            errors.name ? "border-red-500" : "border-gray-300"
-          )}
+          className="w-full px-0 py-3 border-0 border-b border-gray-200 focus:border-gray-900 focus:ring-0 bg-transparent text-lg transition-colors"
           placeholder="Your name"
         />
         {errors.name && (
-          <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>
+          <p className="mt-2 text-sm text-red-500">{errors.name.message}</p>
         )}
       </div>
 
       {/* Email */}
       <div>
-        <label
-          htmlFor="email"
-          className="block text-sm font-medium text-gray-700 mb-1"
-        >
-          Email <span className="text-red-500">*</span>
+        <label htmlFor="email" className="block text-sm font-medium text-gray-500 mb-2">
+          Email
         </label>
         <input
           type="email"
           id="email"
           {...register("email")}
-          className={cn(
-            "w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors",
-            errors.email ? "border-red-500" : "border-gray-300"
-          )}
+          className="w-full px-0 py-3 border-0 border-b border-gray-200 focus:border-gray-900 focus:ring-0 bg-transparent text-lg transition-colors"
           placeholder="your@email.com"
         />
         {errors.email && (
-          <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
+          <p className="mt-2 text-sm text-red-500">{errors.email.message}</p>
         )}
-      </div>
-
-      {/* Subject */}
-      <div>
-        <label
-          htmlFor="subject"
-          className="block text-sm font-medium text-gray-700 mb-1"
-        >
-          Subject
-        </label>
-        <input
-          type="text"
-          id="subject"
-          {...register("subject")}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
-          placeholder="What's this about?"
-        />
       </div>
 
       {/* Message */}
       <div>
-        <label
-          htmlFor="message"
-          className="block text-sm font-medium text-gray-700 mb-1"
-        >
-          Message <span className="text-red-500">*</span>
+        <label htmlFor="message" className="block text-sm font-medium text-gray-500 mb-2">
+          Message
         </label>
         <textarea
           id="message"
-          rows={5}
+          rows={4}
           {...register("message")}
-          className={cn(
-            "w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors resize-none",
-            errors.message ? "border-red-500" : "border-gray-300"
-          )}
+          className="w-full px-0 py-3 border-0 border-b border-gray-200 focus:border-gray-900 focus:ring-0 bg-transparent text-lg transition-colors resize-none"
           placeholder="Your message..."
         />
         {errors.message && (
-          <p className="mt-1 text-sm text-red-500">{errors.message.message}</p>
+          <p className="mt-2 text-sm text-red-500">{errors.message.message}</p>
         )}
       </div>
 
@@ -149,26 +111,17 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className={cn(
-          "w-full px-6 py-3 bg-primary-900 text-white font-semibold rounded-lg transition-colors",
-          isSubmitting
-            ? "opacity-50 cursor-not-allowed"
-            : "hover:bg-primary-700"
-        )}
+        className="px-8 py-3 bg-primary-900 text-white font-medium rounded-full hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isSubmitting ? "Sending..." : "Send Message"}
       </button>
 
       {/* Status Messages */}
       {submitStatus === "success" && (
-        <div className="p-4 bg-green-50 text-green-800 rounded-lg">
-          Thanks for your message! I&apos;ll get back to you soon.
-        </div>
+        <p className="text-green-600">Thanks for your message! I&apos;ll get back to you soon.</p>
       )}
       {submitStatus === "error" && (
-        <div className="p-4 bg-red-50 text-red-800 rounded-lg">
-          Something went wrong. Please try again or email me directly.
-        </div>
+        <p className="text-red-500">Something went wrong. Please try again or email me directly.</p>
       )}
     </form>
   );

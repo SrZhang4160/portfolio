@@ -89,3 +89,15 @@ model AdminSession {
   expiresAt DateTime
   createdAt DateTime @default(now())
 }
+
+model GuestMessage {
+  id        String   @id @default(cuid())
+  name      String
+  message   String
+  stateId   String?  // State abbreviation (e.g., "CA", "NY") for travel map messages
+  color     String   @default("#FFE066") // Sticker color
+  status    String   @default("approved") // Auto-approve for simplicity
+  createdAt DateTime @default(now())
+
+  @@index([stateId])
+}

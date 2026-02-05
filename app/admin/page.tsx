@@ -78,19 +78,19 @@ export default function AdminDashboard() {
             title="Pending Comments"
             count={stats?.pendingComments || 0}
             href="/admin/comments"
-            color="blue"
+            color="stone"
           />
           <StatCard
             title="Pending Threads"
             count={stats?.pendingThreads || 0}
             href="/admin/forum"
-            color="purple"
+            color="neutral"
           />
           <StatCard
             title="Pending Replies"
             count={stats?.pendingReplies || 0}
             href="/admin/forum"
-            color="indigo"
+            color="zinc"
           />
           <StatCard
             title="Unread Contacts"
@@ -226,20 +226,20 @@ function StatCard({
   title: string;
   count: number;
   href: string;
-  color: "blue" | "purple" | "indigo" | "green" | "amber";
+  color: "stone" | "neutral" | "zinc" | "green" | "amber";
 }) {
   const colorClasses = {
-    blue: "bg-blue-50 border-blue-200",
-    purple: "bg-purple-50 border-purple-200",
-    indigo: "bg-indigo-50 border-indigo-200",
+    stone: "bg-stone-50 border-stone-200",
+    neutral: "bg-neutral-50 border-neutral-200",
+    zinc: "bg-zinc-50 border-zinc-200",
     green: "bg-green-50 border-green-200",
     amber: "bg-amber-50 border-amber-200",
   };
 
   const countColors = {
-    blue: "text-blue-600",
-    purple: "text-purple-600",
-    indigo: "text-indigo-600",
+    stone: "text-stone-600",
+    neutral: "text-neutral-600",
+    zinc: "text-zinc-600",
     green: "text-green-600",
     amber: "text-amber-600",
   };
