@@ -13,7 +13,7 @@ export const commentStatusSchema = z.object({
 });
 
 export const threadSchema = z.object({
-  topic: z.enum(["ai-healthcare", "3d-printing", "life-balance"]),
+  topic: z.enum(["ai-healthcare", "3d-printing", "sports"]),
   title: z.string().min(1, "Title is required").max(200),
   content: z.string().min(1, "Content is required").max(10000),
   authorName: z.string().min(1, "Name is required").max(100),

@@ -21,13 +21,13 @@ const footerLinks = {
 
 export default function Footer() {
   return (
-    <footer className="bg-primary-900 text-white">
+    <footer className="bg-[#F5F5F0] border-t border-[#E5E5E0]">
       <div className="container-wide py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="md:col-span-1">
-            <h3 className="text-lg font-bold mb-4">Sharon Zhang</h3>
-            <p className="text-primary-200 text-sm">
+            <h3 className="text-lg font-bold mb-4 text-[#1A1A1A]">Sharon Zhang</h3>
+            <p className="text-[#6B6B60] text-sm">
               MechE turned Robotics Engineer, building at the intersection of
               AI and healthcare.
             </p>
@@ -35,7 +35,7 @@ export default function Footer() {
 
           {/* Explore */}
           <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wider mb-4 text-primary-200">
+            <h4 className="text-sm font-semibold uppercase tracking-wider mb-4 text-[#8B8B80]">
               Explore
             </h4>
             <ul className="space-y-2">
@@ -43,7 +43,7 @@ export default function Footer() {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-primary-100 hover:text-white transition-colors text-sm"
+                    className="text-[#6B6B60] hover:text-[#1A1A1A] transition-colors text-sm"
                   >
                     {link.name}
                   </Link>
@@ -54,7 +54,7 @@ export default function Footer() {
 
           {/* Connect */}
           <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wider mb-4 text-primary-200">
+            <h4 className="text-sm font-semibold uppercase tracking-wider mb-4 text-[#8B8B80]">
               Connect
             </h4>
             <ul className="space-y-2">
@@ -62,7 +62,7 @@ export default function Footer() {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-primary-100 hover:text-white transition-colors text-sm"
+                    className="text-[#6B6B60] hover:text-[#1A1A1A] transition-colors text-sm"
                   >
                     {link.name}
                   </Link>
@@ -73,7 +73,7 @@ export default function Footer() {
 
           {/* Social */}
           <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wider mb-4 text-primary-200">
+            <h4 className="text-sm font-semibold uppercase tracking-wider mb-4 text-[#8B8B80]">
               Social
             </h4>
             <ul className="space-y-2">
@@ -83,7 +83,7 @@ export default function Footer() {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-primary-100 hover:text-white transition-colors text-sm inline-flex items-center"
+                    className="text-[#6B6B60] hover:text-[#1A1A1A] transition-colors text-sm inline-flex items-center"
                   >
                     {link.name}
                     <svg
@@ -107,8 +107,8 @@ export default function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="mt-12 pt-8 border-t border-primary-800">
-          <p className="text-primary-300 text-sm text-center">
+        <div className="mt-12 pt-8 border-t border-[#E5E5E0]">
+          <p className="text-[#8B8B80] text-sm text-center">
             &copy; {new Date().getFullYear()} Sharon Zhang. All rights reserved.
           </p>
         </div>

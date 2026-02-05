@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Discuss",
-  description: "Join discussions about AI in healthcare, 3D printing, and work-life balance.",
+  description: "Join discussions about AI in healthcare, 3D printing, and sports.",
 };
 
 const topics = [
@@ -24,12 +24,12 @@ const topics = [
     color: "bg-purple-50 hover:bg-purple-100 border-purple-200",
   },
   {
-    slug: "life-balance",
-    title: "Life Balance",
+    slug: "sports",
+    title: "Sports",
     description:
-      "Conversations about balancing career, hobbies, and personal growth. How do you maintain wellness while pursuing ambitious goals?",
-    icon: "⚖️",
-    color: "bg-green-50 hover:bg-green-100 border-green-200",
+      "Conversations about basketball, fitness, and women in sports. Share your journey, ask questions, and connect with fellow athletes.",
+    icon: "🏀",
+    color: "bg-orange-50 hover:bg-orange-100 border-orange-200",
   },
 ];
 

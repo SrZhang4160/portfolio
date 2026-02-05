@@ -24,7 +24,7 @@ export default function BasketballPage() {
               develop confidence on and off the court.
             </p>
             <Link
-              href="/discuss/life-balance"
+              href="/discuss/sports"
               className="inline-flex items-center justify-center px-6 py-3 bg-white text-accent-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors"
             >
               Join the Conversation
@@ -180,10 +180,10 @@ export default function BasketballPage() {
               Get in Touch
             </Link>
             <Link
-              href="/discuss/life-balance"
+              href="/discuss/sports"
               className="inline-flex items-center justify-center px-6 py-3 bg-white text-primary-900 font-semibold rounded-lg hover:bg-gray-50 transition-colors border border-gray-200"
             >
-              Join Life Balance Forum
+              Join Sports Forum
             </Link>
           </div>
         </section>

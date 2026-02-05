@@ -39,11 +39,11 @@ const topicInfo: Record<
     description: "Share tips, projects, and questions about 3D printing.",
     icon: "🖨️",
   },
-  "life-balance": {
-    title: "Life Balance",
+  "sports": {
+    title: "Sports",
     description:
-      "Conversations about balancing career, hobbies, and personal growth.",
-    icon: "⚖️",
+      "Conversations about basketball, fitness, and women in sports.",
+    icon: "🏀",
   },
 };
 
