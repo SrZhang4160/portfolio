@@ -24,7 +24,8 @@
       "WebFetch(domain:www.google.com)",
       "Bash(sips:*)",
       "Bash(python3:*)",
-      "WebFetch(domain:www.shegotbuckets.org)"
+      "WebFetch(domain:www.shegotbuckets.org)",
+      "Bash(pnpm add:*)"
     ]
   }
 }

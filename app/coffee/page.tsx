@@ -59,15 +59,31 @@ export default function CoffeeChatPage() {
         <div className="w-1/2 px-8 py-8 border-r border-gray-200 flex flex-col">
           <h2 className="text-lg font-medium text-primary-900 mb-6">Pick a time</h2>
 
-          {/* Calendly Embed - Replace YOUR_CALENDLY_USERNAME with your actual username */}
+          {/* Calendar Embed - Configure via NEXT_PUBLIC_CALENDAR_URL env variable */}
           <div className="flex-1 min-h-[600px]">
-            <iframe
-              src="https://calendly.com/YOUR_CALENDLY_USERNAME/30min"
-              width="100%"
-              height="100%"
-              frameBorder="0"
-              className="rounded-lg"
-            />
+            {process.env.NEXT_PUBLIC_CALENDAR_URL ? (
+              <iframe
+                src={process.env.NEXT_PUBLIC_CALENDAR_URL}
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                className="rounded-lg"
+              />
+            ) : (
+              <div className="flex items-center justify-center h-full bg-gray-50 rounded-lg">
+                <div className="text-center p-8">
+                  <p className="text-gray-500 mb-4">
+                    Calendar booking is not yet configured.
+                  </p>
+                  <a
+                    href="mailto:zsr_coco@outlook.com"
+                    className="text-primary-600 hover:text-primary-800 underline"
+                  >
+                    Email me directly to schedule
+                  </a>
+                </div>
+              </div>
+            )}
           </div>
 
           <p className="mt-4 text-sm text-gray-500">

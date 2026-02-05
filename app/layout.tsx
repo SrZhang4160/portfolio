@@ -23,6 +23,10 @@ export const metadata: Metadata = {
     "Portfolio",
   ],
   authors: [{ name: "Sharon Zhang" }],
+  icons: {
+    icon: "/images/favicon.png",
+    apple: "/images/favicon.png",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",

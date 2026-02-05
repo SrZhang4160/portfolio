@@ -9,6 +9,7 @@ interface Stats {
   pendingReplies: number;
   unreadContacts: number;
   pendingCoffeeChats: number;
+  guestMessages: number;
 }
 
 export default function AdminDashboard() {
@@ -73,7 +74,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6 mb-12">
           <StatCard
             title="Pending Comments"
             count={stats?.pendingComments || 0}
@@ -104,6 +105,12 @@ export default function AdminDashboard() {
             href="/admin/coffee"
             color="amber"
           />
+          <StatCard
+            title="Guest Messages"
+            count={stats?.guestMessages || 0}
+            href="/admin/messages"
+            color="purple"
+          />
         </div>
 
         {/* Quick Links */}
@@ -111,7 +118,7 @@ export default function AdminDashboard() {
           <h2 className="text-xl font-semibold text-primary-900 mb-4">
             Quick Actions
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
             <QuickLink
               href="/admin/comments"
               title="Moderate Comments"
@@ -135,6 +142,12 @@ export default function AdminDashboard() {
               title="Coffee Requests"
               description="Manage coffee chat bookings"
               icon="☕"
+            />
+            <QuickLink
+              href="/admin/messages"
+              title="Guest Messages"
+              description="View and manage travel map messages"
+              icon="📍"
             />
           </div>
         </div>
@@ -226,7 +239,7 @@ function StatCard({
   title: string;
   count: number;
   href: string;
-  color: "stone" | "neutral" | "zinc" | "green" | "amber";
+  color: "stone" | "neutral" | "zinc" | "green" | "amber" | "purple";
 }) {
   const colorClasses = {
     stone: "bg-stone-50 border-stone-200",
@@ -234,6 +247,7 @@ function StatCard({
     zinc: "bg-zinc-50 border-zinc-200",
     green: "bg-green-50 border-green-200",
     amber: "bg-amber-50 border-amber-200",
+    purple: "bg-purple-50 border-purple-200",
   };
 
   const countColors = {
@@ -242,6 +256,7 @@ function StatCard({
     zinc: "text-zinc-600",
     green: "text-green-600",
     amber: "text-amber-600",
+    purple: "text-purple-600",
   };
 
   return (

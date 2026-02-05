@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { checkMessage, checkName } from "@/lib/wordFilter";
+import { sendGuestMessageNotification } from "@/lib/email";
 
 // GET - Fetch approved messages (newest first, limit 50)
 // Optional query param: ?stateId=XX to filter by state
@@ -92,6 +93,13 @@ export async function POST(request: NextRequest) {
         status: "approved",
       },
     });
+
+    // Send email notification (non-blocking)
+    sendGuestMessageNotification({
+      name: name.trim(),
+      message: message.trim(),
+      stateId: stateId || null,
+    }).catch((err) => console.error("Email notification failed:", err));
 
     return NextResponse.json({ success: true, data: newMessage }, { status: 201 });
   } catch (error) {

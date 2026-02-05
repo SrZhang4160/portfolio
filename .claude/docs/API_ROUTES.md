@@ -100,6 +100,72 @@ Update comment status (admin only).
 
 ---
 
+## Guest Messages API (Travel Map)
+
+### GET /api/messages
+Get approved guest messages for travel map.
+
+**Query Parameters:**
+| Param | Type | Required | Description |
+|-------|------|----------|-------------|
+| stateId | string | No | Filter by state abbreviation (e.g., "CA") |
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "clx...",
+      "name": "John",
+      "message": "Hello from California!",
+      "stateId": "CA",
+      "color": "#FFE066",
+      "status": "approved",
+      "createdAt": "2024-01-15T10:30:00Z"
+    }
+  ]
+}
+```
+
+### POST /api/messages
+Create a new guest message (auto-approved with word filter).
+
+**Body:**
+```json
+{
+  "name": "John",
+  "message": "Hello from California!",
+  "stateId": "CA"
+}
+```
+
+**Validation:**
+- Name: max 50 characters, filtered for bad words
+- Message: max 140 characters, filtered for bad words
+- stateId: optional state abbreviation
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "id": "clx...",
+    "name": "John",
+    "message": "Hello from California!",
+    "stateId": "CA",
+    "color": "#FFE066",
+    "status": "approved",
+    "createdAt": "2024-01-15T10:30:00Z"
+  }
+}
+```
+
+**Side Effects:**
+- Sends email notification to admin (non-blocking)
+
+---
+
 ## Forum API
 
 ### GET /api/forum
@@ -195,7 +261,8 @@ Submit contact form.
   "name": "John Doe",
   "email": "john@example.com",
   "subject": "Collaboration inquiry",
-  "message": "I'd love to discuss..."
+  "message": "I'd love to discuss...",
+  "honeypot": ""  // Must be empty (spam protection)
 }
 ```
 
@@ -209,6 +276,10 @@ Submit contact form.
   }
 }
 ```
+
+**Side Effects:**
+- Sends email notification to admin (non-blocking)
+- Honeypot submissions silently accepted but not saved
 
 ---
 
@@ -244,6 +315,32 @@ Submit coffee chat request.
 
 ---
 
+## Travel Data API
+
+### GET /api/travel-states
+Get all US states with visit status.
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "CA",
+      "name": "California",
+      "status": "visited",
+      "visitDate": "2023-06-15",
+      "highlights": ["San Francisco", "Los Angeles"]
+    }
+  ]
+}
+```
+
+### GET /api/travel-places
+Get travel places/locations data.
+
+---
+
 ## Admin API
 
 ### POST /api/admin/login
@@ -265,6 +362,9 @@ Authenticate as admin.
   }
 }
 ```
+
+**Side Effects:**
+- Sets HTTP-only cookie `admin_session` with 7-day expiry
 
 ### POST /api/admin/logout
 End admin session.
@@ -288,8 +388,115 @@ Get dashboard statistics (admin only).
     "pendingThreads": 1,
     "pendingReplies": 2,
     "unreadContacts": 5,
-    "pendingCoffeeChats": 2
+    "pendingCoffeeChats": 2,
+    "guestMessages": 10
   }
+}
+```
+
+---
+
+## Admin Comment Management
+
+### GET /api/admin/comments
+List all comments with optional status filter (admin only).
+
+**Query Parameters:**
+| Param | Type | Required | Description |
+|-------|------|----------|-------------|
+| status | string | No | "pending", "approved", "rejected", or "all" |
+
+### PATCH /api/admin/comments/[id]
+Update comment status (admin only).
+
+**Body:**
+```json
+{
+  "status": "approved"  // or "rejected"
+}
+```
+
+---
+
+## Admin Contact Management
+
+### GET /api/admin/contacts
+List all contact submissions (admin only).
+
+**Query Parameters:**
+| Param | Type | Required | Description |
+|-------|------|----------|-------------|
+| status | string | No | "unread", "read", "archived", or "all" |
+
+### PATCH /api/admin/contacts/[id]
+Update contact status (admin only).
+
+**Body:**
+```json
+{
+  "status": "read"  // or "archived"
+}
+```
+
+---
+
+## Admin Coffee Chat Management
+
+### GET /api/admin/coffee
+List coffee chat requests (admin only).
+
+**Query Parameters:**
+| Param | Type | Required | Description |
+|-------|------|----------|-------------|
+| status | string | No | "pending", "confirmed", "declined", "completed", or "all" |
+
+### PATCH /api/admin/coffee/[id]
+Update coffee chat status (admin only).
+
+**Body:**
+```json
+{
+  "status": "confirmed"  // or "declined", "completed"
+}
+```
+
+---
+
+## Admin Guest Message Management
+
+### GET /api/admin/messages
+List all guest messages (admin only).
+
+**Query Parameters:**
+| Param | Type | Required | Description |
+|-------|------|----------|-------------|
+| stateId | string | No | Filter by state abbreviation |
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "clx...",
+      "name": "John",
+      "message": "Hello!",
+      "stateId": "CA",
+      "color": "#FFE066",
+      "status": "approved",
+      "createdAt": "2024-01-15T10:30:00Z"
+    }
+  ]
+}
+```
+
+### DELETE /api/admin/messages/[id]
+Delete a guest message (admin only).
+
+**Response:**
+```json
+{
+  "success": true
 }
 ```
 
@@ -305,6 +512,13 @@ const commentSchema = z.object({
   authorEmail: z.string().email().optional(),
   targetType: z.enum(['work', 'print']),
   targetSlug: z.string().min(1).max(100),
+})
+
+// Guest Message
+const guestMessageSchema = z.object({
+  name: z.string().min(1).max(50),
+  message: z.string().min(1).max(140),
+  stateId: z.string().length(2).optional(),
 })
 
 // Forum Thread
@@ -330,6 +544,7 @@ const contactSchema = z.object({
   email: z.string().email(),
   subject: z.string().max(200).optional(),
   message: z.string().min(1).max(5000),
+  honeypot: z.string().optional(),
 })
 
 // Coffee Chat
@@ -365,3 +580,4 @@ Planned limits:
 - Forum posts: 3/minute per IP
 - Contact: 2/minute per IP
 - Coffee chat: 1/minute per IP
+- Guest messages: 10/minute per IP

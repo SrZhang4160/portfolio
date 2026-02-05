@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { contactSchema } from "@/lib/validations";
+import { sendContactNotification } from "@/lib/email";
 
 export async function POST(request: NextRequest) {
   try {
@@ -29,6 +30,14 @@ export async function POST(request: NextRequest) {
         createdAt: true,
       },
     });
+
+    // Send email notification (non-blocking)
+    sendContactNotification({
+      name: validatedData.name,
+      email: validatedData.email,
+      subject: validatedData.subject,
+      message: validatedData.message,
+    }).catch((err) => console.error("Email notification failed:", err));
 
     return NextResponse.json(
       { success: true, data: submission },

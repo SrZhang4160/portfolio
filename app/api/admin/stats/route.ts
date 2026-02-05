@@ -19,12 +19,14 @@ export async function GET() {
       pendingReplies,
       unreadContacts,
       pendingCoffeeChats,
+      guestMessages,
     ] = await Promise.all([
       prisma.comment.count({ where: { status: "pending" } }),
       prisma.forumThread.count({ where: { status: "pending" } }),
       prisma.forumReply.count({ where: { status: "pending" } }),
       prisma.contactSubmission.count({ where: { status: "unread" } }),
       prisma.coffeeChatRequest.count({ where: { status: "pending" } }),
+      prisma.guestMessage.count(),
     ]);
 
     return NextResponse.json({
@@ -35,6 +37,7 @@ export async function GET() {
         pendingReplies,
         unreadContacts,
         pendingCoffeeChats,
+        guestMessages,
       },
     });
   } catch (error) {

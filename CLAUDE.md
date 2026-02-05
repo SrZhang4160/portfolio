@@ -6,24 +6,26 @@ Personal portfolio website for Sharon Zhang - MechE → Robotics → Carina AI
 
 | Item | Value |
 |------|-------|
-| Framework | Next.js 14 (App Router) |
+| Framework | Next.js 16 (App Router) |
 | Language | TypeScript |
-| Styling | Tailwind CSS |
-| Database | SQLite via Prisma |
+| Styling | Tailwind CSS v4 |
+| Database | SQLite via Prisma (better-sqlite3) |
 | Content | MDX for case studies |
-| Package Manager | pnpm |
+| Email | Resend |
+| Maps | react-simple-maps |
+| Package Manager | npm/pnpm |
 | Node Version | 18+ |
 
 ## Commands
 
 ```bash
-pnpm dev          # Start dev server (localhost:3000)
-pnpm build        # Production build
-pnpm start        # Start production server
-pnpm lint         # Run ESLint
-pnpm db:push      # Push Prisma schema to database
-pnpm db:studio    # Open Prisma Studio GUI
-pnpm db:seed      # Seed database with sample data
+npm run dev          # Start dev server (localhost:3000)
+npm run build        # Production build
+npm run start        # Start production server
+npm run lint         # Run ESLint
+npm run db:push      # Push Prisma schema to database
+npm run db:studio    # Open Prisma Studio GUI
+npm run db:seed      # Seed database with sample data
 ```
 
 ## Project Structure
@@ -42,9 +44,14 @@ letstalk/
 │   ├── basketball/         # Basketball/She Got Buckets
 │   ├── discuss/            # Discussion forums
 │   │   └── [topic]/        # Forum topic threads
-│   ├── coffee/             # Coffee chat booking
+│   ├── coffee/             # Coffee chat booking (Cal.com embed)
 │   ├── contact/            # Contact form
 │   ├── admin/              # Admin dashboard (protected)
+│   │   ├── comments/       # Comment moderation
+│   │   ├── forum/          # Forum moderation
+│   │   ├── contacts/       # Contact submissions
+│   │   ├── coffee/         # Coffee chat requests
+│   │   └── messages/       # Guest message management
 │   └── api/                # API route handlers
 ├── components/             # React components
 │   ├── ThreeColumnLayout   # Main 3-column page layout
@@ -52,6 +59,7 @@ letstalk/
 │   ├── PageLeftColumn      # Generic left sidebar
 │   ├── PageRightColumn     # Generic right sidebar
 │   ├── InfoCard            # Reusable metadata cards
+│   ├── TravelMap           # Interactive US map
 │   └── ...                 # Feature components
 ├── content/                # Static content (MDX, JSON)
 │   ├── work/               # Case study MDX files
@@ -59,6 +67,12 @@ letstalk/
 │   ├── travel/             # Travel map data
 │   └── books/              # Currently reading
 ├── lib/                    # Utilities and helpers
+│   ├── prisma.ts           # Database client
+│   ├── auth.ts             # Admin authentication
+│   ├── email.ts            # Resend email service
+│   ├── validations.ts      # Zod schemas
+│   ├── wordFilter.ts       # Content moderation
+│   └── utils.ts            # Helper functions
 ├── prisma/                 # Database schema and seeds
 ├── public/                 # Static assets
 └── styles/                 # Global CSS
@@ -104,6 +118,7 @@ Use `ThreeColumnLayout` with `PageLeftColumn`, `PageRightColumn`, and `InfoCard`
 - Use Next.js Route Handlers in `app/api/`
 - Validate input with Zod schemas
 - Return consistent JSON response format: `{ success, data?, error? }`
+- Email notifications are non-blocking
 
 ### Styling
 - Tailwind CSS utility classes
@@ -122,18 +137,20 @@ Use `ThreeColumnLayout` with `PageLeftColumn`, `PageRightColumn`, and `InfoCard`
 | `/prints/[slug]` | Print detail | ThreeColumnLayout | Static + Comments |
 | `/travel` | Interactive US map with visitor messages | ThreeColumnLayout | Client + Dynamic |
 | `/basketball` | Sharon's basketball journey | ThreeColumnLayout | Static |
-| `/coffee` | Coffee chat booking | Custom 3-col (sticky left) | Static + Calendly |
-| `/contact` | Contact form | Custom 3-col (sticky left) | Form |
+| `/coffee` | Coffee chat booking | Custom 3-col (sticky left) | Static + Cal.com |
+| `/contact` | Contact form | Custom 3-col (sticky left) | Form + Email |
 | `/admin` | Dashboard | Admin Layout | Protected |
+| `/admin/messages` | Guest message management | Admin Layout | Protected |
 
 ## Database Models
 
-- **Comment** - Comments on work/prints pages
-- **ForumThread** - Discussion forum threads
-- **ForumReply** - Replies to forum threads
-- **ContactSubmission** - Contact form entries
+- **Comment** - Comments on work/prints pages (requires moderation)
+- **ForumThread** - Discussion forum threads (requires moderation)
+- **ForumReply** - Replies to forum threads (requires moderation)
+- **ContactSubmission** - Contact form entries (triggers email)
 - **CoffeeChatRequest** - Coffee chat bookings
-- **GuestMessage** - Visitor messages (travel map stickers, with optional stateId)
+- **GuestMessage** - Travel map visitor messages (auto-approved with word filter)
+- **AdminSession** - Admin authentication tokens
 
 ## Gotchas & Warnings
 
@@ -144,20 +161,35 @@ Use `ThreeColumnLayout` with `PageLeftColumn`, `PageRightColumn`, and `InfoCard`
 5. **Comments**: Require moderation (pending → approved) before displaying
 6. **Guest Messages**: Auto-approved with word filter; travel map polls every 10s for real-time updates
 7. **Sticky Columns**: Left column is sticky on all pages - content must fit viewport height
+8. **Email**: Resend notifications are non-blocking; gracefully handles missing API key
+9. **Calendar**: Falls back to email link when `NEXT_PUBLIC_CALENDAR_URL` not set
 
 ## Environment Variables
 
 ```env
+# Database
 DATABASE_URL="file:./dev.db"
+
+# Admin Authentication
 ADMIN_PASSWORD="your-secure-password"
+
+# Site URL (for metadata, email links)
+NEXT_PUBLIC_SITE_URL="https://sharonzhang.dev"
+
+# Email Notifications (Resend)
+RESEND_API_KEY="re_xxxxx"
+NOTIFICATION_EMAIL="your-email@example.com"
+
+# Calendar/Scheduling (Calendly or Cal.com)
+NEXT_PUBLIC_CALENDAR_URL="https://cal.com/username/30min"
 ```
 
 ## Detailed Documentation
 
 - [Architecture](.claude/docs/ARCHITECTURE.md) - System overview and data flow
 - [Database](.claude/docs/DATABASE.md) - Prisma schema reference
-- [Roadmap](.claude/docs/ROADMAP.md) - Task tracking
-- [Design Tokens](.claude/docs/DESIGN_TOKENS.md) - Colors, typography, spacing
 - [API Routes](.claude/docs/API_ROUTES.md) - Endpoint documentation
-- [Content Schemas](.claude/docs/CONTENT_SCHEMAS.md) - MDX and JSON structures
 - [Components](.claude/docs/COMPONENTS.md) - Component catalog
+- [Design Tokens](.claude/docs/DESIGN_TOKENS.md) - Colors, typography, spacing
+- [Content Schemas](.claude/docs/CONTENT_SCHEMAS.md) - MDX and JSON structures
+- [Roadmap](.claude/docs/ROADMAP.md) - Task tracking
