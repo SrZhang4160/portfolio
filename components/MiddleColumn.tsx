@@ -40,29 +40,29 @@ function HomeSection() {
               <span className="text-sm text-gray-400">Carina AI</span>
             </div>
             <p className="text-gray-600 mt-1 text-sm md:text-base">
-              Automated brachytherapy planning system for cancer treatment
+              AI-powered brachytherapy planning for cancer treatment
             </p>
           </Link>
-          <Link href="/work/radiology" className="block group">
+          <Link href="/work/medical-image-viewer" className="block group">
             <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
               <h3 className="text-base md:text-lg font-medium text-primary-900 group-hover:text-gray-600 transition-colors">
-                Radiology AI
+                3D Medical Image Viewer
               </h3>
               <span className="text-sm text-gray-400">Medical Imaging</span>
             </div>
             <p className="text-gray-600 mt-1 text-sm md:text-base">
-              Deep learning models for medical image analysis
+              GPU-accelerated DICOM visualization platform
             </p>
           </Link>
-          <Link href="/work/muscle-analytics" className="block group">
+          <Link href="/work/glaucoma-life" className="block group">
             <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
               <h3 className="text-base md:text-lg font-medium text-primary-900 group-hover:text-gray-600 transition-colors">
-                Muscle Analytics
+                GlaucomaLife
               </h3>
-              <span className="text-sm text-gray-400">Research</span>
+              <span className="text-sm text-gray-400">Patient Tools</span>
             </div>
             <p className="text-gray-600 mt-1 text-sm md:text-base">
-              Quantitative muscle assessment using computer vision
+              Patient education and monitoring mobile app
             </p>
           </Link>
         </div>
@@ -74,44 +74,61 @@ function HomeSection() {
 function InfoSection() {
   return (
     <>
-      <div className="mb-12">
+      <div className="mb-10">
         <h2 className="text-2xl font-semibold text-primary-900 mb-6">My Journey</h2>
         <div className="space-y-4 text-gray-700 leading-relaxed">
           <p>
-            My path into robotics began with a mechanical engineering degree, where I fell in love
-            with the intersection of hardware and software. The ability to create physical systems
-            that could sense, think, and act fascinated me.
+            My path into healthcare software began with a mechanical engineering degree at Johns Hopkins,
+            where I discovered my passion for building systems that directly impact patient care.
           </p>
           <p>
-            After graduating from Johns Hopkins, I dove into medical robotics, working on
-            brachytherapy automation systems. This experience showed me the incredible potential
-            of robotics to improve patient outcomes.
+            Over 4+ years, I&apos;ve worked across the healthcare technology stack — from AI-powered
+            treatment planning systems to high-performance medical imaging viewers and enterprise
+            data infrastructure.
           </p>
           <p>
-            Today at Carina AI, I&apos;m building the next generation of healthcare AI tools,
-            tackling challenging problems in medical imaging and treatment planning.
+            Today at Carina AI, I lead development on AutoBrachy, an automated brachytherapy
+            planning system that has treated 2,500+ cancer patients across 12 clinical sites.
           </p>
         </div>
       </div>
 
-      <div className="mb-12">
+      <div className="mb-10">
+        <h2 className="text-2xl font-semibold text-primary-900 mb-6">Technical Focus</h2>
+        <div className="space-y-3">
+          <div className="p-4 bg-gray-50 rounded-lg">
+            <h3 className="font-medium text-primary-900 mb-1">Healthcare AI</h3>
+            <p className="text-sm text-gray-600">Treatment planning, dose optimization, clinical decision support</p>
+          </div>
+          <div className="p-4 bg-gray-50 rounded-lg">
+            <h3 className="font-medium text-primary-900 mb-1">Medical Imaging</h3>
+            <p className="text-sm text-gray-600">DICOM visualization, 3D reconstruction, GPU-accelerated rendering</p>
+          </div>
+          <div className="p-4 bg-gray-50 rounded-lg">
+            <h3 className="font-medium text-primary-900 mb-1">Systems Architecture</h3>
+            <p className="text-sm text-gray-600">Distributed systems, data infrastructure, clinical integrations</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="mb-10">
         <h2 className="text-2xl font-semibold text-primary-900 mb-6">What Drives Me</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div className="p-4 bg-gray-50 rounded-lg">
             <h3 className="font-medium text-primary-900 mb-1">Impact-Driven</h3>
-            <p className="text-sm text-gray-600">Measuring success by real-world outcomes</p>
+            <p className="text-sm text-gray-600">Measuring success by patient outcomes</p>
           </div>
           <div className="p-4 bg-gray-50 rounded-lg">
             <h3 className="font-medium text-primary-900 mb-1">Rigorous</h3>
-            <p className="text-sm text-gray-600">Balancing theory with practical constraints</p>
+            <p className="text-sm text-gray-600">Healthcare demands precision and reliability</p>
           </div>
           <div className="p-4 bg-gray-50 rounded-lg">
             <h3 className="font-medium text-primary-900 mb-1">Collaborative</h3>
-            <p className="text-sm text-gray-600">Best solutions come from diverse perspectives</p>
+            <p className="text-sm text-gray-600">Working closely with clinicians and researchers</p>
           </div>
           <div className="p-4 bg-gray-50 rounded-lg">
             <h3 className="font-medium text-primary-900 mb-1">Always Learning</h3>
-            <p className="text-sm text-gray-600">Staying current with new techniques</p>
+            <p className="text-sm text-gray-600">Healthcare tech evolves rapidly</p>
           </div>
         </div>
       </div>
@@ -146,38 +163,56 @@ function WorkSection() {
           </div>
         </Link>
 
-        <Link href="/work/radiology" className="block group">
+        <Link href="/work/medical-image-viewer" className="block group">
           <div className="p-6 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
             <div className="flex items-baseline justify-between mb-2">
               <h3 className="text-xl font-medium text-primary-900 group-hover:text-gray-600 transition-colors">
-                Radiology AI
+                3D Medical Image Viewer
               </h3>
               <span className="text-sm text-gray-400">2022 - 2023</span>
             </div>
             <p className="text-gray-600 mb-3">
-              Deep learning models for medical image analysis and diagnosis
+              Cross-platform DICOM visualization with GPU-accelerated rendering
             </p>
             <div className="flex gap-2">
               <span className="text-xs px-2 py-1 bg-white rounded text-gray-500">Medical Imaging</span>
-              <span className="text-xs px-2 py-1 bg-white rounded text-gray-500">Deep Learning</span>
+              <span className="text-xs px-2 py-1 bg-white rounded text-gray-500">WebGL</span>
             </div>
           </div>
         </Link>
 
-        <Link href="/work/muscle-analytics" className="block group">
+        <Link href="/work/dicom-architecture" className="block group">
           <div className="p-6 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
             <div className="flex items-baseline justify-between mb-2">
               <h3 className="text-xl font-medium text-primary-900 group-hover:text-gray-600 transition-colors">
-                Muscle Analytics
+                DICOM Retrieval Architecture
+              </h3>
+              <span className="text-sm text-gray-400">2022</span>
+            </div>
+            <p className="text-gray-600 mb-3">
+              Enterprise medical data infrastructure for distributed hospital networks
+            </p>
+            <div className="flex gap-2">
+              <span className="text-xs px-2 py-1 bg-white rounded text-gray-500">Systems</span>
+              <span className="text-xs px-2 py-1 bg-white rounded text-gray-500">Infrastructure</span>
+            </div>
+          </div>
+        </Link>
+
+        <Link href="/work/glaucoma-life" className="block group">
+          <div className="p-6 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+            <div className="flex items-baseline justify-between mb-2">
+              <h3 className="text-xl font-medium text-primary-900 group-hover:text-gray-600 transition-colors">
+                GlaucomaLife
               </h3>
               <span className="text-sm text-gray-400">2021 - 2022</span>
             </div>
             <p className="text-gray-600 mb-3">
-              Quantitative muscle assessment using computer vision techniques
+              Patient education & monitoring app for glaucoma management
             </p>
             <div className="flex gap-2">
-              <span className="text-xs px-2 py-1 bg-white rounded text-gray-500">Computer Vision</span>
-              <span className="text-xs px-2 py-1 bg-white rounded text-gray-500">Research</span>
+              <span className="text-xs px-2 py-1 bg-white rounded text-gray-500">Mobile App</span>
+              <span className="text-xs px-2 py-1 bg-white rounded text-gray-500">Patient Tools</span>
             </div>
           </div>
         </Link>

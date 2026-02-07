@@ -6,9 +6,9 @@ interface ProfileColumnProps {
 
 const tagsBySection: Record<string, string[]> = {
   home: ["Healthcare Engineer", "Maker", "Community Builder", "Amateur Athlete"],
-  info: ["MechE", "Robotics", "Johns Hopkins", "Carina AI"],
-  work: ["Healthcare AI", "Medical Imaging", "ML/AI", "Automation"],
-  beyond: ["3D Printing", "Travel", "Basketball", "Photography"],
+  info: ["Johns Hopkins", "4+ Years Healthcare", "MechE → Software", "Carina AI"],
+  work: ["Healthcare AI", "Medical Imaging", "Systems Architecture", "Patient Tools"],
+  beyond: ["3D Printing", "Travel", "Basketball", "Community"],
   contact: ["Open to Connect", "Coffee Chats", "Collaborations"],
 };
 

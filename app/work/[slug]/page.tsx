@@ -52,7 +52,7 @@ function LeftColumn({ title, description, tags }: LeftColumnProps) {
     <PageLeftColumn
       title={title}
       description={description}
-      backLink={{ href: "/work", label: "Back to Work" }}
+      backLink={{ href: "/?section=work", label: "Back to Work" }}
       tags={tags}
     />
   );

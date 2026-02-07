@@ -1,0 +1,138 @@
+---
+title: "DICOM Retrieval Architecture"
+slug: "dicom-architecture"
+description: "Scalable enterprise architecture for retrieving, caching, and serving medical images across distributed hospital networks."
+date: "2022-05-15"
+featured: false
+tags:
+  - Systems Architecture
+  - Infrastructure
+  - DICOM
+  - Distributed Systems
+thumbnail: "/images/work/dicom-arch-thumb.jpg"
+hero: "/images/work/dicom-arch-hero.jpg"
+role: "Backend Engineer"
+timeline: "6 months"
+team: "3 engineers, 1 DevOps specialist, 1 healthcare IT consultant"
+tools:
+  - Go
+  - PostgreSQL
+  - Redis
+  - Docker
+  - Kubernetes
+  - Prometheus
+impact:
+  - metric: "1M+"
+    label: "Studies indexed"
+  - metric: "99.9%"
+    label: "System uptime"
+  - metric: "500ms"
+    label: "Query response time"
+---
+
+## Problem
+
+Healthcare systems generate massive amounts of imaging data daily. A typical hospital produces 50-100 GB of new DICOM images per day. Retrieving specific studies across multiple PACS servers, archive systems, and cloud storage was slow, unreliable, and created significant friction for clinicians.
+
+Key challenges:
+
+- **Latency**: Queries to remote archives could take 30+ seconds
+- **Reliability**: Network issues caused frequent retrieval failures
+- **Scale**: Growing data volumes overwhelmed existing infrastructure
+- **Fragmentation**: Images scattered across multiple storage systems
+
+## My Role
+
+As Backend Engineer, I was responsible for:
+
+- Designing the distributed caching architecture
+- Implementing DICOM query/retrieve protocols (C-FIND, C-MOVE, WADO-RS)
+- Building the metadata indexing and search system
+- Developing monitoring and alerting infrastructure
+- Performance tuning for high-throughput workloads
+
+## Approach
+
+### Research & Discovery
+
+We conducted extensive analysis of existing infrastructure:
+
+1. Mapped all data sources across the healthcare network
+2. Profiled query patterns to understand access frequencies
+3. Identified bottlenecks in current retrieval workflows
+4. Surveyed clinical staff on pain points and requirements
+
+### Technical Architecture
+
+**Distributed Cache Layer**
+
+Designed a multi-tier caching strategy:
+
+- **L1 (Hot)**: In-memory Redis cluster for frequently accessed studies
+- **L2 (Warm)**: Local SSD storage for recent studies
+- **L3 (Cold)**: Origin PACS servers and long-term archives
+
+Cache population uses predictive algorithms based on:
+- Scheduled appointments and procedures
+- Historical access patterns
+- Clinical workflow triggers
+
+**Query Federation**
+
+Built a unified query interface that:
+
+- Translates between DICOM and REST query formats
+- Parallelizes queries across multiple data sources
+- Merges and deduplicates results
+- Provides consistent response times regardless of origin
+
+**Metadata Index**
+
+Implemented a PostgreSQL-based metadata store:
+
+- Full-text search across patient and study information
+- Efficient range queries on dates and modalities
+- Real-time sync with source PACS systems
+- Audit logging for compliance requirements
+
+### Reliability Engineering
+
+Ensuring 99.9% uptime required:
+
+- Active-passive failover for all critical components
+- Circuit breakers for degraded external services
+- Automatic retry with exponential backoff
+- Comprehensive health checks and alerting
+
+## Impact
+
+After 6 months of development and deployment:
+
+- **1M+ studies** indexed and searchable
+- **99.9% uptime** maintained over 12 months
+- **Under 500ms average** query response time (down from 15s)
+- **85% cache hit rate** for clinical workflows
+- **3x reduction** in storage costs through deduplication
+
+## Learnings
+
+### What Worked Well
+
+- **Go for performance**: Language choice paid off in throughput and resource efficiency
+- **Kubernetes orchestration**: Made scaling and deployment straightforward
+- **Incremental rollout**: Migrating one department at a time reduced risk
+
+### What I'd Do Differently
+
+- **Earlier observability**: We added detailed tracing late; wish we had it from the start
+- **Schema versioning**: DICOM metadata variations caused early migration issues
+
+### Technical Insights
+
+- DICOM protocols have quirks; expect inconsistencies between vendor implementations
+- Cache invalidation in healthcare requires careful consideration of data integrity
+- Healthcare IT environments often have unique network constraints (VPNs, firewalls)
+
+---
+
+*Building reliable infrastructure for healthcare taught me that performance and reliability must be balanced with strict compliance and data governance requirements.*

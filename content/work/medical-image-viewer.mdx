@@ -1,0 +1,133 @@
+---
+title: "3D Medical Image Viewer"
+slug: "medical-image-viewer"
+description: "High-performance cross-platform DICOM visualization with GPU-accelerated rendering supporting CT, MRI, and PET modalities."
+date: "2022-11-01"
+featured: true
+tags:
+  - Medical Imaging
+  - WebGL
+  - DICOM
+  - 3D Visualization
+thumbnail: "/images/work/medical-viewer-thumb.jpg"
+hero: "/images/work/medical-viewer-hero.jpg"
+role: "Senior Software Engineer"
+timeline: "10 months"
+team: "4 engineers, 1 UX designer, 2 radiologists"
+tools:
+  - TypeScript
+  - WebGL
+  - WebAssembly
+  - React
+  - Node.js
+  - Three.js
+impact:
+  - metric: "10K+"
+    label: "Images per session"
+  - metric: "100ms"
+    label: "Average load time"
+  - metric: "5"
+    label: "Hospital systems deployed"
+---
+
+## Problem
+
+Radiologists and clinicians need powerful visualization tools to interpret complex 3D medical images. Existing solutions were either expensive desktop applications requiring specialized hardware, or web-based tools with poor performance that couldn't handle the large datasets typical in modern medical imaging.
+
+Key challenges we identified:
+
+- **Performance**: Loading and rendering thousands of DICOM slices quickly
+- **Accessibility**: Running on standard hardware without specialized GPUs
+- **Cross-platform**: Working seamlessly across devices and operating systems
+- **Clinical workflows**: Integrating with existing PACS and EHR systems
+
+## My Role
+
+As Senior Software Engineer, I was responsible for:
+
+- Architecting the GPU-accelerated rendering pipeline
+- Implementing multi-planar reconstruction (MPR) algorithms
+- Building the DICOM parsing and metadata extraction layer
+- Optimizing memory management for large datasets
+- Leading performance profiling and optimization efforts
+
+## Approach
+
+### Research & Discovery
+
+We spent significant time understanding radiologist workflows, observing how they interact with existing tools and identifying the most common pain points. Key insights:
+
+1. Scroll-based navigation through slices is the most common interaction
+2. Window/level adjustments are made constantly during review
+3. Measurement and annotation tools must be precise and intuitive
+4. Loading time directly impacts diagnostic efficiency
+
+### Technical Architecture
+
+**Rendering Pipeline**
+
+We built a custom WebGL rendering pipeline optimized for medical imaging:
+
+- Progressive loading with priority queuing for visible slices
+- GPU-based windowing and leveling for real-time adjustments
+- Texture atlas management for efficient memory usage
+- Web Workers for off-thread DICOM parsing
+
+**Multi-Planar Reconstruction**
+
+Implemented real-time MPR views (axial, sagittal, coronal) with:
+
+- Bilinear interpolation for smooth cross-sectional views
+- Synchronized crosshairs across all viewports
+- Oblique plane support for arbitrary viewing angles
+
+**DICOM Handling**
+
+Built a robust DICOM parser supporting:
+
+- All common transfer syntaxes (JPEG, JPEG2000, RLE)
+- Proper handling of multi-frame and enhanced DICOM
+- Metadata extraction for clinical context
+- WADO-RS integration for standards-compliant retrieval
+
+### Performance Optimization
+
+Achieving sub-100ms load times required extensive optimization:
+
+- Implemented WebAssembly-based JPEG2000 decoder (10x faster than JS)
+- Built predictive prefetching based on scroll direction
+- Used SharedArrayBuffer for zero-copy data transfer
+- Employed level-of-detail rendering for smooth zooming
+
+## Impact
+
+After 10 months of development:
+
+- **10,000+ images** rendered per session with smooth 60fps scrolling
+- **Under 100ms average load** time for initial display
+- **5 hospital systems** deployed across 3 healthcare networks
+- **92% radiologist satisfaction** rate in usability studies
+- **30% reduction** in average study review time
+
+## Learnings
+
+### What Worked Well
+
+- **WebGL abstraction**: Building a clean abstraction layer made GPU programming manageable
+- **Early radiologist feedback**: Weekly reviews with clinical users caught UX issues early
+- **Progressive enhancement**: Core functionality works even on low-end hardware
+
+### What I'd Do Differently
+
+- **Earlier WebAssembly adoption**: We added WASM decoders late; should have started there
+- **Better offline support**: Users wanted offline capability we hadn't initially planned
+
+### Technical Insights
+
+- Browser memory limits are a real constraint; aggressive garbage collection is essential
+- GPU texture upload is often the bottleneck, not rendering itself
+- DICOM standard has many edge cases; robust error handling is critical
+
+---
+
+*This project demonstrated that web technologies have matured enough to handle demanding medical imaging workloads, opening doors for more accessible diagnostic tools.*

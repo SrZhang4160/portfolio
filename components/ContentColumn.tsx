@@ -17,23 +17,23 @@ interface ContentItem {
 
 const contentBySection: Record<string, ContentItem[]> = {
   info: [
-    { id: "info-1", label: "Journey", placeholder: true },
-    { id: "info-2", label: "Background", placeholder: true },
-    { id: "info-3", label: "Education", placeholder: true },
+    { id: "info-1", label: "Johns Hopkins", placeholder: true },
+    { id: "info-2", label: "MechE → Software", placeholder: true },
+    { id: "info-3", label: "4+ Years Healthcare", placeholder: true },
   ],
   work: [
-    { id: "work-1", href: "/work", label: "Carina AI", placeholder: true },
-    { id: "work-2", href: "/work", label: "Medical Imaging", placeholder: true },
-    { id: "work-3", href: "/work", label: "Robotics Projects", placeholder: true },
+    { id: "work-1", href: "/work/autobrachy", label: "AutoBrachy" },
+    { id: "work-2", href: "/work/medical-image-viewer", label: "Medical Imaging" },
+    { id: "work-3", href: "/work/dicom-architecture", label: "Infrastructure" },
+    { id: "work-4", href: "/work/glaucoma-life", label: "Patient Tools" },
   ],
   beyond: [
-    { id: "beyond-1", href: "/prints", label: "3D Printing", placeholder: true },
-    { id: "beyond-2", href: "/travel", label: "Travel Map", placeholder: true },
-    { id: "beyond-3", href: "/basketball", label: "She Got Buckets", placeholder: true },
+    { id: "beyond-1", href: "/prints", label: "3D Printing" },
+    { id: "beyond-2", href: "/travel", label: "Travel Map" },
+    { id: "beyond-3", href: "/basketball", label: "Basketball" },
   ],
   contact: [
-    { id: "contact-1", href: "/coffee", label: "Schedule a Chat", placeholder: true },
-    { id: "contact-2", href: "/contact", label: "Send Message", placeholder: true },
+    { id: "contact-1", href: "/coffee", label: "Schedule a Chat" },
   ],
 };
 
