@@ -1,134 +1,207 @@
 ---
 title: "GlaucomaLife"
 slug: "glaucoma-life"
-description: "Patient education and monitoring app helping glaucoma patients understand their condition and track their treatment journey."
+description: "iOS app connecting to a custom BLE tonometer for home IOP monitoring, with offline-first architecture and evidence-based lifestyle recommendations."
 date: "2021-09-01"
 featured: false
 tags:
-  - Mobile App
-  - Patient Tools
-  - React Native
+  - iOS
+  - SwiftUI
+  - BLE
   - Healthcare
+  - Django
 thumbnail: "/images/work/glaucoma-thumb.jpg"
-hero: "/images/work/glaucoma-hero.jpg"
-role: "Full-Stack Developer"
-timeline: "7 months"
-team: "2 engineers, 1 designer, 2 ophthalmologists"
+hero: "/images/work/glaucoma-hero.png"
+role: "Solo Developer"
+timeline: "Ongoing"
+team: "Solo project"
 tools:
-  - React Native
-  - Firebase
-  - Node.js
-  - HealthKit
-  - Google Fit
+  - SwiftUI
+  - CoreData
+  - CoreBluetooth
+  - Django
+  - PostgreSQL
+  - Redis
 ---
 
 ## Problem
 
-Glaucoma is a leading cause of irreversible blindness, affecting over 3 million Americans. Treatment success depends heavily on patient adherence to medication and regular monitoring. However, many patients struggle with:
+Glaucoma is a leading cause of irreversible blindness—76 million patients globally, ~21 million in China. Patients visit ophthalmologists periodically but have no way to monitor intraocular pressure (IOP) at home. 87% of treated patients have hidden IOP peaks that go undetected between visits.
 
-- **Understanding their condition**: Glaucoma is complex and often asymptomatic until advanced
+Key challenges:
+
+- **No home monitoring**: IOP fluctuates throughout the day, but patients only get readings at appointments
+- **Lifestyle uncertainty**: Patients don't know how exercise, diet, or stress affects their IOP
 - **Medication adherence**: Eye drops must be taken consistently, often multiple times daily
-- **Tracking progress**: Patients can't easily see how their condition is changing over time
-- **Appointment preparation**: Forgetting to bring relevant information to doctor visits
+- **Communication gap**: No easy way to share data with doctors between visits
 
-## My Role
+## Solution
 
-As Full-Stack Developer, I led the project from concept to launch:
+**Hardware:** Custom portable BLE tonometer that measures IOP in mmHg using a custom binary protocol (v1.1).
 
-- Designed and implemented the mobile app architecture
-- Built the backend API and database infrastructure
-- Developed the visual field simulation feature
-- Integrated with Apple HealthKit and Google Fit
-- Coordinated with ophthalmologists on clinical accuracy
+**Software:** iOS app that connects to the at-home tonometer, stores measurements offline-first, tracks lifestyle factors, and syncs to a Django backend when online.
 
-## Approach
+## Technical Architecture
 
-### Research & Discovery
+```
+┌─────────────────────────────────────────────────────────────┐
+│                     iOS Application                          │
+│                                                              │
+│  ┌──────────── Portal Router ────────────┐                  │
+│  │  Admin Portal │ User Portal │ Demo    │                  │
+│  └───────────────┬───────────────────────┘                  │
+│                  │                                           │
+│  ┌──────────── SwiftUI + Managers ───────┐                  │
+│  │  Dashboard │ Measurements │ Lifestyle │ Settings         │
+│  └────────────────────┬──────────────────┘                  │
+│                       │                                      │
+│  ┌──────────── Services ─────────────────┐                  │
+│  │  AuthManager │ NetworkService │ BLEManager               │
+│  │  BackendSyncService │ CoreDataManager                    │
+│  └────────┬───────────────┬──────────────┘                  │
+└───────────┼───────────────┼──────────────────────────────────┘
+            │               │
+     ┌──────▼──────┐ ┌──────▼──────┐ ┌─────────────────────────┐
+     │  CoreData   │ │ BLE Device  │ │     Django Backend      │
+     │  (SQLite)   │ │ (Tonometer) │ │  PostgreSQL │ Redis     │
+     └─────────────┘ └─────────────┘ └─────────────────────────┘
+```
 
-We conducted extensive user research with glaucoma patients:
+### Portal-Based Design
 
-1. Interviewed 30+ patients about their daily challenges
-2. Shadowed ophthalmology appointments to understand clinical workflows
-3. Analyzed existing apps in the space to identify gaps
-4. Tested paper prototypes with target users
+The app uses role-based routing for different experiences:
 
-Key insight: Patients wanted to *understand* their condition, not just track medications.
+- **Admin Portal**: BLE debugging, raw data display, protocol inspection, patient management
+- **User Portal**: Dashboard, measurements, lifestyle tracking, medication reminders
+- **Demo Portal**: User experience with demo banner for training
 
-### Core Features
+### Offline-First with CoreData
 
-**Visual Field Simulation**
+CoreData is the source of truth. All measurements save locally first, then sync to backend:
 
-The standout feature was an interactive simulation showing how glaucoma affects vision:
+1. Measurement saved to CoreData with `syncedToBackend = false`
+2. BackendSyncService detects unsynced data
+3. Batch upload (50 per batch) via NetworkService
+4. On success, mark as synced with `backendId`
 
-- Personalized based on patient's test results
-- Side-by-side comparison of healthy vs. affected vision
-- Progressive demonstration of potential disease advancement
-- Approved by ophthalmology advisors for clinical accuracy
+### BLE Integration
 
-**Medication Tracking**
+Custom binary protocol for tonometer communication:
 
-Built a comprehensive medication management system:
+```
+Frame: [SOF 0xAA55][Ver][Ctrl][Len][Seq][Time][HCRC][Rsv][Payload][DCRC]
 
-- Smart reminders with customizable schedules
-- Technique guides for proper eye drop administration
-- Streak tracking and gentle gamification for adherence
-- Integration with pharmacy refill reminders
+Commands: BIND_UUID, QUERY_DEVICE_INFO, START_MEASURE, CANCEL_MEASURE
+IOP payload: eye_side(1B) | iop_value(2B, 0.1mmHg) | error_code(1B)
+CRC: CRC-16/MODBUS validation
+```
 
-**Health Dashboard**
+Features include auto-reconnect with exponential backoff, signal strength monitoring (RSSI), and paired device persistence.
 
-Created a patient-friendly view of their eye health:
+### Backend Stack
 
-- IOP (intraocular pressure) history charts
-- Visual field test result trends
-- Upcoming appointment reminders
-- Exportable reports for doctor visits
+| Component | Technology |
+|-----------|------------|
+| Framework | Django 5.0 + DRF |
+| Database | PostgreSQL |
+| Cache | Redis |
+| Task Queue | Celery |
+| Auth | SimpleJWT (1h access / 30d refresh) |
 
-**Educational Content**
+## Key Features
 
-Developed a library of patient-friendly resources:
+**IOP Tracking**
+- Connect to tonometer, capture measurements
+- Manual entry support
+- History visualization with charts
+- CSV import/export for doctor visits
 
-- Animated explainers about glaucoma types
-- Lifestyle tips for eye health
-- FAQ addressing common patient concerns
-- New research updates in accessible language
+**Medication Management**
+- Add/edit medications with schedules
+- Time-based reminders via local notifications
+- Adherence tracking and statistics
 
-### Technical Implementation
+**Lifestyle Tracking**
+- Exercise logging (aerobic exercise can reduce IOP 2-5 mmHg)
+- Diet tracking (MIND diet scoring)
+- Sleep and stress factors
 
-**Mobile Architecture**
+**Safety Monitoring**
+- Age-stratified IOP thresholds
+- Emergency/urgent/monitoring alerts
+- Medical data validation (0-50 mmHg range)
 
-Built with React Native for cross-platform support:
+## Design Decisions
 
-- Offline-first design for reliability
-- Local SQLite for sensitive health data
-- Secure sync with cloud backup
-- Push notifications via Firebase
+| Decision | Choice | Rationale |
+|----------|--------|-----------|
+| UI Framework | SwiftUI | Declarative, accessibility-first |
+| Persistence | CoreData | Native, offline-first, proven migrations |
+| Networking | URLSession | Native async/await, no dependencies |
+| BLE | CoreBluetooth | Full control over connection lifecycle |
+| Backend | Django + DRF | Rapid development, mature ecosystem |
 
-**Backend Services**
+**Zero external dependencies** on iOS—all Apple-native frameworks (CoreBluetooth, CoreData, HealthKit, LocalAuthentication, Security).
 
-Node.js API with Firebase infrastructure:
+## Accessibility
 
-- User authentication with biometric support
-- HIPAA-compliant data storage
-- Analytics for feature usage insights
-- Content management for educational materials
+Target users include patients with reduced vision, so the app prioritizes:
+
+- Large text and high contrast
+- VoiceOver support throughout
+- Minimal navigation depth
+- Bilingual support (Chinese primary, English)
+
+## Ongoing: HIPAA & FHIR Integration
+
+As GlaucomaLife handles sensitive health data, I'm implementing healthcare compliance features to enable clinical adoption.
+
+### HIPAA Compliance
+
+**Current security measures:**
+- JWT authentication with secure token refresh
+- iOS Keychain for credential storage
+- AES-256-GCM encryption for sensitive data
+- Biometric authentication (Face ID / Touch ID)
+
+**In development:**
+- **Audit trails**: Immutable access logs with 7-year retention for all PHI access
+- **Role-based access controls**: Granular permissions for patient, clinician, caregiver, and admin roles
+- **PHI encryption**: End-to-end encryption for data at rest and in transit
+- **Breach notification system**: Automated alerting for suspicious access patterns
+
+### FHIR R4 Interoperability
+
+Planning FHIR API endpoints to enable seamless EHR integration:
+
+| FHIR Resource | GlaucomaLife Data |
+|---------------|-------------------|
+| Patient | User profile, demographics |
+| Observation | IOP readings (LOINC: 28630-2) |
+| Device | Tonometer pairing info |
+| MedicationStatement | Eye drop regimens |
+
+**Planned capabilities:**
+- Export patient data in FHIR R4 JSON format for sharing with healthcare providers
+- Apple Health FHIR records sync (iOS 15+) for consolidated health records
+- CCD/C-CDA document generation for clinical handoffs
+
+This work positions GlaucomaLife for potential partnerships with ophthalmology clinics and integration with hospital EHR systems.
 
 ## Learnings
 
 ### What Worked Well
 
-- **Patient co-design**: Having patients involved throughout led to features that truly resonated
-- **Clinical validation**: Ophthalmologist review ensured accuracy and built trust
-- **Simple onboarding**: Minimal setup friction led to higher activation rates
+- **Offline-first architecture**: Users in areas with poor connectivity can still take measurements
+- **Portal separation**: Clean split between debug tools (Admin) and production experience (User)
+- **Auto-reconnect**: Exponential backoff [1s, 2s, 5s, 10s, 30s] handles BLE flakiness gracefully
 
-### What I'd Do Differently
+### Challenges
 
-- **Earlier EHR integration**: Patients wanted automatic data import from their doctors
-- **Family accounts**: Caregivers often manage medications for elderly patients
-
-### Personal Reflection
-
-This project was deeply meaningful because it addressed a real human need. Hearing from users who said the app helped them understand their diagnosis for the first time was incredibly rewarding.
+- **BLE reliability**: Connection drops require careful state management and user feedback
+- **Medical data integrity**: Never suppress readings; validate but always preserve raw data
+- **Accessibility testing**: VoiceOver with medical terminology requires extensive QA
 
 ---
 
-*GlaucomaLife taught me that the best healthcare apps don't just track data—they empower patients to become active participants in their care.*
+*Building for patients with visual impairment taught me that accessibility isn't an afterthought—it's a core requirement that shapes every design decision.*

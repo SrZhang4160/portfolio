@@ -68,12 +68,13 @@ function MiddleColumn({ hero, title, content }: MiddleColumnProps) {
     <div className="space-y-8">
       {/* Hero Image */}
       {hero && (
-        <div className="relative h-48 md:h-64 rounded-lg overflow-hidden bg-gray-100">
+        <div className="relative rounded-lg overflow-hidden bg-gray-100">
           <Image
             src={hero}
             alt={title}
-            fill
-            className="object-cover"
+            width={1899}
+            height={800}
+            className="w-full h-auto"
             priority
           />
         </div>

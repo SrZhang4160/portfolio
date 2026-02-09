@@ -96,20 +96,6 @@ function WorkSection() {
       </div>
 
       <div className="flex-1 flex flex-col gap-3">
-        <Link href="/work/autobrachy" className="block group flex-1">
-          <div className="h-full p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors flex flex-col justify-center">
-            <div className="flex items-baseline justify-between mb-1">
-              <h3 className="text-base font-medium text-primary-900 group-hover:text-gray-600 transition-colors">
-                AutoBrachy
-              </h3>
-              <span className="text-xs text-gray-400">2023 - Present</span>
-            </div>
-            <p className="text-gray-600 text-sm">
-              Automated brachytherapy planning system for cancer treatment using AI
-            </p>
-          </div>
-        </Link>
-
         <Link href="/work/medical-image-viewer" className="block group flex-1">
           <div className="h-full p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors flex flex-col justify-center">
             <div className="flex items-baseline justify-between mb-1">
@@ -138,6 +124,20 @@ function WorkSection() {
           </div>
         </Link>
 
+        <Link href="/work/autobrachy" className="block group flex-1">
+          <div className="h-full p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors flex flex-col justify-center">
+            <div className="flex items-baseline justify-between mb-1">
+              <h3 className="text-base font-medium text-primary-900 group-hover:text-gray-600 transition-colors">
+                AutoBrachy
+              </h3>
+              <span className="text-xs text-gray-400">2023 - Present</span>
+            </div>
+            <p className="text-gray-600 text-sm">
+              Automated brachytherapy planning system for cancer treatment using AI
+            </p>
+          </div>
+        </Link>
+        
         <Link href="/work/glaucoma-life" className="block group flex-1">
           <div className="h-full p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors flex flex-col justify-center">
             <div className="flex items-baseline justify-between mb-1">

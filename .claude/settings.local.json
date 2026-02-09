@@ -27,7 +27,9 @@
       "WebFetch(domain:www.shegotbuckets.org)",
       "Bash(pnpm add:*)",
       "Bash(lsof:*)",
-      "Bash(kill:*)"
+      "Bash(kill:*)",
+      "Bash(pkill:*)",
+      "Bash(sort:*)"
     ]
   }
 }
