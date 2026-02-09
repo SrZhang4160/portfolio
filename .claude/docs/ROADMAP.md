@@ -153,10 +153,15 @@
 
 ## Content Summary
 
-### Case Studies (MDX) - 3 completed
-1. **AutoBrachy** - Brachytherapy automation project
-2. **Radiology** - Medical imaging workflow
-3. **Muscle Analytics** - Motion analysis tool
+### Case Studies (MDX) - 6 total
+1. **Cornerstone3D Medical Image Viewer** - Volume rendering, 3D segmentation, 16+ editing tools
+2. **DICOM Retrieval Architecture** - C-FIND to Orthanc REST API migration
+3. **AutoBrachy** - Angular frontend for brachytherapy treatment planning
+4. **GlaucomaLife** - React Native patient education app
+5. **Radiology** - Medical imaging workflow
+6. **Muscle Analytics** - Motion analysis tool
+
+*Note: First 4 updated with accurate technical details, team sizes, and timelines. Impact metrics removed (unverifiable).*
 
 ### 3D Prints (JSON) - 11 prints
 - Doraemon Lamp, Labubu, Harry Potter Platform, Nanotech Suit Arc Reactor

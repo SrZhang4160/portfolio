@@ -137,7 +137,7 @@ Use `ThreeColumnLayout` with `PageLeftColumn`, `PageRightColumn`, and `InfoCard`
 | `/prints/[slug]` | Print detail | ThreeColumnLayout | Static + Comments |
 | `/travel` | Interactive US map with visitor messages | ThreeColumnLayout | Client + Dynamic |
 | `/basketball` | Sharon's basketball journey | ThreeColumnLayout | Static |
-| `/coffee` | Coffee chat booking | Custom 3-col (sticky left) | Static + Cal.com |
+| `/coffee` | Coffee chat booking | Custom 3-col (viewport fit, no y-scroll on desktop) | Static + Cal.com |
 | `/contact` | Contact form | Custom 3-col (sticky left) | Form + Email |
 | `/admin` | Dashboard | Admin Layout | Protected |
 | `/admin/messages` | Guest message management | Admin Layout | Protected |
@@ -156,7 +156,7 @@ Use `ThreeColumnLayout` with `PageLeftColumn`, `PageRightColumn`, and `InfoCard`
 
 1. **Admin Auth**: Simple password protection via `ADMIN_PASSWORD` env var
 2. **SQLite**: Single file DB at `prisma/dev.db` - don't commit to git
-3. **MDX**: Case studies in `content/work/` must have valid frontmatter
+3. **MDX**: Case studies in `content/work/` must have valid frontmatter; `impact` section is optional (avoid unverifiable metrics)
 4. **Travel Map**: Uses react-simple-maps - heavy bundle, dynamically imported; supports visitor messages as stickers
 5. **Comments**: Require moderation (pending → approved) before displaying
 6. **Guest Messages**: Auto-approved with word filter; travel map polls every 10s for real-time updates

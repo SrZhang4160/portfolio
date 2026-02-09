@@ -22,46 +22,41 @@ thumbnail: "/images/work/project-thumb.jpg"
 hero: "/images/work/project-hero.jpg"
 role: "Lead Engineer"
 timeline: "6 months"
-team: "4 engineers, 2 designers"
+team: "2 engineers"
 tools:
   - Python
   - ROS
   - TensorFlow
-impact:
-  - metric: "40%"
-    label: "Reduction in procedure time"
-  - metric: "15"
-    label: "Hospitals deployed"
+# Note: impact section is optional - only include if you have verifiable metrics
+# impact:
+#   - metric: "40%"
+#     label: "Reduction in procedure time"
 ---
 ```
 
 ### Body Structure
 
 ```markdown
-## Problem
+## Situation / Problem
 
-Description of the problem being solved.
+Description of the problem being solved or context.
 
 ## My Role
 
 What I specifically contributed.
 
-## Approach
+## Technical Architecture / Approach
 
-How we solved it.
+How we solved it - focus on real technical details.
 
-### Research
-Details about research phase.
+### Subsections as needed
+- Rendering Pipeline
+- System Design
+- Implementation Details
 
-### Design
-Design decisions made.
+## Key Technical Achievement (optional)
 
-### Implementation
-Technical implementation details.
-
-## Impact
-
-Results and outcomes.
+Highlight a specific technical accomplishment.
 
 ## Learnings
 
@@ -69,43 +64,59 @@ What I learned from this project.
 
 ---
 
-*What do you think about this approach? Leave a comment below.*
+*Closing reflection on the project.*
 ```
+
+**Note:** Avoid unverifiable impact metrics. Focus on technical details and real achievements instead.
 
 ### Example File
 
 ```mdx
 ---
-title: "AutoBrachy: Automated Brachytherapy Planning"
+title: "AutoBrachy: Brachytherapy Planning Interface"
 slug: "autobrachy"
-description: "AI-powered treatment planning system reducing procedure time by 40%"
+description: "Frontend development for an automated brachytherapy treatment planning system."
 date: "2023-08-15"
 featured: true
 tags:
-  - Healthcare AI
-  - Robotics
-  - Medical Devices
+  - Healthcare
+  - Treatment Planning
+  - Frontend
+  - Angular
 thumbnail: "/images/work/autobrachy-thumb.jpg"
 hero: "/images/work/autobrachy-hero.jpg"
-role: "Lead Robotics Engineer"
+role: "Frontend Engineer"
 timeline: "8 months"
-team: "3 engineers, 2 clinicians"
+team: "1 algorithm engineer, 1 researcher"
 tools:
-  - Python
-  - PyTorch
-  - ROS2
-impact:
-  - metric: "40%"
-    label: "Faster planning"
-  - metric: "12"
-    label: "Clinical sites"
+  - Angular
+  - Django
 ---
 
-## Problem
+## Context
 
-Brachytherapy treatment planning traditionally takes...
+Brachytherapy treatment planning requires specialized expertise...
 
-[Content continues...]
+## My Role
+
+As the Frontend Engineer, I was responsible for...
+
+## Technical Implementation
+
+### Angular Frontend
+Built a responsive single-page application using Angular...
+
+### Django Integration
+Worked with the Django backend built by the algorithm team...
+
+## Learnings
+
+### What Worked Well
+- **Angular's structure**: Strong typing and dependency injection...
+
+---
+
+*This project taught me the value of building software that augments expert decision-making...*
 ```
 
 ---
