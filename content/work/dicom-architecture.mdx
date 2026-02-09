@@ -1,138 +1,128 @@
 ---
 title: "DICOM Retrieval Architecture"
 slug: "dicom-architecture"
-description: "Scalable enterprise architecture for retrieving, caching, and serving medical images across distributed hospital networks."
+description: "Migrated from slow C-FIND protocol to Orthanc REST API for faster, more flexible medical image queries."
 date: "2022-05-15"
 featured: false
 tags:
   - Systems Architecture
   - Infrastructure
   - DICOM
-  - Distributed Systems
+  - REST API
 thumbnail: "/images/work/dicom-arch-thumb.jpg"
 hero: "/images/work/dicom-arch-hero.jpg"
 role: "Backend Engineer"
-timeline: "6 months"
-team: "3 engineers, 1 DevOps specialist, 1 healthcare IT consultant"
+timeline: "1 month"
+team: "2 engineers"
 tools:
-  - Go
-  - PostgreSQL
-  - Redis
-  - Docker
-  - Kubernetes
-  - Prometheus
-impact:
-  - metric: "1M+"
-    label: "Studies indexed"
-  - metric: "99.9%"
-    label: "System uptime"
-  - metric: "500ms"
-    label: "Query response time"
+  - TypeScript
+  - Orthanc
+  - REST API
+  - SQLite
 ---
 
 ## Problem
 
-Healthcare systems generate massive amounts of imaging data daily. A typical hospital produces 50-100 GB of new DICOM images per day. Retrieving specific studies across multiple PACS servers, archive systems, and cloud storage was slow, unreliable, and created significant friction for clinicians.
+The existing DICOM retrieval system relied on the native C-FIND protocol for querying patient studies and images. This approach had significant limitations:
 
-Key challenges:
+```
+┌─────────────────────────────────────────────────────┐
+│            Before: C-FIND Protocol                  │
+├─────────────────────────────────────────────────────┤
+│  App → C-FIND → PACS (sequential, slow)             │
+└─────────────────────────────────────────────────────┘
+```
 
-- **Latency**: Queries to remote archives could take 30+ seconds
-- **Reliability**: Network issues caused frequent retrieval failures
-- **Scale**: Growing data volumes overwhelmed existing infrastructure
-- **Fragmentation**: Images scattered across multiple storage systems
+- **Sequential queries only**: C-FIND doesn't support batching or parallel requests
+- **Limited filtering**: Query capabilities restricted by DICOM standard
+- **Slow performance**: Each query required a full network round-trip to the PACS
+- **No caching**: Every query hit the PACS directly
 
-## My Role
+## Solution
 
-As Backend Engineer, I was responsible for:
+Migrated to Orthanc DICOM server's REST API, which maintains an internal SQLite index of all DICOM data:
 
-- Designing the distributed caching architecture
-- Implementing DICOM query/retrieve protocols (C-FIND, C-MOVE, WADO-RS)
-- Building the metadata indexing and search system
-- Developing monitoring and alerting infrastructure
-- Performance tuning for high-throughput workloads
+```
+┌─────────────────────────────────────────────────────┐
+│            After: REST API + Orthanc                │
+├─────────────────────────────────────────────────────┤
+│  App → REST API → Orthanc → SQLite Index            │
+│       (parallel, batched, cached)                   │
+└─────────────────────────────────────────────────────┘
+```
 
-## Approach
+### Technical Implementation
 
-### Research & Discovery
+**Query Migration**
 
-We conducted extensive analysis of existing infrastructure:
+Replaced all C-FIND calls with equivalent REST API requests:
 
-1. Mapped all data sources across the healthcare network
-2. Profiled query patterns to understand access frequencies
-3. Identified bottlenecks in current retrieval workflows
-4. Surveyed clinical staff on pain points and requirements
+- `/patients` endpoint for patient-level queries
+- `/studies` endpoint with filtering parameters
+- `/series` and `/instances` for granular access
+- Metadata available as JSON without parsing DICOM
 
-### Technical Architecture
+**Parallel Request Handling**
 
-**Distributed Cache Layer**
+Implemented batched parallel requests that weren't possible with C-FIND:
 
-Designed a multi-tier caching strategy:
+```typescript
+// Before: Sequential C-FIND queries
+for (const patientId of patientIds) {
+  const result = await cfindQuery(patientId); // blocking
+}
 
-- **L1 (Hot)**: In-memory Redis cluster for frequently accessed studies
-- **L2 (Warm)**: Local SSD storage for recent studies
-- **L3 (Cold)**: Origin PACS servers and long-term archives
+// After: Parallel REST API calls
+const results = await Promise.all(
+  patientIds.map(id => fetch(`/patients/${id}/studies`))
+);
+```
 
-Cache population uses predictive algorithms based on:
-- Scheduled appointments and procedures
-- Historical access patterns
-- Clinical workflow triggers
+**Response Caching**
 
-**Query Federation**
+Added caching layer for repeated queries:
 
-Built a unified query interface that:
+- In-memory cache for frequently accessed metadata
+- Cache invalidation on DICOM store events
+- Configurable TTL based on data volatility
 
-- Translates between DICOM and REST query formats
-- Parallelizes queries across multiple data sources
-- Merges and deduplicates results
-- Provides consistent response times regardless of origin
+### Orthanc Architecture
 
-**Metadata Index**
+Orthanc provides several advantages over raw DICOM protocols:
 
-Implemented a PostgreSQL-based metadata store:
+- **SQLite index**: Pre-indexed metadata enables fast queries without scanning DICOM files
+- **REST API**: Standard HTTP semantics with JSON responses
+- **Plugin system**: Extensible for custom authentication and routing
+- **DICOM gateway**: Still supports C-FIND/C-MOVE for legacy systems
 
-- Full-text search across patient and study information
-- Efficient range queries on dates and modalities
-- Real-time sync with source PACS systems
-- Audit logging for compliance requirements
+## Results
 
-### Reliability Engineering
+The migration significantly improved query performance:
 
-Ensuring 99.9% uptime required:
-
-- Active-passive failover for all critical components
-- Circuit breakers for degraded external services
-- Automatic retry with exponential backoff
-- Comprehensive health checks and alerting
-
-## Impact
-
-After 6 months of development and deployment:
-
-- **1M+ studies** indexed and searchable
-- **99.9% uptime** maintained over 12 months
-- **Under 500ms average** query response time (down from 15s)
-- **85% cache hit rate** for clinical workflows
-- **3x reduction** in storage costs through deduplication
+- **Faster response times**: REST API queries against SQLite index much faster than C-FIND to PACS
+- **Batch operations**: Enabled bulk patient/study lookups that weren't possible before
+- **Simpler code**: HTTP/JSON easier to work with than DICOM network protocol
+- **Better observability**: Standard HTTP logging and monitoring
 
 ## Learnings
 
 ### What Worked Well
 
-- **Go for performance**: Language choice paid off in throughput and resource efficiency
-- **Kubernetes orchestration**: Made scaling and deployment straightforward
-- **Incremental rollout**: Migrating one department at a time reduced risk
+- **Orthanc reliability**: Mature project with good documentation
+- **Incremental migration**: Ran C-FIND and REST API in parallel during transition
+- **SQLite simplicity**: No need for separate database infrastructure
 
 ### What I'd Do Differently
 
-- **Earlier observability**: We added detailed tracing late; wish we had it from the start
-- **Schema versioning**: DICOM metadata variations caused early migration issues
+- **Earlier evaluation**: Should have considered Orthanc from the start
+- **Better cache strategy**: Initial cache TTLs needed tuning
 
 ### Technical Insights
 
-- DICOM protocols have quirks; expect inconsistencies between vendor implementations
-- Cache invalidation in healthcare requires careful consideration of data integrity
-- Healthcare IT environments often have unique network constraints (VPNs, firewalls)
+- DICOM protocols have quirks; REST APIs are much more predictable
+- SQLite performs well for read-heavy query workloads
+- Orthanc's plugin architecture allows customization without forking
 
 ---
 
-*Building reliable infrastructure for healthcare taught me that performance and reliability must be balanced with strict compliance and data governance requirements.*
+*This project reinforced the value of choosing the right abstraction layer—sometimes a well-designed middleware can solve problems that seem inherent to the underlying protocol.*

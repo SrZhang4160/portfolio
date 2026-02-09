@@ -9,7 +9,6 @@ import ThreeColumnLayout from "@/components/ThreeColumnLayout";
 import PageLeftColumn from "@/components/PageLeftColumn";
 import PageRightColumn from "@/components/PageRightColumn";
 import InfoCard from "@/components/InfoCard";
-import CommentSection from "@/components/CommentSection";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -62,10 +61,9 @@ interface MiddleColumnProps {
   hero?: string;
   title: string;
   content: string;
-  slug: string;
 }
 
-function MiddleColumn({ hero, title, content, slug }: MiddleColumnProps) {
+function MiddleColumn({ hero, title, content }: MiddleColumnProps) {
   return (
     <div className="space-y-8">
       {/* Hero Image */}
@@ -82,23 +80,9 @@ function MiddleColumn({ hero, title, content, slug }: MiddleColumnProps) {
       )}
 
       {/* MDX Content */}
-      <div className="prose prose-sm max-w-none">
+      <div className="text-gray-600 space-y-4 w-full [&>h1]:text-2xl [&>h1]:font-bold [&>h1]:text-primary-900 [&>h1]:mb-4 [&>h2]:text-xl [&>h2]:font-semibold [&>h2]:text-primary-900 [&>h2]:mt-6 [&>h2]:mb-3 [&>h3]:text-lg [&>h3]:font-medium [&>h3]:text-primary-900 [&>h3]:mt-4 [&>h3]:mb-2 [&>p]:leading-relaxed [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:space-y-1 [&>ol]:list-decimal [&>ol]:pl-5 [&>ol]:space-y-1">
         <MDXRemote source={content} />
       </div>
-
-      {/* Discussion Prompt */}
-      <div className="p-5 bg-gray-50 rounded-lg border border-gray-200">
-        <h3 className="text-base font-semibold text-primary-900 mb-2">
-          What do you think?
-        </h3>
-        <p className="text-gray-600 text-sm">
-          Have questions about this project or want to share your thoughts?
-          Leave a comment below!
-        </p>
-      </div>
-
-      {/* Comments Section */}
-      <CommentSection targetType="work" targetId={slug} />
     </div>
   );
 }
@@ -156,17 +140,6 @@ function RightColumn({ role, timeline, team, date, tools, impact }: RightColumnP
         </InfoCard>
       )}
 
-      {/* Related Projects */}
-      <InfoCard title="Related Projects">
-        <div className="space-y-2">
-          <Link
-            href="/work"
-            className="block text-sm text-primary-600 hover:text-primary-800"
-          >
-            View all projects →
-          </Link>
-        </div>
-      </InfoCard>
     </PageRightColumn>
   );
 }
@@ -195,7 +168,6 @@ export default async function CaseStudyPage({ params }: PageProps) {
           hero={frontmatter.hero}
           title={frontmatter.title}
           content={content}
-          slug={slug}
         />
       }
       rightColumn={

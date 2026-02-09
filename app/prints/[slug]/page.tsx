@@ -58,23 +58,16 @@ interface LeftColumnProps {
 }
 
 function LeftColumn({ title, description, category, featured }: LeftColumnProps) {
+  const tags = [categoryLabels[category]];
+  if (featured) tags.push("Featured");
+
   return (
     <PageLeftColumn
       title={title}
       description={description}
       backLink={{ href: "/prints", label: "Back to Gallery" }}
-    >
-      <div className="flex flex-wrap gap-2">
-        <span className={`px-2 py-1 rounded text-xs font-medium ${categoryColors[category]}`}>
-          {categoryLabels[category]}
-        </span>
-        {featured && (
-          <span className="px-2 py-1 bg-accent-100 text-accent-800 rounded text-xs font-medium">
-            Featured
-          </span>
-        )}
-      </div>
-    </PageLeftColumn>
+      tags={tags}
+    />
   );
 }
 

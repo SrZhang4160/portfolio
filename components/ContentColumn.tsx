@@ -16,11 +16,6 @@ interface ContentItem {
 }
 
 const contentBySection: Record<string, ContentItem[]> = {
-  info: [
-    { id: "info-1", label: "Johns Hopkins", placeholder: true },
-    { id: "info-2", label: "MechE → Software", placeholder: true },
-    { id: "info-3", label: "4+ Years Healthcare", placeholder: true },
-  ],
   work: [
     { id: "work-1", href: "/work/autobrachy", label: "AutoBrachy" },
     { id: "work-2", href: "/work/medical-image-viewer", label: "Medical Imaging" },
@@ -81,9 +76,62 @@ function HomeContent() {
   );
 }
 
+function WorkTimeline() {
+  const skills = [
+    { metric: "16+", label: "Medical imaging tools shipped" },
+    { metric: "80%", label: "Faster 3D rendering after rebuild" },
+    { metric: "3", label: "DICOM/imaging systems" },
+    { metric: "4+", label: "Years in healthcare tech" },
+  ];
+
+  const timeline = [
+    { year: "'25-'26", title: "Carina AI", description: "Senior Software Engineer" },
+    { year: "'23-'25", title: "Carina AI", description: "Software Engineer" },
+    { year: "'21-'23", title: "Johns Hopkins", description: "M.S. Medical Robotics" },
+    { year: "'20-'21", title: "Research Assistant", description: "Machine Learning" },
+    { year: "'16-'20", title: "Tianjin University", description: "Bachelor's Degree" },
+  ];
+
+  return (
+    <div className="h-full flex flex-col justify-between">
+      {/* Skills Highlights */}
+      <div>
+        {skills.map((item, index) => (
+          <div key={index} className="flex justify-between items-center border-b border-gray-200 py-3">
+            <span className="text-sm text-gray-300">{item.metric}</span>
+            <span className="text-sm font-medium text-primary-900 text-right">{item.label}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Timeline */}
+      <div>
+        <div className="border-t border-gray-200 py-2">
+          <p className="text-sm text-gray-400 text-right">Journey</p>
+        </div>
+        <div>
+          {timeline.map((item, index) => (
+            <div key={index} className="flex justify-between items-end border-t border-gray-200 py-3">
+              <span className="text-sm text-gray-300">{item.year}</span>
+              <div className="text-right">
+                <h4 className="text-sm font-medium text-primary-900">{item.title}</h4>
+                <p className="text-xs text-gray-400">{item.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function ContentColumn({ activeSection }: ContentColumnProps) {
   if (activeSection === "home") {
     return <HomeContent />;
+  }
+
+  if (activeSection === "work") {
+    return <WorkTimeline />;
   }
 
   if (activeSection === "beyond") {

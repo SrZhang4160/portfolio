@@ -9,11 +9,11 @@ export const metadata: Metadata = {
 
 export default function CoffeeChatPage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen md:h-screen flex flex-col md:overflow-hidden">
       <PageHeader />
 
       {/* Content - Responsive: Stack on mobile, 3-columns on desktop */}
-      <div className="flex flex-col md:flex-row flex-1 w-full">
+      <div className="flex flex-col md:flex-row flex-1 w-full md:overflow-hidden">
         {/* Left side - Title & Info (Mobile: full width, Desktop: 25% sticky) */}
         <div className="w-full md:w-1/4 border-b md:border-b-0 md:border-r border-gray-200">
           <div className="md:sticky md:top-0 md:h-screen md:max-h-screen px-4 md:px-6 py-6 md:overflow-hidden flex flex-col">
@@ -56,11 +56,11 @@ export default function CoffeeChatPage() {
         </div>
 
         {/* Middle - Calendar Embed (Mobile: full width, Desktop: 50%) */}
-        <div className="w-full md:w-1/2 px-4 md:px-8 py-6 md:py-8 border-b md:border-b-0 md:border-r border-gray-200 flex flex-col">
-          <h2 className="text-lg font-medium text-primary-900 mb-4 md:mb-6">Pick a time</h2>
+        <div className="w-full md:w-1/2 px-4 md:px-8 py-6 md:py-8 border-b md:border-b-0 md:border-r border-gray-200 flex flex-col md:overflow-hidden">
+          <h2 className="text-lg font-medium text-primary-900 mb-4 md:mb-6 shrink-0">Pick a time</h2>
 
           {/* Calendar Embed - Configure via NEXT_PUBLIC_CALENDAR_URL env variable */}
-          <div className="flex-1 min-h-[500px] md:min-h-[600px]">
+          <div className="flex-1 min-h-[400px] md:min-h-0">
             {process.env.NEXT_PUBLIC_CALENDAR_URL ? (
               <iframe
                 src={process.env.NEXT_PUBLIC_CALENDAR_URL}
@@ -86,7 +86,7 @@ export default function CoffeeChatPage() {
             )}
           </div>
 
-          <p className="mt-4 text-sm text-gray-500">
+          <p className="mt-4 text-sm text-gray-500 shrink-0">
             Don&apos;t see a time that works?{" "}
             <a
               href="mailto:zsr_coco@outlook.com"

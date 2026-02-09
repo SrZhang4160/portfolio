@@ -17,7 +17,7 @@ function LeftColumn() {
   return (
     <PageLeftColumn
       title="3D Prints"
-      description="Welcome to my 3D printing corner! From functional household items to artistic experiments, here's a collection of things I've designed and printed."
+      description="From functional items to artistic experiments."
       backLink={{ href: "/?section=beyond", label: "Back to Beyond" }}
       tags={["Functional", "Art"]}
     />

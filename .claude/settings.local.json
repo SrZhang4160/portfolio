@@ -25,7 +25,9 @@
       "Bash(sips:*)",
       "Bash(python3:*)",
       "WebFetch(domain:www.shegotbuckets.org)",
-      "Bash(pnpm add:*)"
+      "Bash(pnpm add:*)",
+      "Bash(lsof:*)",
+      "Bash(kill:*)"
     ]
   }
 }

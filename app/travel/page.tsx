@@ -29,9 +29,9 @@ function LeftColumn() {
   return (
     <PageLeftColumn
       title="Travel Map"
-      description="Exploring the United States one state at a time. Click on any state to leave a message or share your favorite spots!"
+      description="Exploring the US one state at a time."
       backLink={{ href: "/?section=beyond", label: "Back to Beyond" }}
-      tags={["Adventure", "Exploration", "Community"]}
+      tags={["Adventure", "Exploration"]}
     />
   );
 }

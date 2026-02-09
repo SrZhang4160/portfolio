@@ -11,9 +11,9 @@ interface MiddleColumnProps {
 function HomeSection() {
   return (
     <>
-      {/* Intro - Maelle style */}
-      <div className="mb-8 md:mb-12 py-8 md:py-20 px-2 md:px-4">
-        <p className="text-lg md:text-2xl leading-relaxed">
+      {/* Intro */}
+      <div className="mb-6 py-4 md:py-8 px-2 md:px-4">
+        <p className="text-xl md:text-2xl leading-relaxed">
           <span className="font-semibold text-primary-900">
             Software engineer, problem-solver, healthcare advocate with 4 years experience building medical software
           </span>{" "}
@@ -26,109 +26,52 @@ function HomeSection() {
         </p>
       </div>
 
-      {/* Selected Work */}
-      <div className="mb-8 md:mb-12 px-2 md:px-4">
-        <h2 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-4 md:mb-6">
-          Selected Work
-        </h2>
-        <div className="space-y-4 md:space-y-6">
-          <Link href="/work/autobrachy" className="block group">
-            <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
-              <h3 className="text-base md:text-lg font-medium text-primary-900 group-hover:text-gray-600 transition-colors">
-                AutoBrachy
-              </h3>
-              <span className="text-sm text-gray-400">Carina AI</span>
-            </div>
-            <p className="text-gray-600 mt-1 text-sm md:text-base">
-              AI-powered brachytherapy planning for cancer treatment
-            </p>
-          </Link>
-          <Link href="/work/medical-image-viewer" className="block group">
-            <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
-              <h3 className="text-base md:text-lg font-medium text-primary-900 group-hover:text-gray-600 transition-colors">
-                3D Medical Image Viewer
-              </h3>
-              <span className="text-sm text-gray-400">Medical Imaging</span>
-            </div>
-            <p className="text-gray-600 mt-1 text-sm md:text-base">
-              GPU-accelerated DICOM visualization platform
-            </p>
-          </Link>
-          <Link href="/work/glaucoma-life" className="block group">
-            <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
-              <h3 className="text-base md:text-lg font-medium text-primary-900 group-hover:text-gray-600 transition-colors">
-                GlaucomaLife
-              </h3>
-              <span className="text-sm text-gray-400">Patient Tools</span>
-            </div>
-            <p className="text-gray-600 mt-1 text-sm md:text-base">
-              Patient education and monitoring mobile app
-            </p>
-          </Link>
-        </div>
-      </div>
-    </>
-  );
-}
-
-function InfoSection() {
-  return (
-    <>
-      <div className="mb-10">
-        <h2 className="text-2xl font-semibold text-primary-900 mb-6">My Journey</h2>
-        <div className="space-y-4 text-gray-700 leading-relaxed">
+      {/* Background */}
+      <div className="mb-6 px-2 md:px-4">
+        <h2 className="text-base font-medium text-gray-400 uppercase tracking-wider mb-3">Background</h2>
+        <div className="space-y-2 text-lg text-gray-700">
           <p>
-            My path into healthcare software began with a mechanical engineering degree at Johns Hopkins,
-            where I discovered my passion for building systems that directly impact patient care.
+            <span className="font-medium text-primary-900">Johns Hopkins</span> — Medical Robotics
           </p>
           <p>
-            Over 4+ years, I&apos;ve worked across the healthcare technology stack — from AI-powered
-            treatment planning systems to high-performance medical imaging viewers and enterprise
-            data infrastructure.
+            <span className="font-medium text-primary-900">4+ years</span> building healthcare software
           </p>
           <p>
-            Today at Carina AI, I lead development on AutoBrachy, an automated brachytherapy
-            planning system that has treated 2,500+ cancer patients across 12 clinical sites.
+            <span className="font-medium text-primary-900">Currently</span> — Senior Software Engineer at Carina AI
           </p>
         </div>
       </div>
 
-      <div className="mb-10">
-        <h2 className="text-2xl font-semibold text-primary-900 mb-6">Technical Focus</h2>
-        <div className="space-y-3">
-          <div className="p-4 bg-gray-50 rounded-lg">
-            <h3 className="font-medium text-primary-900 mb-1">Healthcare AI</h3>
-            <p className="text-sm text-gray-600">Treatment planning, dose optimization, clinical decision support</p>
-          </div>
-          <div className="p-4 bg-gray-50 rounded-lg">
-            <h3 className="font-medium text-primary-900 mb-1">Medical Imaging</h3>
-            <p className="text-sm text-gray-600">DICOM visualization, 3D reconstruction, GPU-accelerated rendering</p>
-          </div>
-          <div className="p-4 bg-gray-50 rounded-lg">
-            <h3 className="font-medium text-primary-900 mb-1">Systems Architecture</h3>
-            <p className="text-sm text-gray-600">Distributed systems, data infrastructure, clinical integrations</p>
-          </div>
+      {/* What I Do */}
+      <div className="mb-6 px-2 md:px-4">
+        <h2 className="text-base font-medium text-gray-400 uppercase tracking-wider mb-3">What I Do</h2>
+        <div className="space-y-1 text-lg">
+          <p className="text-gray-700">Healthcare AI & treatment planning</p>
+          <p className="text-gray-700">Medical imaging & DICOM systems</p>
+          <p className="text-gray-700">Full-stack development & infrastructure</p>
+          <p className="text-gray-700">Patient-facing tools & mobile apps</p>
         </div>
       </div>
 
-      <div className="mb-10">
-        <h2 className="text-2xl font-semibold text-primary-900 mb-6">What Drives Me</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div className="p-4 bg-gray-50 rounded-lg">
-            <h3 className="font-medium text-primary-900 mb-1">Impact-Driven</h3>
-            <p className="text-sm text-gray-600">Measuring success by patient outcomes</p>
+      {/* Values & Principles */}
+      <div className="px-2 md:px-4">
+        <h2 className="text-base font-medium text-gray-400 uppercase tracking-wider mb-3">Values & Principles</h2>
+        <div className="space-y-2 text-lg">
+          <div>
+            <span className="font-medium text-primary-900">Persistence</span>
+            <span className="text-base text-gray-600"> — Keep iterating until it works. Failures are just data points.</span>
           </div>
-          <div className="p-4 bg-gray-50 rounded-lg">
-            <h3 className="font-medium text-primary-900 mb-1">Rigorous</h3>
-            <p className="text-sm text-gray-600">Healthcare demands precision and reliability</p>
+          <div>
+            <span className="font-medium text-primary-900">Bias for Action</span>
+            <span className="text-base text-gray-600"> — Ship early, learn fast, improve constantly.</span>
           </div>
-          <div className="p-4 bg-gray-50 rounded-lg">
-            <h3 className="font-medium text-primary-900 mb-1">Collaborative</h3>
-            <p className="text-sm text-gray-600">Working closely with clinicians and researchers</p>
+          <div>
+            <span className="font-medium text-primary-900">Patient-First</span>
+            <span className="text-base text-gray-600"> — Every line of code should serve the end user.</span>
           </div>
-          <div className="p-4 bg-gray-50 rounded-lg">
-            <h3 className="font-medium text-primary-900 mb-1">Always Learning</h3>
-            <p className="text-sm text-gray-600">Healthcare tech evolves rapidly</p>
+          <div>
+            <span className="font-medium text-primary-900">Stay Curious</span>
+            <span className="text-base text-gray-600"> — Always learning, always growing.</span>
           </div>
         </div>
       </div>
@@ -138,86 +81,78 @@ function InfoSection() {
 
 function WorkSection() {
   return (
-    <>
-      <div className="mb-8">
-        <h2 className="text-2xl font-semibold text-primary-900 mb-2">Work</h2>
-        <p className="text-gray-600">Healthcare AI projects with real-world impact</p>
+    <div className="flex flex-col h-full">
+      {/* Quote */}
+      <div className="mb-6 py-4 md:py-8">
+        <blockquote className="text-xl md:text-2xl font-medium text-primary-900 leading-relaxed">
+          &ldquo;I don&apos;t care if I miss 100 shots in a row, I&apos;m never gonna stop shooting.&rdquo;
+        </blockquote>
+        <p className="text-gray-500 mt-3">— Klay Thompson</p>
       </div>
 
-      <div className="space-y-8">
-        <Link href="/work/autobrachy" className="block group">
-          <div className="p-6 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-            <div className="flex items-baseline justify-between mb-2">
-              <h3 className="text-xl font-medium text-primary-900 group-hover:text-gray-600 transition-colors">
+      <div className="mb-4">
+        <h2 className="text-xl font-semibold text-primary-900 mb-1">Featured Work</h2>
+        <p className="text-gray-600 text-sm">Healthcare AI projects with real-world impact</p>
+      </div>
+
+      <div className="flex-1 flex flex-col gap-3">
+        <Link href="/work/autobrachy" className="block group flex-1">
+          <div className="h-full p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors flex flex-col justify-center">
+            <div className="flex items-baseline justify-between mb-1">
+              <h3 className="text-base font-medium text-primary-900 group-hover:text-gray-600 transition-colors">
                 AutoBrachy
               </h3>
-              <span className="text-sm text-gray-400">2023 - Present</span>
+              <span className="text-xs text-gray-400">2023 - Present</span>
             </div>
-            <p className="text-gray-600 mb-3">
+            <p className="text-gray-600 text-sm">
               Automated brachytherapy planning system for cancer treatment using AI
             </p>
-            <div className="flex gap-2">
-              <span className="text-xs px-2 py-1 bg-white rounded text-gray-500">Healthcare AI</span>
-              <span className="text-xs px-2 py-1 bg-white rounded text-gray-500">Automation</span>
-            </div>
           </div>
         </Link>
 
-        <Link href="/work/medical-image-viewer" className="block group">
-          <div className="p-6 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-            <div className="flex items-baseline justify-between mb-2">
-              <h3 className="text-xl font-medium text-primary-900 group-hover:text-gray-600 transition-colors">
+        <Link href="/work/medical-image-viewer" className="block group flex-1">
+          <div className="h-full p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors flex flex-col justify-center">
+            <div className="flex items-baseline justify-between mb-1">
+              <h3 className="text-base font-medium text-primary-900 group-hover:text-gray-600 transition-colors">
                 3D Medical Image Viewer
               </h3>
-              <span className="text-sm text-gray-400">2022 - 2023</span>
+              <span className="text-xs text-gray-400">2025</span>
             </div>
-            <p className="text-gray-600 mb-3">
+            <p className="text-gray-600 text-sm">
               Cross-platform DICOM visualization with GPU-accelerated rendering
             </p>
-            <div className="flex gap-2">
-              <span className="text-xs px-2 py-1 bg-white rounded text-gray-500">Medical Imaging</span>
-              <span className="text-xs px-2 py-1 bg-white rounded text-gray-500">WebGL</span>
-            </div>
           </div>
         </Link>
 
-        <Link href="/work/dicom-architecture" className="block group">
-          <div className="p-6 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-            <div className="flex items-baseline justify-between mb-2">
-              <h3 className="text-xl font-medium text-primary-900 group-hover:text-gray-600 transition-colors">
+        <Link href="/work/dicom-architecture" className="block group flex-1">
+          <div className="h-full p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors flex flex-col justify-center">
+            <div className="flex items-baseline justify-between mb-1">
+              <h3 className="text-base font-medium text-primary-900 group-hover:text-gray-600 transition-colors">
                 DICOM Retrieval Architecture
               </h3>
-              <span className="text-sm text-gray-400">2022</span>
+              <span className="text-xs text-gray-400">2024</span>
             </div>
-            <p className="text-gray-600 mb-3">
+            <p className="text-gray-600 text-sm">
               Enterprise medical data infrastructure for distributed hospital networks
             </p>
-            <div className="flex gap-2">
-              <span className="text-xs px-2 py-1 bg-white rounded text-gray-500">Systems</span>
-              <span className="text-xs px-2 py-1 bg-white rounded text-gray-500">Infrastructure</span>
-            </div>
           </div>
         </Link>
 
-        <Link href="/work/glaucoma-life" className="block group">
-          <div className="p-6 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-            <div className="flex items-baseline justify-between mb-2">
-              <h3 className="text-xl font-medium text-primary-900 group-hover:text-gray-600 transition-colors">
+        <Link href="/work/glaucoma-life" className="block group flex-1">
+          <div className="h-full p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors flex flex-col justify-center">
+            <div className="flex items-baseline justify-between mb-1">
+              <h3 className="text-base font-medium text-primary-900 group-hover:text-gray-600 transition-colors">
                 GlaucomaLife
               </h3>
-              <span className="text-sm text-gray-400">2021 - 2022</span>
+              <span className="text-xs text-gray-400">2025 - Present</span>
             </div>
-            <p className="text-gray-600 mb-3">
+            <p className="text-gray-600 text-sm">
               Patient education & monitoring app for glaucoma management
             </p>
-            <div className="flex gap-2">
-              <span className="text-xs px-2 py-1 bg-white rounded text-gray-500">Mobile App</span>
-              <span className="text-xs px-2 py-1 bg-white rounded text-gray-500">Patient Tools</span>
-            </div>
           </div>
         </Link>
       </div>
-    </>
+    </div>
   );
 }
 
@@ -381,8 +316,6 @@ export default function MiddleColumn({ activeSection }: MiddleColumnProps) {
     switch (activeSection) {
       case "home":
         return <HomeSection />;
-      case "info":
-        return <InfoSection />;
       case "work":
         return <WorkSection />;
       case "beyond":
@@ -397,7 +330,7 @@ export default function MiddleColumn({ activeSection }: MiddleColumnProps) {
   return (
     <div className="flex flex-col h-full">
       {renderSection()}
-      {activeSection !== "contact" && activeSection !== "home" && <LetsTalkMarquee />}
+      {activeSection !== "contact" && <LetsTalkMarquee />}
     </div>
   );
 }
