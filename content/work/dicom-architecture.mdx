@@ -20,108 +20,147 @@ tools:
   - SQLite
 ---
 
-## Problem
+<StatCards stats={[
+  { value: "~0", label: "Data discrepancies during migration" },
+  { value: "N→1", label: "Sequential queries → single batch call" },
+  { value: "1 mo", label: "Full migration on a live clinical product" }
+]} />
 
-The existing DICOM retrieval system relied on the native C-FIND protocol for querying patient studies and images. This approach had significant limitations:
+## The Protocol Was the Bottleneck
 
-```
-┌─────────────────────────────────────────────────────┐
-│            Before: C-FIND Protocol                  │
-├─────────────────────────────────────────────────────┤
-│  App → C-FIND → PACS (sequential, slow)             │
-└─────────────────────────────────────────────────────┘
-```
+The existing DICOM retrieval system relied on C-FIND — a protocol designed in the 1990s for sequential, blocking queries. Every patient lookup required establishing an association, sending a query, waiting for the response, and tearing down the connection. No batching. No parallelism. No caching layer.
 
-- **Sequential queries only**: C-FIND doesn't support batching or parallel requests
-- **Limited filtering**: Query capabilities restricted by DICOM standard
-- **Slow performance**: Each query required a full network round-trip to the PACS
-- **No caching**: Every query hit the PACS directly
+<ArchitectureComparison
+  beforeTitle="Before: C-FIND"
+  beforeFlow={[
+    { label: "App → Association Setup", badge: "overhead" },
+    { label: "C-FIND Query → PACS" },
+    { label: "Wait...", badge: "blocking" },
+    { label: "Next Query → PACS" },
+    { label: "Wait...", badge: "blocking" }
+  ]}
+  beforeCons={[
+    "Sequential only — no parallelism",
+    "Full protocol overhead per query",
+    "No batching support",
+    "No caching layer"
+  ]}
+  afterTitle="After: REST + Orthanc"
+  afterFlow={[
+    { label: "App → HTTP /tools/find", badge: "single call" },
+    { label: "Orthanc SQLite Index", badge: "pre-indexed" },
+    { label: "Parallel series fetch", badge: "concurrent" },
+    { label: "Cache layer", badge: "skip on repeat" }
+  ]}
+  afterPros={[
+    "Parallel requests via Promise.all",
+    "Hits SQLite index — no scan",
+    "Batch patient/study lookups",
+    "In-memory cache with invalidation"
+  ]}
+/>
 
-## Solution
+<CalloutBlock label="Senior Engineer Insight">
+Data changes the conversation. "It feels slow" is a complaint. Profiling C-FIND vs REST end-to-end — connection overhead, query time, response parsing — turned a vague problem into a concrete architectural proposal.
+</CalloutBlock>
 
-Migrated to Orthanc DICOM server's REST API, which maintains an internal SQLite index of all DICOM data:
+## Three Phases to a Live Migration
 
-```
-┌─────────────────────────────────────────────────────┐
-│            After: REST API + Orthanc                │
-├─────────────────────────────────────────────────────┤
-│  App → REST API → Orthanc → SQLite Index            │
-│       (parallel, batched, cached)                   │
-└─────────────────────────────────────────────────────┘
-```
+<PhaseTimeline phases={[
+  {
+    title: "Benchmark first, propose second",
+    tag: "Diagnosis",
+    body: "Profiled every layer of the C-FIND path before touching a line of code. Compared against Orthanc REST for the same queries. Let the numbers make the argument.",
+    bullets: [
+      "Measured per-query: association setup, query execution, response parsing, teardown",
+      "Ran equivalent REST calls against Orthanc's SQLite index",
+      "Confirmed REST advantage wasn't just speed — it unlocked parallelism C-FIND structurally can't do"
+    ]
+  },
+  {
+    title: "Redesign the query model, not just the transport",
+    tag: "Architecture",
+    body: "Swapping API calls would give faster sequential queries. The real win was restructuring around parallel batch fetches — collapsing N round trips into one call + a concurrent second pass.",
+    bullets: [
+      "Used Orthanc's /tools/find to fetch all studies in one request",
+      "Fanned out series metadata requests in parallel",
+      "Added response caching with invalidation on DICOM store events",
+      "Built a RetrievalService abstraction — upper layers never know the transport"
+    ]
+  },
+  {
+    title: "Migrate without breaking a live clinical product",
+    tag: "Execution",
+    body: "Ran C-FIND and REST in parallel during transition. Every new endpoint had to diff identically against the old path before the old one was retired. One module at a time, commit after each clean step.",
+    bullets: [
+      "Comparison tests: ran both paths against same dataset, diffed results",
+      "Committed after each successful module migration — clean rollback point",
+      "Zero data discrepancies shipped to hospital users"
+    ]
+  }
+]} />
 
-### Technical Implementation
+<CalloutBlock label="Senior Engineer Insight">
+This wasn't a bug to fix — it was an architecture to replace. Knowing the difference is what separates tuning from redesigning. The abstraction layer I added wasn't in scope, but the cost of retrofitting it later would have been far higher.
+</CalloutBlock>
 
-**Query Migration**
+## What the Code Actually Looked Like
 
-Replaced all C-FIND calls with equivalent REST API requests:
+<CodeComparison
+  beforeTitle="Before: Sequential C-FIND"
+  beforeCode={`// Blocking — one patient at a time
+for (const id of patientIds) {
+  const result = await cfindQuery(id);
+  // association open → query → wait → response → close
+  // × N patients
+}`}
+  afterTitle="After: Parallel REST"
+  afterCode={`// One batch call + parallel fetch
+const studies = await fetch('/tools/find', { body: query });
+const series = await Promise.all(
+  studies.map(s => fetchSeries(s.id))
+);`}
+/>
 
-- `/patients` endpoint for patient-level queries
-- `/studies` endpoint with filtering parameters
-- `/series` and `/instances` for granular access
-- Metadata available as JSON without parsing DICOM
+## What Changed
 
-**Parallel Request Handling**
+<ResultsGrid results={[
+  {
+    title: "Faster study list loads",
+    description: "REST + SQLite index replaced full protocol overhead. Clinicians stopped waiting to start planning."
+  },
+  {
+    title: "Scales with data growth",
+    description: "Batch queries stay flat as hospitals add studies. C-FIND latency grew linearly — this doesn't."
+  },
+  {
+    title: "Better observability",
+    description: "Standard HTTP logs replaced opaque DICOM protocol traces. Debugging got dramatically simpler."
+  },
+  {
+    title: "Future-proof abstraction",
+    description: "RetrievalService layer means DICOMweb or any future PACS can be added without touching application logic."
+  }
+]} />
 
-Implemented batched parallel requests that weren't possible with C-FIND:
+## What I Carry Forward
 
-```typescript
-// Before: Sequential C-FIND queries
-for (const patientId of patientIds) {
-  const result = await cfindQuery(patientId); // blocking
-}
-
-// After: Parallel REST API calls
-const results = await Promise.all(
-  patientIds.map(id => fetch(`/patients/${id}/studies`))
-);
-```
-
-**Response Caching**
-
-Added caching layer for repeated queries:
-
-- In-memory cache for frequently accessed metadata
-- Cache invalidation on DICOM store events
-- Configurable TTL based on data volatility
-
-### Orthanc Architecture
-
-Orthanc provides several advantages over raw DICOM protocols:
-
-- **SQLite index**: Pre-indexed metadata enables fast queries without scanning DICOM files
-- **REST API**: Standard HTTP semantics with JSON responses
-- **Plugin system**: Extensible for custom authentication and routing
-- **DICOM gateway**: Still supports C-FIND/C-MOVE for legacy systems
-
-## Results
-
-The migration significantly improved query performance:
-
-- **Faster response times**: REST API queries against SQLite index much faster than C-FIND to PACS
-- **Batch operations**: Enabled bulk patient/study lookups that weren't possible before
-- **Simpler code**: HTTP/JSON easier to work with than DICOM network protocol
-- **Better observability**: Standard HTTP logging and monitoring
-
-## Learnings
-
-### What Worked Well
-
-- **Orthanc reliability**: Mature project with good documentation
-- **Incremental migration**: Ran C-FIND and REST API in parallel during transition
-- **SQLite simplicity**: No need for separate database infrastructure
-
-### What I'd Do Differently
-
-- **Earlier evaluation**: Should have considered Orthanc from the start
-- **Better cache strategy**: Initial cache TTLs needed tuning
-
-### Technical Insights
-
-- DICOM protocols have quirks; REST APIs are much more predictable
-- SQLite performs well for read-heavy query workloads
-- Orthanc's plugin architecture allows customization without forking
+<LearningsCards
+  workedWell={[
+    "Benchmarking before proposing — numbers make the case",
+    "Incremental migration with parallel paths running",
+    "Comparison tests diffing old vs new output",
+    "Orthanc's SQLite index — fast, no extra infrastructure"
+  ]}
+  doNext={[
+    "Evaluate Orthanc REST from day one",
+    "Tune cache TTLs earlier, not after initial deployment",
+    "Document the abstraction contract before coding it"
+  ]}
+/>
 
 ---
 
-*This project reinforced the value of choosing the right abstraction layer—sometimes a well-designed middleware can solve problems that seem inherent to the underlying protocol.*
+<div className="bg-gray-50 border-l-4 border-gray-300 rounded-lg p-5 my-6 italic text-gray-700 text-sm leading-relaxed">
+The most important lesson wasn't about Orthanc or DICOM. It was learning to ask: is this a code problem or an architecture problem? Code problems get fixed. Architecture problems get redesigned. In clinical software, slow isn't just a UX issue — it delays treatment.
+</div>

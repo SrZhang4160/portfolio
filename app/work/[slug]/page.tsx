@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getAllCaseStudies, getCaseStudyBySlug } from "@/lib/content";
@@ -9,6 +8,27 @@ import ThreeColumnLayout from "@/components/ThreeColumnLayout";
 import PageLeftColumn from "@/components/PageLeftColumn";
 import PageRightColumn from "@/components/PageRightColumn";
 import InfoCard from "@/components/InfoCard";
+import {
+  StatRow,
+  ProblemGrid,
+  CalloutBox as CalloutBoxVisual,
+  InsightList,
+  TechEvalGrid,
+  TabSection,
+  FlowDiagram,
+  StepCard,
+  CodeDiff,
+  PullQuote,
+  TwoColumnCompare,
+  LearningGrid,
+} from "@/components/work/VisualComponents";
+import StatCards from "@/components/StatCards";
+import CalloutBlock from "@/components/CalloutBlock";
+import ArchitectureComparison from "@/components/ArchitectureComparison";
+import PhaseTimeline from "@/components/PhaseTimeline";
+import CodeComparison from "@/components/CodeComparison";
+import ResultsGrid from "@/components/ResultsGrid";
+import LearningsCards from "@/components/LearningsCards";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -64,6 +84,28 @@ interface MiddleColumnProps {
 }
 
 function MiddleColumn({ hero, title, content }: MiddleColumnProps) {
+  const mdxComponents = {
+    StatRow,
+    ProblemGrid,
+    CalloutBox: CalloutBoxVisual,
+    InsightList,
+    TechEvalGrid,
+    TabSection,
+    FlowDiagram,
+    StepCard,
+    CodeDiff,
+    PullQuote,
+    TwoColumnCompare,
+    LearningGrid,
+    StatCards,
+    CalloutBlock,
+    ArchitectureComparison,
+    PhaseTimeline,
+    CodeComparison,
+    ResultsGrid,
+    LearningsCards,
+  };
+
   return (
     <div className="space-y-8">
       {/* Hero Image */}
@@ -81,8 +123,8 @@ function MiddleColumn({ hero, title, content }: MiddleColumnProps) {
       )}
 
       {/* MDX Content */}
-      <div className="text-gray-600 space-y-4 w-full [&>h1]:text-2xl [&>h1]:font-bold [&>h1]:text-primary-900 [&>h1]:mb-4 [&>h2]:text-xl [&>h2]:font-semibold [&>h2]:text-primary-900 [&>h2]:mt-6 [&>h2]:mb-3 [&>h3]:text-lg [&>h3]:font-medium [&>h3]:text-primary-900 [&>h3]:mt-4 [&>h3]:mb-2 [&>p]:leading-relaxed [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:space-y-1 [&>ol]:list-decimal [&>ol]:pl-5 [&>ol]:space-y-1">
-        <MDXRemote source={content} />
+      <div className="text-gray-600 space-y-4 w-full [&>h1]:text-2xl [&>h1]:font-bold [&>h1]:text-primary-900 [&>h1]:mb-4 [&>h2]:text-xl [&>h2]:font-semibold [&>h2]:text-primary-900 [&>h2]:mt-6 [&>h2]:mb-3 [&>h3]:text-lg [&>h3]:font-medium [&>h3]:text-primary-900 [&>h3]:mt-4 [&>h3]:mb-2 [&>p]:leading-relaxed [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:space-y-1 [&>ol]:list-decimal [&>ol]:pl-5 [&>ol]:space-y-1 [&>blockquote]:border-l-4 [&>blockquote]:border-primary-900 [&>blockquote]:pl-6 [&>blockquote]:italic">
+        <MDXRemote source={content} components={mdxComponents} />
       </div>
     </div>
   );

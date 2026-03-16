@@ -1,160 +1,444 @@
 ---
-title: "Cornerstone3D Medical Image Viewer"
+title: "3D Medical Image Viewer & Segmentation Editor"
 slug: "medical-image-viewer"
-description: "High-performance DICOM visualization with GPU-accelerated volume rendering, 3D segmentation, and comprehensive annotation tooling."
+description: "Rebuilt the rendering engine of an FDA-cleared radiation therapy platform — from a legacy 2D stack to a GPU-accelerated 3D viewer with real-time segmentation editing and live surface generation."
 date: "2022-11-01"
 featured: true
 tags:
   - Medical Imaging
+  - Cornerstone3D
   - WebGL
   - DICOM
-  - 3D Visualization
+  - Web Workers
+  - WebAssembly
+  - VTK.js
+  - Angular
+  - TypeScript
+  - HIPAA
+  - Open Source
+  - Clinical Workflow
+  - User Research
 thumbnail: "/images/work/medical-viewer-thumb.jpg"
-role: "Software Engineer"
-timeline: "4 months"
-team: "2 engineers"
+role: "Lead Engineer — sole owner of viewer architecture, pipeline, and 3D features"
+timeline: "12+ months across upgrade, migration, and new feature development"
+team: "Lead engineer"
 tools:
+  - Angular
   - TypeScript
   - Cornerstone3D
   - VTK.js
-  - WebGL
   - WebAssembly
+  - Comlink
   - Web Workers
-  - comlink
-  - PolySeg
+  - WebGL
+impact:
+  - metric: "80%"
+    label: "Faster 3D rendering speed"
+  - metric: "16+"
+    label: "Clinical editing tools ported"
+  - metric: "90%"
+    label: "3D surface generation speed improvement"
+  - metric: "0"
+    label: "Deployment regressions"
 ---
 
-## Situation
+import {
+  StatRow,
+  ProblemGrid,
+  CalloutBox,
+  InsightList,
+  TechEvalGrid,
+  TabSection,
+  FlowDiagram,
+  StepCard,
+  CodeDiff,
+  PullQuote,
+  TwoColumnCompare,
+  LearningGrid,
+} from "@/components/work/VisualComponents";
 
-The existing medical image viewer used a legacy per-slice rendering approach (ImageStack) that couldn't support modern clinical workflows. Radiologists needed volume-based rendering for advanced visualization, along with extensive annotation and editing tools for diagnostic work.
+## Context
 
-Key limitations of the legacy system:
+Core clinical tool used daily by radiation oncologists for cancer treatment planning. Deployed across hospital sites and beta-tested with 3+ leading cancer centers.
 
-- **Per-slice architecture**: ImageStack rendered individual slices without volumetric context
-- **Limited 3D capabilities**: No real-time 3D segmentation or surface rendering
-- **Performance issues**: UI blocking during heavy operations like paint and DICOM parsing
-- **Format restrictions**: Incomplete support for NIfTI and other research formats
+<StatRow stats={[
+  { metric: "80%", label: "Faster 3D rendering speed" },
+  { metric: "16+", label: "Clinical editing tools ported" },
+  { metric: "90%", label: "3D surface generation speed improvement" },
+  { metric: "0", label: "Deployment regressions" },
+]} />
 
-## Technical Architecture
+## The Clinical Stakes
 
-### Volume Rendering Pipeline
+<ProblemGrid items={[
+  {
+    title: "The Task",
+    content:
+      "Radiation oncologists delineate organ contours on medical images to plan exactly where to target radiation — and what to protect. For cervical cancer, a margin error of a few millimeters can cause permanent damage to the bladder or rectum.",
+  },
+  {
+    title: "The Gap",
+    content:
+      "Clinicians edited segmentations entirely in 2D slice views with no way to verify spatial coherence in 3D. They were constructing 3D structures while flying blind.",
+  },
+  {
+    title: "The Limitation",
+    content:
+      "The legacy viewer (Cornerstone.js) rendered each slice independently. 3D segmentation was not a missing feature — it was architecturally impossible.",
+  },
+  {
+    title: "The Goal",
+    content:
+      "Rebuild the entire rendering engine on a modern foundation supporting live 3D feedback, while preserving all 16+ clinical tools with zero regressions in deployed hospital environments.",
+    highlight: true,
+  },
+]} />
 
-Migrated the entire rendering system from ImageStack to Cornerstone3D's StreamingImageVolume:
+## Starting With Radiologists, Not Code
 
-```
-┌─────────────────────────────────────────────────────┐
-│                  Rendering Pipeline                  │
-├─────────────────────────────────────────────────────┤
-│  DICOM Files → Cornerstone3D Volume → WebGL Canvas  │
-│       ↓              ↓                    ↓         │
-│   Parsing      GPU Textures          60fps Render   │
-└─────────────────────────────────────────────────────┘
-```
+<CalloutBox variant="highlight">
+  Before evaluating a single library, I attended RSNA — the world's largest
+  radiology conference — and demoed tools from Siemens, Philips, and Canon. I
+  also ran direct observation sessions with the radiation oncologists
+  beta-testing our platform. The goal: understand how clinicians actually move
+  through an imaging tool, not just what features they request.
+</CalloutBox>
 
-- WebGL-based GPU rendering for smooth 60fps performance
-- Real-time window/level adjustments with immediate visual feedback
-- Progressive loading with priority queuing for visible slices
-- Texture atlas management for efficient GPU memory usage
+<InsightList items={[
+  {
+    number: "01",
+    title: "The scroll wheel is sacred",
+    description:
+      "Radiologists navigate volumes by feel. Any latency in slice response breaks concentration. This made main-thread rendering a non-starter.",
+  },
+  {
+    number: "02",
+    title: "Window/level is muscle memory",
+    description:
+      "Contrast adjustment has to be instantaneous. GPU-side computation was the only viable approach.",
+  },
+  {
+    number: "03",
+    title: "Orientation conventions are deeply ingrained",
+    description:
+      "Radiologists expect axial images with the patient's right on the viewer's left (radiological convention). Getting this subtly wrong erodes clinical trust immediately.",
+  },
+  {
+    number: "04",
+    title: "Watch the workflow, not just the feature requests",
+    description:
+      "Observing a clinician edit segmentations for 10 minutes revealed more than a month of requirements docs. They didn't want a feature — they wanted to paint in 2D and see the 3D result instantly.",
+  },
+]} />
 
-### Web Worker Architecture
+## A Ceiling, Not Just a Bug
 
-Implemented off-main-thread processing using the comlink library:
+The existing viewer used Cornerstone.js — the original library, now superseded — which rendered each image slice independently as a 2D entity. Three orthogonal viewports each maintained their own data, their own coordinate space, their own state. The limitations weren't quirks to work around. They were architectural:
 
-```
-┌─────────────────────────────────────────────────────┐
-│              Web Worker Architecture                 │
-├─────────────────────────────────────────────────────┤
-│  Main Thread ←─ comlink ─→ Web Worker               │
-│       ↓                         ↓                   │
-│  UI Updates               Heavy Computation         │
-│  (60fps)                 (DICOM parsing, paint)     │
-└─────────────────────────────────────────────────────┘
-```
+- No shared volume → 3D segmentation was structurally impossible
+- Per-slice rendering → redundant GPU work; no texture atlas management
+- Legacy Angular coupling → blocked every modern dependency
+- Main-thread paint operations → frame drops on large clinical volumes
 
-- Typed Promise-based API via comlink for clean worker communication
-- Batch processing of paint operations at 60fps to prevent UI jank
-- Off-main-thread DICOM parsing for large datasets
-- SharedArrayBuffer for zero-copy data transfer where supported
+No amount of optimization fixes a ceiling. The right call was a full migration to Cornerstone3D — and I proposed it, evaluated the alternatives, and led the execution.
 
-### 3D Segmentation with PolySeg
+## Choosing the Foundation
 
-Built real-time 3D surface generation from 2D labelmap data:
+<TechEvalGrid technologies={[
+  {
+    name: "VTK.js",
+    description:
+      "Powerful for scientific visualization, but not built for clinical SaaS. No clinical annotation layer out of the box. Significant custom work needed on top.",
+  },
+  {
+    name: "3D Slicer",
+    description:
+      "Research gold standard. Desktop-native — not viable for a web-delivered product without infrastructure we didn't have.",
+  },
+  {
+    name: "MITK",
+    description:
+      "Similar to Slicer. Extensive and well-regarded in research, but desktop-native and incompatible with cloud SaaS delivery.",
+  },
+  {
+    name: "Cornerstone3D",
+    description:
+      "Web-native, GPU-accelerated via WebGL. Built specifically for clinical imaging in browsers. Already deployed in FDA-cleared products. Active community aligned with DICOM standards.",
+    chosen: true,
+  },
+]} />
 
-```
-┌─────────────────────────────────────────────────────┐
-│           3D Segmentation with PolySeg              │
-├─────────────────────────────────────────────────────┤
-│  Labelmap → WASM Marching Cubes → VTK.js Mesh       │
-│     ↓              ↓                   ↓            │
-│  2D Slice     3D Surface           GPU Render       │
-│  Editing      Generation           Display          │
-└─────────────────────────────────────────────────────┘
-```
+## Building It
 
-- WebAssembly-based marching cubes algorithm for performance
-- Real-time labelmap to 3D mesh conversion as users edit
-- VTK.js actors for surface rendering with proper lighting
-- Direct actor management to avoid flicker during updates
+<TabSection tabs={[
+  {
+    name: "Volume Rendering",
+    content: (
+      <div>
+        <FlowDiagram
+          steps={[
+            "DICOM/NIfTI Files",
+            "Shared Volume (GPU)",
+            "Axial Viewport",
+            "Sagittal Viewport",
+            "Coronal Viewport",
+          ]}
+        />
+        <div className="mt-4 space-y-3 text-sm text-gray-600">
+          <p>
+            Legacy Cornerstone maintained separate 2D state per viewport.
+            Cornerstone3D loads the entire volume into GPU memory once — all
+            three viewports share the same data. No synchronization needed, no
+            redundant copies.
+          </p>
+          <p>
+            This also required rewriting every coordinate transformation: the
+            old <code className="text-xs bg-gray-100 px-1 py-0.5 rounded">pageToPixel→pixelToCanvas</code> chain became{" "}
+            <code className="text-xs bg-gray-100 px-1 py-0.5 rounded">canvasToWorld→worldToIndex</code>, operating in DICOM Patient
+            Coordinate System (physical millimeters) rather than pixel offsets.
+            Every one of the 16+ tools needed a new transformation chain.
+          </p>
+          <div className="grid grid-cols-2 gap-2 mt-3">
+            <div className="bg-primary-50 rounded p-2">
+              <div className="text-xs font-semibold text-primary-900 mb-1">
+                GPU texture atlas
+              </div>
+              <div className="text-xs text-gray-600">
+                Efficient memory usage
+              </div>
+            </div>
+            <div className="bg-primary-50 rounded p-2">
+              <div className="text-xs font-semibold text-primary-900 mb-1">
+                Singleton init with guards
+              </div>
+              <div className="text-xs text-gray-600">Prevents race conditions</div>
+            </div>
+            <div className="bg-primary-50 rounded p-2">
+              <div className="text-xs font-semibold text-primary-900 mb-1">
+                Direction-aware mapping
+              </div>
+              <div className="text-xs text-gray-600">
+                Z→(x,y), X→(y,z), Y→(x,z)
+              </div>
+            </div>
+            <div className="bg-primary-50 rounded p-2">
+              <div className="text-xs font-semibold text-primary-900 mb-1">
+                Authenticated NIfTI loading
+              </div>
+              <div className="text-xs text-gray-600">
+                Against Orthanc DICOM server
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    ),
+  },
+  {
+    name: "Paint Pipeline",
+    content: (
+      <div>
+        <FlowDiagram
+          twoColumn
+          steps={[
+            "Queue PaintTask",
+            "Apply PaintResult",
+            "Trigger re-render",
+            "Undo/redo stack",
+            "Elliptical brush math",
+            "Voxel index computation",
+            "Index deduplication",
+            "Batch ≤10 tasks/16ms",
+          ]}
+        />
+        <div className="text-center text-sm text-gray-500 mb-4">
+          Main Thread ←comlink→ Web Worker
+        </div>
+        <div className="space-y-3 text-sm text-gray-600">
+          <p>
+            Every mouse-move during painting triggers voxel computations across
+            a 3D volume. On the main thread this causes visible frame drops —
+            unacceptable in a clinical tool.
+          </p>
+          <p>
+            Using <code className="text-xs bg-gray-100 px-1 py-0.5 rounded">comlink</code> (Cornerstone3D's own
+            pattern) provides a typed Promise-based API over raw worker
+            messaging. PaintTasks batch at ~60fps. Undo/redo captures voxel
+            diffs lazily per drag — no full volume snapshots needed.
+          </p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    name: "3D Surface",
+    content: (
+      <div>
+        <FlowDiagram
+          steps={[
+            "Labelmap volume",
+            "polyseg-wasm (marching cubes)",
+            "Triangle mesh",
+            "VTK.js actors",
+            "WebGL render",
+          ]}
+        />
+        <div className="text-right text-xs text-gray-500 mb-4">
+          End-to-end latency: &lt;500ms
+        </div>
+        <div className="space-y-3 text-sm text-gray-600">
+          <p>
+            Concurrency was the hard problem: fast painting generates recompute
+            requests faster than WebAssembly can process them. A 300ms debounce
+            + concurrency lock coalesces requests, using only the latest
+            viewport context when the lock releases.
+          </p>
+          <p>
+            I bypassed Cornerstone3D's standard segmentation API — which
+            triggered cascading{" "}
+            <code className="text-xs bg-gray-100 px-1 py-0.5 rounded">SEGMENTATION_DATA_MODIFIED</code> events causing
+            infinite loops — and instead managed VTK actors directly, swapping
+            polydata in-place for flicker-free updates.
+          </p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    name: "Coordinate System",
+    content: (
+      <div>
+        <div className="grid md:grid-cols-2 gap-4 mb-4">
+          <div className="bg-primary-50 rounded-lg p-4">
+            <h5 className="font-semibold text-primary-900 mb-2 text-sm">
+              DICOM / LPS
+            </h5>
+            <p className="text-xs text-gray-600">
+              Left-Posterior-Superior coordinate space
+            </p>
+          </div>
+          <div className="bg-primary-50 rounded-lg p-4">
+            <h5 className="font-semibold text-primary-900 mb-2 text-sm">
+              NIfTI / RAS
+            </h5>
+            <p className="text-xs text-gray-600">
+              Right-Anterior-Superior coordinate space
+            </p>
+          </div>
+        </div>
+        <p className="text-sm text-gray-600">
+          Conversion between coordinate systems propagates through every
+          transformation, measurement, and annotation. The NIfTI affine bug
+          (next section) was directly caused by this — a spacing computation
+          that silently used the wrong axis values for non-axial orientations.
+          Orientation conventions are the most common silent failure mode in
+          medical imaging software.
+        </p>
+      </div>
+    ),
+  },
+]} />
 
-### Coordinate System Handling
 
-Implemented robust coordinate transformations for medical imaging:
 
-- DICOM Patient Coordinate System (physical mm) as the canonical reference
-- `canvasToWorld()` → `worldToIndex()` transformation pipeline
-- NIfTI support with proper RAS→LPS conversion for neuroimaging data
-- Consistent coordinate handling across all tools and viewports
+## Debugging a Bug in Widely-Used Open-Source Code
 
-### Editing Tools
+<div className="space-y-4 my-6">
+  <div className="flex items-center gap-3 mb-4">
+    <span className="px-3 py-1 bg-error text-white rounded text-xs font-semibold">
+      OSS BUG
+    </span>
+    <div>
+      <h3 className="font-bold text-primary-900">
+        NIfTI Spacing Error in Cornerstone3D
+      </h3>
+      <div className="text-sm text-gray-600">Coronal and sagittal volumes rendered visually squished. Axial views were fine, masking the problem in most testing.</div>
+    </div>
+  </div>
 
-Built 16+ specialized editing tools for clinical workflows:
+<StepCard number={1} title="Check our own pipeline first">
+  NIfTI generation, affine headers, spacing values — all validated correct. The
+  bug wasn't ours.
+</StepCard>
 
-- **Drawing**: Paint brush, eraser, polygon fill
-- **Selection**: Rectangle, ellipse, freehand regions
-- **Segmentation**: Region growing, threshold-based selection
-- **Measurement**: Lines, angles, point markers
-- **Editing**: Bounding boxes, contour adjustment
-- **3D**: Volume sculpting, surface cleanup
+<StepCard number={2} title="Check Cornerstone3D's functions individually">
+  Affine parsing: correct. Spacing calculation: correct. Every component looked
+  fine in isolation.
+</StepCard>
 
-## Key Technical Achievement
+<StepCard number={3} title="Change approach: trace the data flow end-to-end">
+  Stopped checking functions in isolation. Traced from the first line of the
+  NIfTI loader to the volume constructor. Found it in the translation layer
+  between modules.
+</StepCard>
 
-During NIfTI format integration, I discovered and fixed a critical spacing calculation bug in the loader. The original implementation extracted spacing values directly from the affine matrix diagonal, which is incorrect when the affine contains rotation.
+<StepCard number={4} title="Root cause" highlight>
+  The loader multiplied each direction vector component by its corresponding
+  axis spacing (spacing[0], spacing[1], spacing[2]) instead of slice spacing
+  (spacing[2]) uniformly. For axial scans with direction vector [0,0,1], the
+  zeros masked the error. Only non-Z orientations exposed it.
+</StepCard>
 
-**Incorrect approach:**
-```typescript
-spacing = [affine[0][0], affine[1][1], affine[2][2]]
-```
+<CodeDiff before={[
+  "pos[x] = origin[x] + k × direction[6] × spacing[0]   ← wrong",
+  "pos[y] = origin[y] + k × direction[7] × spacing[1]   ← wrong",
+]} after={[
+  "pos[x] = origin[x] + k × direction[6] × spacing[2]   ← correct",
+  "pos[y] = origin[y] + k × direction[7] × spacing[2]   ← correct",
+]} />
 
-**Correct calculation:**
-```typescript
-spacing = [
-  Math.sqrt(affine[0][0]² + affine[1][0]² + affine[2][0]²),
-  Math.sqrt(affine[0][1]² + affine[1][1]² + affine[2][1]²),
-  Math.sqrt(affine[0][2]² + affine[1][2]² + affine[2][2]²)
-]
-```
+<PullQuote>
+  When every component looks correct in isolation but the output is wrong, stop
+  checking components — start tracing the data flow between them. Bugs hide at
+  the interfaces.
+</PullQuote>
 
-This fix ensured proper voxel spacing regardless of image orientation, which is critical for accurate measurements and coordinate transformations.
+</div>
 
-## Learnings
+## AI as Force Multiplier
 
-### What Worked Well
+The viewer rebuild ran in parallel with a 10+ major-version Angular framework upgrade. This migration — every file in the codebase, 10 sequential breaking-change steps — was where I integrated AI tooling meaningfully into my engineering workflow for the first time.
 
-- **Cornerstone3D ecosystem**: The library's architecture made complex rendering achievable
-- **comlink abstraction**: Clean worker communication without manual message handling
-- **Incremental migration**: Moving one feature at a time reduced risk
+<TwoColumnCompare left={{
+  title: "Where AI accelerated",
+  items: [
+    "Dependency conflict resolution — analyzing ng update error walls and package.json for compatible version sets",
+    "Bulk code transformations — migration scripts for Angular Material MDC class-name changes across hundreds of files",
+    "Dead code identification — analyzing imports across modules touched during migration",
+  ],
+}} right={{
+  title: "Where human judgment stayed",
+  items: [
+    "Whether to refactor toward standalone components now or defer — architectural timing",
+    "Evaluating replacement libraries for clinical appropriateness",
+    "Debugging Cornerstone3D integration breakage after specific upgrade steps",
+    "All suggested npm versions verified manually — AI hallucinated versions that didn't exist",
+  ],
+}} />
 
-### What I'd Do Differently
+The 10+ major-version migration took ~6 weeks. Without AI on mechanical work, significantly longer. The skill wasn't using it — it was knowing precisely where.
 
-- **Earlier PolySeg integration**: Waited too long to implement 3D segmentation
-- **Better TypeScript types**: Some Cornerstone3D internals needed custom type definitions
+## What I Took Away
 
-### Technical Insights
-
-- GPU texture upload is often the bottleneck, not rendering itself
-- WebAssembly provides significant speedups for computational geometry
-- Medical imaging coordinate systems have many edge cases—test extensively
-
----
-
-*This project demonstrated that web technologies can handle demanding medical imaging workloads when you leverage WebGL, WebAssembly, and Web Workers effectively.*
+<LearningGrid learnings={[
+  {
+    title: "Coordinate systems are earned, not looked up",
+    description:
+      "DICOM LPS, NIfTI RAS, patient space, image space — medical imaging has more coordinate conventions than most engineers encounter in a career. Going deep via the affine bug gave me a foundation I carry into every imaging project.",
+  },
+  {
+    title: "Watch people work before building for them",
+    description:
+      "RSNA and direct clinician sessions taught me what requirements documents never capture: scroll-wheel latency, orientation conventions, the exact moment attention breaks. You can't spec your way to a good clinical tool.",
+  },
+  {
+    title: "Open source is your responsibility, not just your dependency",
+    description:
+      "The NIfTI spacing bug existed in a widely-used library and went undetected because the most common orientation masked it by coincidence. My principle now: trace one complete data path through any significant dependency before building on top of it.",
+  },
+  {
+    title: "AI is an accelerant — knowing its limits is the skill",
+    description:
+      "The Angular migration was the first project where I integrated AI tooling deeply. Productive for mechanical work; unreliable for architectural judgment. Staying in the driver's seat on what matters while offloading what doesn't is the actual capability.",
+  },
+]} />

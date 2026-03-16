@@ -1,118 +1,85 @@
 ---
 title: "AutoBrachy: Brachytherapy Planning Interface"
 slug: "autobrachy"
-description: "Frontend development for an automated brachytherapy treatment planning system, enabling clinicians to review and refine AI-generated treatment plans."
+description: "The first fully automated cervical cancer brachytherapy treatment planning system — reducing manual planning workload by 80% and enabling faster, more consistent patient treatment across hospitals nationwide."
 date: "2023-08-15"
 featured: true
 tags:
   - Healthcare
   - Treatment Planning
-  - Frontend
-  - Angular
-thumbnail: "/images/work/autobrachy-thumb.jpg"
-role: "Frontend Engineer"
-timeline: "8 months"
-team: "1 algorithm engineer, 1 researcher"
-tools:
+  - Full-Stack
   - Angular
   - Django
+  - DICOM
+thumbnail: "/images/work/autobrachy-thumb.jpg"
+role: "Full-Stack Software Engineer"
+timeline: "18 months"
+team: "1 algorithm engineer, 1 clinical researcher"
+tools:
+  - Django
+  - Angular
+  - Orthanc
+  - pydicom
+  - Cornerstone.js
+  - Chart.js
+  - Docker
+  - Azure CI/CD
 ---
 
-## Context
+The first fully automated cervical cancer brachytherapy treatment planning system — reducing manual planning workload by 80% and enabling faster, more consistent patient treatment across hospitals nationwide.
 
-Brachytherapy treatment planning requires specialized expertise and can be time-consuming. AutoBrachy was developed to assist clinicians with AI-generated treatment plans that could be reviewed and refined through an intuitive interface.
+## The Problem
 
-The project involved:
+Cervical cancer brachytherapy treatment planning is one of the most demanding workflows in radiation therapy. A medical physicist manually positions virtual radiation sources inside a 3D anatomical model, then iteratively adjusts dwell times to maximize tumor coverage while protecting surrounding organs — the bladder, rectum, and sigmoid colon. Each plan takes hours. Quality varies significantly between planners. And timing matters: delays in planning directly delay patient treatment, which affects outcomes.
 
-- An algorithm engineer developing the treatment planning AI
-- A researcher handling clinical validation
-- My role building the frontend interface
+AutoBrachy automates this entirely. The clinician selects imaging, chooses an applicator type, and receives an optimized treatment plan in minutes.
+
+## Impact
+
+- **80% reduction** in manual treatment planning workload
+- **Beta-tested and validated** with 3+ leading hospitals
+- **Faster planning** supports timely brachytherapy completion — clinically associated with better survival outcomes for cervical cancer
 
 ## My Role
 
-As the Frontend Engineer, I was responsible for:
+Full-stack engineer across the Django backend data pipeline and Angular frontend. The algorithm engineer owned the GPU optimization logic; I owned everything around it — getting data in, processing results, and surfacing them to clinicians.
 
-- Building the Angular-based treatment planning interface
-- Integrating with the Django backend API
-- Implementing visualization components for treatment plans
-- Developing the review and refinement workflow
-- Creating the clinical dashboard for plan management
+**Team:** 1 algorithm engineer · 1 clinical researcher · me
 
-## Technical Implementation
+## Backend: Dose Data Pipeline
 
-### Angular Frontend
+### Planning workflow integration
 
-Built a responsive single-page application using Angular:
+I built the backend layer connecting the clinical interface to the GPU algorithm: retrieving patient imaging and RT Structure Sets from Orthanc, loading machine and applicator configurations (including source decay corrections by calibration date), serializing the full planning context, invoking the algorithm subprocess, and receiving the resulting RT Dose and RT Plan DICOM files. After the algorithm runs, I built the upload pipeline that pushes results back to Orthanc — immediately accessible to the frontend and the hospital's broader imaging infrastructure.
 
-- Component-based architecture for reusable UI elements
-- RxJS for reactive state management
-- Lazy loading for optimized bundle size
-- Form handling for treatment parameters
+### Dose loading and NIfTI caching
 
-### Django Integration
+RT Dose files are 3D voxel grids expensive to reprocess on every request. I built the module that loads them via pydicom, converts to NIfTI, and caches at the application layer. I also built the isodose contour generation pipeline — extracting dose boundaries at clinically relevant levels (prescription dose, 50%, 200%) for overlay rendering on CT images.
 
-Worked with the Django backend built by the algorithm team:
+## Frontend: Clinical Visualization
 
-- REST API consumption for plan data
-- WebSocket integration for real-time updates during plan generation
-- Authentication and session management
-- File upload handling for patient imaging data
+### Dose overlay viewer
 
-### Treatment Planning Workflow
+Isodose contour lines rendered over CT images in synchronized multi-viewport display (axial, sagittal, coronal), letting clinicians evaluate spatial dose distribution relative to tumor and organs at risk.
 
-Developed the core clinical workflow interface:
+### Dose-volume histogram (DVH)
 
-**Plan Visualization**
-- 2D slice views showing radiation dose distributions
-- Dose-volume histogram (DVH) charts
-- Color-coded overlays for target and organs-at-risk
+The primary tool clinicians use to judge plan quality. Cross-references the 3D dose grid against organ structure contours; built with Chart.js.
 
-**Review Interface**
-- Side-by-side comparison of alternative plans
-- Constraint satisfaction indicators
-- Clinical metrics dashboard
+### Cumulative dose tracking
 
-**Refinement Tools**
-- Parameter adjustment controls
-- Re-optimization triggers
-- Plan approval workflow
+Brachytherapy is delivered across 3–5 fractions over ~2 weeks. I built the interface that tracks total dose accumulation across fractions — including prior external beam radiation — and flags when cumulative exposure approaches organ tolerance limits.
 
-### Clinical Dashboard
+### Settings management
 
-Created a management interface for clinical staff:
+Machine configurations, applicator parameters, and source decay corrections, with role-based access so hospital physicists only see their own deployment.
 
-- Patient queue and plan status tracking
-- Historical plan archive with search
-- Export functionality for clinical reports
-- User role management
+## Closing reflection
 
-## Collaboration
-
-Working as a small team required close collaboration:
-
-- Daily syncs with the algorithm engineer on API contracts
-- Regular feedback sessions with clinical advisors
-- Iterative design based on user testing with radiation oncologists
-
-## Learnings
-
-### What Worked Well
-
-- **Angular's structure**: Strong typing and dependency injection helped maintain code quality
-- **Clear API contracts**: Well-defined interfaces with the Django backend reduced integration issues
-- **Early clinical feedback**: User testing with actual clinicians caught UX problems early
-
-### What I'd Do Differently
-
-- **More upfront design**: Some UI refactoring needed as requirements evolved
-- **Better loading states**: Complex visualizations needed more polish for slow network conditions
-
-### Technical Insights
-
-- Medical software UX must prioritize clarity over aesthetics
-- Clinical workflows have many edge cases that require careful handling
-- Real-time updates are important for interactive planning tools
+Owning both ends of the algorithm handoff — data in and results out — plus the full visualization layer meant I could optimize the pipeline end-to-end. The dose caching layer made visualization feel instant. The clean serialization boundary made the algorithm independently testable. The interface only works because the data behind it is fast and correct.
 
 ---
 
-*This project taught me the value of building software that augments expert decision-making rather than replacing it—the interface needed to empower clinicians while keeping them in control.*
+**Role:** Full-Stack Software Engineer
+**Timeline:** 18 months · 3+ hospital beta sites
+**Tools:** Django · Angular · Orthanc · pydicom · Cornerstone.js · Chart.js · Docker · Azure CI/CD

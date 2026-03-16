@@ -330,7 +330,7 @@ export default function MiddleColumn({ activeSection }: MiddleColumnProps) {
   return (
     <div className="flex flex-col h-full">
       {renderSection()}
-      {activeSection !== "contact" && <LetsTalkMarquee />}
+      {activeSection === "work" && <LetsTalkMarquee />}
     </div>
   );
 }
